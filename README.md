@@ -2,6 +2,8 @@
 
 university project. linktree but for movies. eventually with social media features using the at protocol.
 
+[live demo](https://nyx-kappa.vercel.app/)
+
 ## setup
 
 1. copy the .env.example file to .env and set the variables:
