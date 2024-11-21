@@ -3,10 +3,13 @@
 	import { enhance } from '$app/forms';
 	import Container from '$lib/Components/Container.svelte';
 	import VideoPlayer from '$lib/Components/VideoPlayer.svelte';
+	import { cn } from '$lib/utils';
 
 	let { data }: { data: PageData } = $props();
 
 	console.log(data);
+
+	let hoveringWatchButton = $state(false);
 </script>
 
 <img
@@ -31,9 +34,29 @@
 				<div class="flex gap-2">
 					<form method="post" action="?/mark" use:enhance>
 						<button
-							class="rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
-							>{data.watched ? 'Mark unwatched' : 'Mark watched'}</button
+							onmouseenter={() => (hoveringWatchButton = true)}
+							onmouseleave={() => (hoveringWatchButton = false)}
+							class={cn(
+								'inline-flex items-center gap-2 rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-75 hover:bg-white/20 ',
+								data.watched ? 'bg-green-500/10 text-green-400 hover:bg-green-500/20' : ''
+							)}
 						>
+							{#if data.watched}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="2.5"
+								stroke="currentColor"
+								class="size-5"
+							>
+								<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+							</svg>
+								watched
+							{:else}
+								mark watched
+							{/if}
+						</button>
 					</form>
 				</div>
 			{/if}

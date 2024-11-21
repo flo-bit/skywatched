@@ -24,7 +24,8 @@ export const movies = sqliteTable('movies', {
 	rating: integer('rating'),
 	ratingText: text('rating_text'),
 	posterPath: text('poster_path'),
-	originalTitle: text('original_title').notNull()
+	originalTitle: text('original_title').notNull(),
+	timestamp: integer('timestamp', { mode: 'timestamp' }).notNull()
 });
 
 export type Session = typeof session.$inferSelect;

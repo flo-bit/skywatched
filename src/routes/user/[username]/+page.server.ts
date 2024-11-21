@@ -8,10 +8,16 @@ export async function load(event) {
 
 	const movies = await db.select().from(table.movies).where(eq(table.movies.username, username));
 
+	// filter out movies that are not watched
+	const watchedMovies = movies.filter((movie) => movie.watched === 1);
+
+	// sort movies by timestamp
+	watchedMovies.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+
 	let isUser = false;
 	if (event.locals.user?.username === username) {
 		isUser = true;
 	}
 
-	return { movies, isUser, username };
+	return { movies: watchedMovies, isUser, username };
 }

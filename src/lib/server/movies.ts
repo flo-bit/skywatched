@@ -59,3 +59,19 @@ export async function getTrailer(id: number): Promise<string | null> {
 
 	return trailer?.key ?? null;
 }
+
+export async function getRecommendations(id: number) {
+	const url = `https://api.themoviedb.org/3/movie/${id}/recommendations?language=en-US`;
+	const options = {
+		method: 'GET',
+		headers: {
+			accept: 'application/json',
+			Authorization: `Bearer ${env.TMDB_API_KEY}`
+		}
+	};
+
+	const response = await fetch(url, options);
+	const data = await response.json();
+
+	return data.results;
+}
