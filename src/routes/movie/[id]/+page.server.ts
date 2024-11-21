@@ -1,8 +1,9 @@
 import { db } from '$lib/server/db';
-import { getDetails, getTrailer } from '$lib/server/movies';
+import { getDetails, getRecommendations, getTrailer } from '$lib/server/movies';
 import type { Actions } from './$types';
 import * as table from '$lib/server/db/schema';
 import { eq, and } from 'drizzle-orm';
+import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load(event) {
@@ -10,6 +11,10 @@ export async function load(event) {
 
 	if (id) {
 		const result = await getDetails(id);
+
+		if (!result || result.success === false) {
+			return error(404, 'Not found');
+		}
 
 		let watched = false;
 
@@ -27,10 +32,13 @@ export async function load(event) {
 		}
 		const trailer = await getTrailer(id);
 
-		return { result, watched, trailer };
+		const recommendations = await getRecommendations(id);
+
+		return { result, watched, trailer, recommendations };
 	}
 
-	return { result: [] };
+	// not found
+	return error(404, 'Not found');
 }
 
 export const actions: Actions = {
@@ -57,7 +65,8 @@ export const actions: Actions = {
 				id: movieId,
 				watched: 1,
 				originalTitle: result.original_title,
-				posterPath: result.poster_path
+				posterPath: result.poster_path,
+				timestamp: new Date()
 			});
 		}
 	}

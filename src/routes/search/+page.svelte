@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MovieList from '$lib/Components/MovieList.svelte';
+	import MovieGrid from '$lib/Components/MovieGrid.svelte';
 	import Container from '$lib/Components/Container.svelte';
 
 	import { type PageData } from './$types';
@@ -29,7 +29,7 @@
 	{#if data.results.length > 0}
 		<h2 class="mt-8 text-2xl font-bold tracking-tight text-base-50">results</h2>
 
-		<MovieList movies={data.results} />
+		<MovieGrid movies={data.results} />
 	{:else if data.query}
 		<p class="text-md mt-8 text-base-50">no results found</p>
 	{/if}

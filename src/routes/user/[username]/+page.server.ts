@@ -11,6 +11,9 @@ export async function load(event) {
 	// filter out movies that are not watched
 	const watchedMovies = movies.filter((movie) => movie.watched === 1);
 
+	// sort movies by timestamp
+	watchedMovies.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+
 	let isUser = false;
 	if (event.locals.user?.username === username) {
 		isUser = true;

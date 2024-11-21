@@ -27,5 +27,5 @@
 
 <div
 	style="background-image: url(/nnnoise.svg)"
-	class="pointer-events-none fixed inset-0 z-50 size-full"
+	class="pointer-events-none fixed inset-0 z-50 size-full opacity-70"
 ></div>

@@ -1,9 +1,8 @@
 <script lang="ts">
 	import Container from '$lib/Components/Container.svelte';
-	import MovieList from '$lib/Components/MovieList.svelte';
+	import MovieGrid from '$lib/Components/MovieGrid.svelte';
 
 	let { data } = $props();
-	console.log(data);
 </script>
 
 <Container>
@@ -18,7 +17,7 @@
 		</a>
 	{/if}
 
-	<MovieList
+	<MovieGrid
 		class="mt-8"
 		movies={data.movies.map((movie) => ({
 			poster_path: movie.posterPath ?? '',
