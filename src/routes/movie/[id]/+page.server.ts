@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { getDetails, getRecommendations, getTrailer } from '$lib/server/movies';
+import { checkWatched, getDetails, getRecommendations, getTrailer } from '$lib/server/movies';
 import type { Actions } from './$types';
 import * as table from '$lib/server/db/schema';
 import { eq, and } from 'drizzle-orm';
@@ -16,23 +16,15 @@ export async function load(event) {
 			return error(404, 'Not found');
 		}
 
-		let watched = false;
-
-		if (event.locals.user?.username) {
-			// check if user has watched this movie
-			const movie = await db
-				.select()
-				.from(table.movies)
-				.where(
-					and(eq(table.movies.id, id), eq(table.movies.username, event.locals.user?.username))
-				);
-			if (movie.length > 0 && movie[0].watched !== 0) {
-				watched = true;
-			}
-		}
 		const trailer = await getTrailer(id);
 
 		const recommendations = await getRecommendations(id);
+
+		let watched = false;
+
+		if (event.locals.user?.username) {
+			watched = (await checkWatched(id, event.locals.user?.username)) as boolean;
+		}
 
 		return { result, watched, trailer, recommendations };
 	}
@@ -44,21 +36,17 @@ export async function load(event) {
 export const actions: Actions = {
 	mark: async (event) => {
 		const username = event.locals.user?.username as string;
-		const movieId = parseInt(event.params.id);
+		const movieId = parseInt((await event.request.formData()).get('id') as string);
 
 		const result = await getDetails(movieId);
 
-		// check if user has watched this movie
-		const movie = await db
-			.select()
-			.from(table.movies)
-			.where(and(eq(table.movies.id, movieId), eq(table.movies.username, username)));
+		const watched = await checkWatched(movieId, username);
 
-		if (movie.length > 0) {
+		if (watched !== false) {
 			await db
 				.update(table.movies)
-				.set({ watched: movie[0].watched !== 0 ? 0 : 1 })
-				.where(eq(table.movies.id, movieId));
+				.set({ watched: watched ? 0 : 1 })
+				.where(and(eq(table.movies.id, movieId), eq(table.movies.username, username)));
 		} else {
 			await db.insert(table.movies).values({
 				username,

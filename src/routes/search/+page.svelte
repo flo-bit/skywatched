@@ -8,7 +8,7 @@
 
 <Container>
 	<div>
-		<h1 class="my-8 text-4xl font-bold tracking-tight text-base-50">search for a movie</h1>
+		<h1 class="my-8 text-4xl font-bold tracking-tight text-base-50">add a movie</h1>
 
 		<form class="relative mt-6 flex items-center" method="GET">
 			<input
@@ -29,7 +29,7 @@
 	{#if data.results.length > 0}
 		<h2 class="mt-8 text-2xl font-bold tracking-tight text-base-50">results</h2>
 
-		<MovieGrid movies={data.results} />
+		<MovieGrid movies={data.results} showMark={!!data.user} watchedMovies={data.watchedMovies} />
 	{:else if data.query}
 		<p class="text-md mt-8 text-base-50">no results found</p>
 	{/if}

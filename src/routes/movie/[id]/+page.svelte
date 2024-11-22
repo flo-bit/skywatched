@@ -4,6 +4,8 @@
 	import Container from '$lib/Components/Container.svelte';
 	import VideoPlayer from '$lib/Components/VideoPlayer.svelte';
 	import { cn } from '$lib/utils';
+	import MovieList from '$lib/Components/MovieList.svelte';
+	import Rating from '$lib/Components/Rating.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -13,7 +15,7 @@
 </script>
 
 <img
-	src="https://image.tmdb.org/t/p/w1280{data.result.backdrop_path}"
+	src="https://image.tmdb.org/t/p/w780{data.result.backdrop_path}"
 	alt=""
 	class="fixed -z-20 h-full w-full object-cover object-center opacity-20"
 />
@@ -31,8 +33,10 @@
 				{data.result.original_title}
 			</div>
 			{#if data.user}
-				<div class="flex gap-2">
+				<div class="flex gap-4">
 					<form method="post" action="?/mark" use:enhance>
+						<input type="hidden" name="id" value={data.result.id} />
+
 						<button
 							onmouseenter={() => (hoveringWatchButton = true)}
 							onmouseleave={() => (hoveringWatchButton = false)}
@@ -42,22 +46,24 @@
 							)}
 						>
 							{#if data.watched}
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="2.5"
-								stroke="currentColor"
-								class="size-5"
-							>
-								<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-							</svg>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="2.5"
+									stroke="currentColor"
+									class="size-5"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+								</svg>
 								watched
 							{:else}
 								mark watched
 							{/if}
 						</button>
 					</form>
+
+					<Rating rating={Math.round(data.result.vote_average/2)} />
 				</div>
 			{/if}
 		</div>
@@ -72,5 +78,11 @@
 		<div class="mb-2 text-lg font-semibold">trailer</div>
 
 		<VideoPlayer id={data.trailer} />
+	{/if}
+
+	{#if data.recommendations.length > 0}
+		<div class="mb-2 mt-8 text-lg font-semibold">recommendations</div>
+
+		<MovieList movies={data.recommendations} showMark={!!data.user} watchedMovies={data.watchedMovies} />
 	{/if}
 </Container>

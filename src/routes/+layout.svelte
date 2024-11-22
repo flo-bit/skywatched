@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Logo from '$lib/Components/Logo.svelte';
 	import '../app.css';
-	let { children } = $props();
+	let { children, data } = $props();
 </script>
 
 <header class="absolute inset-x-0 top-0 z-50">
@@ -13,8 +13,20 @@
 				<Logo class="size-8" />
 			</a>
 		</div>
-		<div class="flex flex-1 justify-end">
-			<a
+		<div class="flex flex-1 justify-end gap-4">
+			{#if data.user}
+				<a
+					href="/search"
+					class="text-sm/6 font-semibold text-white transition-colors duration-75 hover:text-accent-400"
+					>
+					<span class="sr-only">add movie</span>
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+					  </svg>
+					  </a
+				>
+			{/if}
+				<a
 				href="/login"
 				class="text-sm/6 font-semibold text-white transition-colors duration-75 hover:text-accent-400"
 				>account <span aria-hidden="true">&rarr;</span></a
