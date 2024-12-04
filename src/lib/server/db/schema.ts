@@ -16,7 +16,8 @@ export const session = sqliteTable('session', {
 });
 
 export const movies = sqliteTable('movies', {
-	id: integer('id').primaryKey(),
+	id: text('id').primaryKey(),
+	movieId: integer('movie_id').notNull(),
 	username: text('username')
 		.notNull()
 		.references(() => user.username),

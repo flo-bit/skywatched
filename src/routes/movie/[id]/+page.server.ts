@@ -24,7 +24,7 @@ export async function load(event) {
 				.select()
 				.from(table.movies)
 				.where(
-					and(eq(table.movies.id, id), eq(table.movies.username, event.locals.user?.username))
+					and(eq(table.movies.movieId, id), eq(table.movies.username, event.locals.user?.username))
 				);
 			if (movie.length > 0 && movie[0].watched !== 0) {
 				watched = true;
@@ -52,17 +52,18 @@ export const actions: Actions = {
 		const movie = await db
 			.select()
 			.from(table.movies)
-			.where(and(eq(table.movies.id, movieId), eq(table.movies.username, username)));
+			.where(and(eq(table.movies.movieId, movieId), eq(table.movies.username, username)));
 
 		if (movie.length > 0) {
 			await db
 				.update(table.movies)
 				.set({ watched: movie[0].watched !== 0 ? 0 : 1 })
-				.where(eq(table.movies.id, movieId));
+				.where(eq(table.movies.movieId, movieId));
 		} else {
 			await db.insert(table.movies).values({
 				username,
-				id: movieId,
+				id: crypto.randomUUID(),
+				movieId: movieId,
 				watched: 1,
 				originalTitle: result.original_title,
 				posterPath: result.poster_path,
