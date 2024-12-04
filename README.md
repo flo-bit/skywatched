@@ -8,7 +8,7 @@ university project. linktree but for movies. eventually with social media featur
 
 1. copy the .env.example file to .env and set the variables:
 
-```
+```bash
 cp .env.example .env
 ```
 
@@ -16,17 +16,23 @@ required only `TMDB_API_KEY` for now. get one [here](https://www.themoviedb.org/
 
 2. install the dependencies:
 
-```
+```bash
 npm install
 ```
 
-3. run the development server:
+3. run the database migrations:
 
+```bash
+npm run db:migrate
 ```
+
+4. run the development server:
+
+```bash
 npm run dev
 ```
 
-4. open the browser and go to [localhost:5173](http://localhost:5173)
+5. open the browser and go to [localhost:5173](http://localhost:5173)
 
 ## tech stack
 
