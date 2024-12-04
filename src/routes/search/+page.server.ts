@@ -8,7 +8,7 @@ export async function load({ url }) {
 	if (query) {
 		const results = await searchMovie(query);
 
-		return { results, query };
+		return { results: results.map((result) => ({ ...result, movieId: result.id })), query };
 	}
 
 	return { results: [], query };
