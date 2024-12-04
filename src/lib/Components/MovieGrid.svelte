@@ -3,7 +3,7 @@
 	const {
 		movies,
 		class: className
-	}: { movies: { poster_path: string; original_title: string; id: number }[]; class?: string } =
+	}: { movies: { poster_path: string; original_title: string; id: number, movieId: number }[]; class?: string } =
 		$props();
 </script>
 
@@ -29,7 +29,7 @@
 			<div class="mt-2 flex justify-between">
 				<div>
 					<h3 class="sm:text-md text-sm font-medium text-base-50">
-						<a href="/movie/{movie.id}">
+						<a href="/movie/{movie.movieId}">
 							<span aria-hidden="true" class="absolute inset-0"></span>
 							<div class="line-clamp-2 max-w-full">
 								{movie.original_title}
