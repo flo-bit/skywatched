@@ -83,7 +83,7 @@ export async function checkWatched(id: number, username: string): Promise<boolea
 	const movie = await db
 		.select()
 		.from(table.movies)
-		.where(and(eq(table.movies.id, id), eq(table.movies.username, username)));
+		.where(and(eq(table.movies.movieId, id), eq(table.movies.username, username)));
 
 	if (movie.length > 0) return movie[0].watched;
 

@@ -40,17 +40,23 @@ export const actions: Actions = {
 
 		const result = await getDetails(movieId);
 
+		// check if user has watched this movie
+		const movie = await db
+			.select()
+			.from(table.movies)
+			.where(and(eq(table.movies.movieId, movieId), eq(table.movies.username, username)));
 		const watched = await checkWatched(movieId, username);
 
 		if (watched !== false) {
 			await db
 				.update(table.movies)
-				.set({ watched: watched ? 0 : 1 })
-				.where(and(eq(table.movies.id, movieId), eq(table.movies.username, username)));
+				.set({ watched: movie[0].watched !== 0 ? 0 : 1 })
+				.where(eq(table.movies.movieId, movieId));
 		} else {
 			await db.insert(table.movies).values({
 				username,
-				id: movieId,
+				id: crypto.randomUUID(),
+				movieId: movieId,
 				watched: 1,
 				originalTitle: result.original_title,
 				posterPath: result.poster_path,

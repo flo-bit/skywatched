@@ -22,7 +22,8 @@
 		movies={data.movies.map((movie) => ({
 			poster_path: movie.posterPath ?? '',
 			original_title: movie.originalTitle,
-			id: movie.id
+			id: movie.id,
+			movieId: movie.movieId
 		}))}
 	/>
 </Container>

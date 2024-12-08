@@ -8,7 +8,7 @@
 		showMark,
 		watchedMovies
 	}: {
-		movies: { poster_path: string; original_title: string; id: number }[];
+		movies: { poster_path: string; original_title: string; id: number; movieId: number }[];
 		class?: string;
 		showMark?: boolean;
 		watchedMovies?: Set<number>;
