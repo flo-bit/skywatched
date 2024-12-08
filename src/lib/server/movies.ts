@@ -1,4 +1,7 @@
 import { env } from '$env/dynamic/private';
+import { db } from './db';
+import * as table from '$lib/server/db/schema';
+import { eq, and } from 'drizzle-orm';
 
 export async function searchMovie(query: string) {
 	const apiUrl = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
@@ -74,4 +77,24 @@ export async function getRecommendations(id: number) {
 	const data = await response.json();
 
 	return data.results;
+}
+
+export async function checkWatched(id: number, username: string): Promise<boolean | number> {
+	const movie = await db
+		.select()
+		.from(table.movies)
+		.where(and(eq(table.movies.movieId, id), eq(table.movies.username, username)));
+
+	if (movie.length > 0) return movie[0].watched;
+
+	return false;
+}
+
+export async function getWatchedMoviesIds(username: string) {
+	const movies = await db
+		.select({ id: table.movies.movieId })
+		.from(table.movies)
+		.where(and(eq(table.movies.username, username), eq(table.movies.watched, 1)));
+
+	return new Set(movies.map((movie) => movie.id));
 }

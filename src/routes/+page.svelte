@@ -19,7 +19,7 @@
 				nyx
 			</h1>
 			<p class="text-md mt-8 text-pretty font-medium text-base-400 sm:text-lg">
-				linktree but for movies. work in progress.
+				social media but for movies. work in progress.
 			</p>
 		</div>
 

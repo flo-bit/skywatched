@@ -74,6 +74,12 @@ export const actions: Actions = {
 			parallelism: 1
 		});
 
+		// check if username is already taken
+		const results = await db.select().from(table.user).where(eq(table.user.username, username));
+		if (results.length > 0) {
+			return fail(400, { message: 'username already taken' });
+		}
+
 		try {
 			await db.insert(table.user).values({ id: userId, username, passwordHash });
 

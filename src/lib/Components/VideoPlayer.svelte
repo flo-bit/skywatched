@@ -5,15 +5,19 @@
 
 	const { id, class: className }: { id: string; class?: string } = $props();
 
-	onMount(async () => {
+
+	$effect(() => {
+		console.log('id', id);
+
 		const player = new Plyr('.js-player', {
 			settings: ['captions', 'quality', 'loop', 'controls']
 		});
 	});
 </script>
 
-<div
-	class={cn(
+{#key id}
+	<div
+		class={cn(
 		'aspect-video relative w-full max-w-2xl overflow-hidden rounded-xl border border-black bg-white object-cover dark:border-white/10 dark:bg-white/5',
 		className
 	)}
@@ -28,8 +32,9 @@
 			data-plyr-provider="youtube"
 			data-plyr-embed-id={id}
 		></div>
+		</div>
 	</div>
-</div>
+{/key}
 
 <style>
 	* {
