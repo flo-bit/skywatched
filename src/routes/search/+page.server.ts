@@ -38,11 +38,12 @@ export const actions: Actions = {
 			await db
 				.update(table.movies)
 				.set({ watched: watched ? 0 : 1 })
-				.where(and(eq(table.movies.id, movieId), eq(table.movies.username, username)));
+				.where(and(eq(table.movies.movieId, movieId), eq(table.movies.username, username)));
 		} else {
 			await db.insert(table.movies).values({
 				username,
-				id: movieId,
+				id: crypto.randomUUID(),
+				movieId: movieId,
 				watched: 1,
 				originalTitle: result.original_title,
 				posterPath: result.poster_path,

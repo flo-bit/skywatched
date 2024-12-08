@@ -92,7 +92,7 @@ export async function checkWatched(id: number, username: string): Promise<boolea
 
 export async function getWatchedMoviesIds(username: string) {
 	const movies = await db
-		.select({ id: table.movies.id })
+		.select({ id: table.movies.movieId })
 		.from(table.movies)
 		.where(and(eq(table.movies.username, username), eq(table.movies.watched, 1)));
 
