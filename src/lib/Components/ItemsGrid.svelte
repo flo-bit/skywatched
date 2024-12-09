@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { cn } from '../utils';
-	import MovieCard from './MovieCard.svelte';
+	import ItemCard from './ItemCard.svelte';
 
 	const {
-		movies,
+		items,
 		class: className,
 		showMark,
-		watchedMovies
 	}: {
-		movies: { poster_path: string; original_title: string; movieId: number }[];
+		items: { poster_path: string; original_title: string; movieId?: number; showId?: number }[];
 		class?: string;
 		showMark?: boolean;
-		watchedMovies?: Set<number>;
 	} = $props();
 </script>
 
@@ -21,7 +19,7 @@
 		className
 	)}
 >
-	{#each movies as movie}
-		<MovieCard {movie} {showMark} {watchedMovies} />
+	{#each items as item}
+		<ItemCard {item} {showMark} />
 	{/each}
 </div>

@@ -6,18 +6,18 @@ import { eq } from 'drizzle-orm';
 export async function load(event) {
 	const username = event.params.username;
 
-	const movies = await db.select().from(table.movies).where(eq(table.movies.username, username));
+	const movies = await db.select().from(table.items).where(eq(table.items.username, username));
 
 	// filter out movies that are not watched
-	const watchedMovies = movies.filter((movie) => movie.watched === 1);
+	const watchedItems = movies.filter((movie) => movie.watched === 1);
 
 	// sort movies by timestamp
-	watchedMovies.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+	watchedItems.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 
 	let isUser = false;
 	if (event.locals.user?.username === username) {
 		isUser = true;
 	}
 
-	return { movies: watchedMovies, isUser, username };
+	return { items: watchedItems, isUser, username };
 }
