@@ -9,8 +9,6 @@
 
 	let { data }: { data: PageData } = $props();
 
-	console.log(data);
-
 	let hoveringWatchButton = $state(false);
 </script>
 

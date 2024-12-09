@@ -6,7 +6,7 @@
 		showMark,
 		watchedMovies
 	}: {
-		movie: { poster_path: string; original_title: string; id: number; watched?: boolean };
+		movie: { poster_path: string; original_title: string; movieId: number };
 		showMark?: boolean;
 		watchedMovies?: Set<number>;
 	} = $props();
@@ -26,17 +26,17 @@
 
 		{#if showMark}
 			<form method="post" action="?/mark" use:enhance>
-				<input type="hidden" name="id" value={movie.id} />
+				<input type="hidden" name="id" value={movie.movieId} />
 
 				<button
 					class={cn(
 						'pointer-events-auto absolute bottom-2 right-2 z-20 sm:hidden rounded-full border border-base-50/20 bg-black/30 p-2 text-base-50 backdrop-blur-sm group-hover:block',
-						watchedMovies?.has(movie.id)
+						watchedMovies?.has(movie.movieId)
 							? 'sm:block border-green-500/20 bg-green-900/60 text-green-500'
 							: ''
 					)}
 					onclick={() => {
-						watchedMovies?.add(movie.id);
+						watchedMovies?.add(movie.movieId);
 					}}
 				>
 					<span class="sr-only">mark as watched</span>
@@ -56,7 +56,7 @@
 	</div>
 	<div class="mt-2 flex justify-between">
 		<h3 class="sm:text-md text-sm font-medium text-base-50">
-			<a href="/movie/{movie.id}">
+			<a href="/movie/{movie.movieId}">
 				<span aria-hidden="true" class="absolute inset-0"></span>
 				<div class="line-clamp-2 max-w-full">
 					{movie.original_title}
