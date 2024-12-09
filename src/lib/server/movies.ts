@@ -3,8 +3,10 @@ import { db } from './db';
 import * as table from '$lib/server/db/schema';
 import { eq, and } from 'drizzle-orm';
 
-export async function searchMovie(query: string) {
-	const apiUrl = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
+export type Kind = 'movie' | 'tv';
+
+export async function searchMulti(query: string) {
+	const apiUrl = `https://api.themoviedb.org/3/search/multi?query=${query}&include_adult=false&language=en-US&page=1`;
 	const options = {
 		method: 'GET',
 		headers: {
@@ -19,8 +21,8 @@ export async function searchMovie(query: string) {
 	return data.results;
 }
 
-export async function getDetails(id: number) {
-	const url = `https://api.themoviedb.org/3/movie/${id}?language=en-US`;
+export async function getDetails(id: number, kind: Kind) {
+	const url = `https://api.themoviedb.org/3/${kind}/${id}?language=en-US`;
 	const options = {
 		method: 'GET',
 		headers: {
@@ -35,8 +37,8 @@ export async function getDetails(id: number) {
 	return data;
 }
 
-export async function getTrailer(id: number): Promise<string | null> {
-	const url = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
+export async function getTrailer(id: number, kind: Kind): Promise<string | null> {
+	const url = `https://api.themoviedb.org/3/${kind}/${id}/videos?language=en-US`;
 	const options = {
 		method: 'GET',
 		headers: {
@@ -63,8 +65,8 @@ export async function getTrailer(id: number): Promise<string | null> {
 	return trailer?.key ?? null;
 }
 
-export async function getRecommendations(id: number) {
-	const url = `https://api.themoviedb.org/3/movie/${id}/recommendations?language=en-US`;
+export async function getRecommendations(id: number, kind: Kind) {
+	const url = `https://api.themoviedb.org/3/${kind}/${id}/recommendations?language=en-US`;
 	const options = {
 		method: 'GET',
 		headers: {
@@ -79,11 +81,20 @@ export async function getRecommendations(id: number) {
 	return data.results;
 }
 
-export async function checkWatched(id: number, username: string): Promise<boolean | number> {
+export async function checkWatched(
+	id: number,
+	username: string,
+	kind: Kind
+): Promise<boolean | number> {
 	const movie = await db
 		.select()
-		.from(table.movies)
-		.where(and(eq(table.movies.movieId, id), eq(table.movies.username, username)));
+		.from(table.items)
+		.where(
+			and(
+				eq(kind === 'movie' ? table.items.movieId : table.items.showId, id),
+				eq(table.items.username, username)
+			)
+		);
 
 	if (movie.length > 0) return movie[0].watched;
 
@@ -92,9 +103,18 @@ export async function checkWatched(id: number, username: string): Promise<boolea
 
 export async function getWatchedMoviesIds(username: string) {
 	const movies = await db
-		.select({ movieId: table.movies.movieId })
-		.from(table.movies)
-		.where(and(eq(table.movies.username, username), eq(table.movies.watched, 1)));
+		.select({ movieId: table.items.movieId })
+		.from(table.items)
+		.where(and(eq(table.items.username, username), eq(table.items.watched, 1)));
 
-	return new Set(movies.map((movie) => movie.movieId));
+	return new Set(movies.map((movie) => movie.movieId ?? 0));
+}
+
+export async function getWatchedShowsIds(username: string) {
+	const shows = await db
+		.select({ showId: table.items.showId })
+		.from(table.items)
+		.where(and(eq(table.items.username, username), eq(table.items.watched, 1)));
+
+	return new Set(shows.map((show) => show.showId ?? 0));
 }

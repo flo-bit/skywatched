@@ -1,7 +1,11 @@
 <script lang="ts">
 	import Logo from '$lib/Components/Logo.svelte';
+	import { watchedItems } from '$lib/state.svelte';
 	import '../app.css';
 	let { children, data } = $props();
+
+	watchedItems.watchedMovies = new Set(data.watchedMovies);
+	watchedItems.watchedShows = new Set(data.watchedShows);
 </script>
 
 <header class="absolute inset-x-0 top-0 z-50">

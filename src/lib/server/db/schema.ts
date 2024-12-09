@@ -15,9 +15,10 @@ export const session = sqliteTable('session', {
 	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
 });
 
-export const movies = sqliteTable('movies', {
+export const items = sqliteTable('items', {
 	id: text('id').primaryKey(),
-	movieId: integer('movie_id').notNull(),
+	movieId: integer('movie_id'),
+	showId: integer('show_id'),
 	username: text('username')
 		.notNull()
 		.references(() => user.username),
@@ -33,4 +34,4 @@ export type Session = typeof session.$inferSelect;
 
 export type User = typeof user.$inferSelect;
 
-export type Movies = typeof movies.$inferSelect;
+export type Movies = typeof items.$inferSelect;

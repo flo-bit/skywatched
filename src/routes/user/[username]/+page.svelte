@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Container from '$lib/Components/Container.svelte';
-	import MovieGrid from '$lib/Components/MovieGrid.svelte';
+	import ItemsGrid from '$lib/Components/ItemsGrid.svelte';
 
 	let { data } = $props();
 </script>
@@ -13,17 +13,17 @@
 			class="text-md rounded-md bg-white/10 px-3.5 py-2.5 font-semibold text-white shadow-sm hover:bg-white/20"
 			href="/search"
 		>
-			add movie
+			add movie or show
 		</a>
 	{/if}
 
-	<MovieGrid
+	<ItemsGrid
 		class="mt-8"
-		movies={data.movies.map((movie) => ({
+		items={data.items.map((movie) => ({
 			poster_path: movie.posterPath ?? '',
 			original_title: movie.originalTitle,
-			id: movie.id,
-			movieId: movie.movieId
+			movieId: movie.movieId ?? undefined,
+			showId: movie.showId ?? undefined,
 		}))}
 	/>
 </Container>

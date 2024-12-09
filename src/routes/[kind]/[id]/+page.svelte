@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { type PageData } from './$types';
 	import { enhance } from '$app/forms';
+	import { cn } from '$lib/utils';
+	import { watchedItems } from '$lib/state.svelte';
+
 	import Container from '$lib/Components/Container.svelte';
 	import VideoPlayer from '$lib/Components/VideoPlayer.svelte';
-	import { cn } from '$lib/utils';
-	import MovieList from '$lib/Components/MovieList.svelte';
+	import ItemsList from '$lib/Components/ItemsList.svelte';
 	import Rating from '$lib/Components/Rating.svelte';
 
 	let { data }: { data: PageData } = $props();
-
-	let hoveringWatchButton = $state(false);
 </script>
 
 <img
@@ -28,22 +28,29 @@
 		/>
 		<div class="flex flex-col gap-4">
 			<div class="max-w-xl text-2xl font-semibold text-white sm:text-4xl">
-				{data.result.original_title}
+				{data.result.original_title ?? data.result.original_name}
 			</div>
 			{#if data.user}
 				<div class="flex gap-4">
-					<form method="post" action="?/mark" use:enhance>
+					<form method="post" action="/?/mark" use:enhance>
 						<input type="hidden" name="id" value={data.result.id} />
-
+						<input type="hidden" name="kind" value={data.kind} />
+						
 						<button
-							onmouseenter={() => (hoveringWatchButton = true)}
-							onmouseleave={() => (hoveringWatchButton = false)}
 							class={cn(
 								'inline-flex items-center gap-2 rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-75 hover:bg-white/20 ',
-								data.watched ? 'bg-green-500/10 text-green-400 hover:bg-green-500/20' : ''
+								watchedItems.hasWatched(data.result) ? 'bg-green-500/10 text-green-400 hover:bg-green-500/20' : ''
 							)}
+
+							onclick={() => {
+								if (watchedItems.hasWatched(data.result)) {
+									watchedItems.removeWatched(data.result);
+								} else {
+									watchedItems.addWatched(data.result);
+								}
+							}}
 						>
-							{#if data.watched}
+							{#if watchedItems.hasWatched(data.result)}
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -81,6 +88,6 @@
 	{#if data.recommendations.length > 0}
 		<div class="mb-2 mt-8 text-lg font-semibold">recommendations</div>
 
-		<MovieList movies={data.recommendations} showMark={!!data.user} watchedMovies={data.watchedMovies} />
+		<ItemsList items={data.recommendations} showMark={!!data.user} />
 	{/if}
 </Container>

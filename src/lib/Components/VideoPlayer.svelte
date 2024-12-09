@@ -7,8 +7,6 @@
 
 
 	$effect(() => {
-		console.log('id', id);
-
 		const player = new Plyr('.js-player', {
 			settings: ['captions', 'quality', 'loop', 'controls']
 		});
