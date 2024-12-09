@@ -32,8 +32,6 @@ export const actions: Actions = {
 
 		const watched = await checkWatched(movieId, username);
 
-		console.log(watched, username, movieId, result);
-
 		if (watched !== false) {
 			await db
 				.update(table.movies)

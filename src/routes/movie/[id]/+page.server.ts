@@ -18,7 +18,9 @@ export async function load(event) {
 
 		const trailer = await getTrailer(id);
 
-		const recommendations = await getRecommendations(id);
+		const recommendations = (await getRecommendations(id)).map((movie) => {
+			return { ...movie, movieId: movie.id };
+		});
 
 		let watched = false;
 
