@@ -1,25 +1,43 @@
+import { atclient } from '$lib/server/client';
+import { Agent, AtpBaseClient } from '@atproto/api';
+
+import { decryptToString } from '$lib/server/crypts';
+import { decodeBase64, decodeBase64urlIgnorePadding } from '@oslojs/encoding';
+
 import type { Handle } from '@sveltejs/kit';
-import * as auth from '$lib/server/auth.js';
+import { NYX_PASSWORD } from '$env/static/private';
 
-const handleAuth: Handle = async ({ event, resolve }) => {
-	const sessionToken = event.cookies.get(auth.sessionCookieName);
-	if (!sessionToken) {
-		event.locals.user = null;
-		event.locals.session = null;
-		return resolve(event);
-	}
+export const handle: Handle = async ({ event, resolve }) => {
+	const sid = event.cookies.get('sid');
+	if (sid) {
+		try {
+			if (event.locals.user) {
+				return resolve(event);
+			}
+			const decoded = decodeBase64urlIgnorePadding(sid);
+			const key = decodeBase64(NYX_PASSWORD);
+			const decrypted = await decryptToString(key, decoded);
+			const oauthSession = await atclient.restore(decrypted);
 
-	const { session, user } = await auth.validateSessionToken(sessionToken);
-	if (session) {
-		auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+			const agent = new Agent(oauthSession);
+			event.locals.agent = agent;
+
+			const user = await agent.getProfile({ actor: decrypted });
+			event.locals.user = user.data;
+		} catch (error) {
+			console.error(error);
+			event.cookies.delete('sid', { path: '/' });
+
+			const agent = new AtpBaseClient({ service: 'https://api.bsky.app' });
+			event.locals.agent = agent;
+		}
 	} else {
-		auth.deleteSessionTokenCookie(event);
+		if (event.locals.agent) {
+			return resolve(event);
+		}
+		const agent = new AtpBaseClient({ service: 'https://api.bsky.app' });
+		event.locals.agent = agent;
 	}
-
-	event.locals.user = user;
-	event.locals.session = session;
 
 	return resolve(event);
 };
-
-export const handle: Handle = handleAuth;

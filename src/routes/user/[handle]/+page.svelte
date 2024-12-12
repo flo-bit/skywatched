@@ -24,6 +24,8 @@
 			original_title: movie.originalTitle,
 			movieId: movie.movieId ?? undefined,
 			showId: movie.showId ?? undefined,
+			rating: movie.rating ?? undefined,
+			ratingText: movie.ratingText ?? undefined
 		}))}
 	/>
 </Container>

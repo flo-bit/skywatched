@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '../utils';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import Plyr from 'plyr';
 
 	const { id, class: className }: { id: string; class?: string } = $props();
@@ -10,6 +10,10 @@
 		const player = new Plyr('.js-player', {
 			settings: ['captions', 'quality', 'loop', 'controls']
 		});
+
+		return () => {
+			player.destroy();
+		};
 	});
 </script>
 

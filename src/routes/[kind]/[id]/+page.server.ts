@@ -1,4 +1,4 @@
-import { getDetails, getRecommendations, getTrailer } from '$lib/server/movies';
+import { getDetails, getRecommendations, getTrailer, getWatchProviders } from '$lib/server/movies';
 import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
@@ -33,7 +33,11 @@ export async function load(event) {
 			}
 		});
 
-		return { result, trailer, recommendations, kind };
+		const watchProviders = await getWatchProviders(id, kind);
+
+		watchProviders.DE?.flatrate?.sort((a, b) => a.display_priority - b.display_priority);
+
+		return { result, trailer, recommendations, kind, watchProviders };
 	}
 
 	// not found

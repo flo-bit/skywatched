@@ -1,16 +1,20 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
-	const { rating = 0 }: { rating: number } = $props();
+	let { rating = $bindable() }: { rating: number } = $props();
 
 	let hoverRating = $state(rating);
+
+	$effect(() => {
+		hoverRating = rating;
+	});
 </script>
 
 <div class="flex items-center xl:col-span-1">
 	<div class="flex items-center">
 		{#each Array.from({ length: 5 }).map((_, i) => i + 1) as i}
-			<button>
+			<button onclick={() => (rating = i)}>
 				<svg
-					class={cn('size-5 shrink-0 text-base-200/20 stroke-base-50/20', i <= hoverRating && 'text-accent-500 stroke-accent-400')}
+					class={cn('size-5 shrink-0 text-base-600 stroke-base-500', i <= hoverRating && 'text-accent-500 stroke-accent-400')}
 					viewBox="0 0 24 24"
 					fill="currentColor"
 					aria-hidden="true"

@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { watchedItems } from '$lib/state.svelte';
+	import { rateMovieModal, watchedItems } from '$lib/state.svelte';
 	import { cn } from '$lib/utils';
+	import { toast } from 'svelte-sonner';
+	import Rating from './Rating.svelte';
 	const {
 		item,
 		showMark
@@ -12,6 +14,7 @@
 			original_name?: string;
 			movieId?: number;
 			showId?: number;
+			rating?: number;
 		};
 		showMark?: boolean;
 	} = $props();
@@ -29,27 +32,43 @@
 			/>
 		{/if}
 
-		{#if showMark}
-			<form method="post" action="/?/mark" use:enhance>
-				<input type="hidden" name="id" value={item.movieId ?? item.showId} />
-				<input type="hidden" name="kind" value={item.movieId ? 'movie' : 'tv'} />
-
+		{#if item.rating}
+			<div
+				class="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-black/30 to-black/70"
+			></div>
+			<div class="absolute bottom-2 left-0 right-0 z-10 flex justify-center">
+				<Rating rating={item.rating} />
+			</div>
+		{:else if showMark}
+			{#if watchedItems.hasRated(item)}
+				<div
+					class="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-black/30 to-black/70"
+				></div>
+				<div class="absolute bottom-2 left-0 right-0 z-10 flex justify-center">
+					<Rating rating={watchedItems.getRating(item) ?? 0} />
+				</div>
+			{:else}
 				<button
 					class={cn(
-						'pointer-events-auto absolute bottom-2 right-2 z-20 rounded-full border border-base-50/20 bg-black/30 p-2 text-base-50 backdrop-blur-sm group-hover:block sm:hidden',
-						watchedItems.hasWatched(item)
-							? 'border-green-500/20 bg-green-900/60 text-green-500 sm:block'
-							: ''
+						'pointer-events-auto absolute bottom-2 right-2 z-10 rounded-full border border-base-50/20 bg-black/30 p-2 text-base-50 opacity-100 backdrop-blur-sm transition-opacity duration-300 ease-in-out group-hover:opacity-100 sm:opacity-0',
+						watchedItems.hasRated(item)
+							? 'border-green-500/20 bg-green-900/60 text-green-500 sm:opacity-100'
+							: 'hover:border-accent-800/50 hover:bg-accent-900/50 hover:text-accent-400 hover:duration-0'
 					)}
 					onclick={() => {
-						if (watchedItems.hasWatched(item)) {
-							watchedItems.removeWatched(item);
-						} else {
-							watchedItems.addWatched(item);
-						}
+						rateMovieModal.selectedItem = {
+							movieId: item.movieId,
+							showId: item.showId,
+							kind: item.movieId ? 'movie' : 'tv',
+							name: item.original_title ?? item.original_name,
+							currentRating: 0,
+							currentReview: ''
+						};
+						rateMovieModal.showModal = true;
 					}}
 				>
-					<span class="sr-only">mark as watched</span>
+					<span class="sr-only">rate</span>
+
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -58,10 +77,10 @@
 						stroke="currentColor"
 						class="size-5"
 					>
-						<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 					</svg>
 				</button>
-			</form>
+			{/if}
 		{/if}
 	</div>
 	<div class="mt-2 flex justify-between">
