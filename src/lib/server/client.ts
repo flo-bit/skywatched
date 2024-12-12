@@ -5,12 +5,12 @@ import { dev } from '$app/environment';
 
 const publicUrl = 'https://nyx-kappa.vercel.app';
 const port = 5173;
-const url = dev ? `http://[::1]:${port}` : publicUrl; // since I'm using ipv6, use ::1 instead 127.0.0.1
+const url = dev ? `http://[::1]:${port}` : publicUrl;
 const enc = encodeURIComponent;
 
-const clientId = !dev
-	? `${publicUrl}/client-metadata.json`
-	: `http://localhost?redirect_uri=${enc(`${url}/oauth/callback`)}&scope=${enc('atproto transition:generic')}`;
+const encodeCallbackUrl = enc(`${url}/oauth/callback`);
+const devClientId = `http://localhost?redirect_uri=${encodeCallbackUrl}&scope=${enc('atproto transition:generic')}`;
+const clientId = !dev ? `${publicUrl}/client-metadata.json` : devClientId;
 
 export const atclient = new NodeOAuthClient({
 	stateStore: new StateStore(db),
