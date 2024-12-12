@@ -3,7 +3,7 @@ import { db } from './db';
 import { SessionStore, StateStore } from './storage';
 import { dev } from '$app/environment';
 
-const publicUrl = 'https://nyx-kappa.vercel.app/';
+const publicUrl = 'https://nyx-kappa.vercel.app';
 const port = 5173;
 const url = dev ? `http://[::1]:${port}` : publicUrl; // since I'm using ipv6, use ::1 instead 127.0.0.1
 const enc = encodeURIComponent;
