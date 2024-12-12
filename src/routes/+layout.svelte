@@ -1,11 +1,19 @@
 <script lang="ts">
+	import Footer from '$lib/Components/Footer.svelte';
 	import Logo from '$lib/Components/Logo.svelte';
+	import { Toaster } from 'svelte-sonner';
 	import { watchedItems } from '$lib/state.svelte';
 	import '../app.css';
+	import RateMovieModal from '$lib/Components/RateMovieModal.svelte';
+
 	let { children, data } = $props();
 
-	watchedItems.watchedMovies = new Set(data.watchedMovies);
-	watchedItems.watchedShows = new Set(data.watchedShows);
+	import { showLoginModel } from '$lib/state.svelte';
+	import LoginModal from '$lib/Components/LoginModal.svelte';
+	let loginModal = showLoginModel();
+
+	watchedItems.ratedMovies = new Map(data.watchedMovies);
+	watchedItems.ratedShows = new Map(data.watchedShows);
 </script>
 
 <header class="absolute inset-x-0 top-0 z-50">
@@ -36,16 +44,45 @@
 					</svg>
 				</a>
 			{/if}
-			<a
-				href="/login"
-				class="text-sm/6 font-semibold text-white transition-colors duration-75 hover:text-accent-400"
-				>account <span aria-hidden="true">&rarr;</span></a
-			>
+			{#if !data.user}
+				<button
+					onclick={() => loginModal.toggle()}
+					class="text-sm/6 font-semibold text-white transition-colors duration-75 hover:text-accent-400"
+				>
+					login
+				</button>
+			{:else}
+				<a
+					href="/user/{data.user.handle}"
+					class="text-sm/6 font-semibold text-white transition-colors duration-75 hover:text-accent-400"
+				>
+					account <span aria-hidden="true">&rarr;</span>
+				</a>
+			{/if}
 		</div>
 	</nav>
 </header>
 
-{@render children()}
+<div class="min-h-screen">
+	{@render children()}
+</div>
+<Footer />
+
+<Toaster
+	toastOptions={{
+		unstyled: true,
+		classes: {
+			toast:
+				'bg-base-900/70 backdrop-blur-sm border border-base-800 rounded-md shadow-md p-4 flex items-center gap-2 fixed bottom-4 right-4',
+			title: 'text-white',
+			description: 'text-white'
+		}
+	}}
+/>
+
+<RateMovieModal />
+
+<LoginModal />
 
 <div
 	style="background-image: url(/nnnoise.svg)"

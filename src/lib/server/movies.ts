@@ -81,18 +81,30 @@ export async function getRecommendations(id: number, kind: Kind) {
 	return data.results;
 }
 
-export async function checkWatched(
-	id: number,
-	username: string,
-	kind: Kind
-): Promise<boolean | number> {
+export async function getWatchProviders(id: number, kind: Kind) {
+	const url = `https://api.themoviedb.org/3/${kind}/${id}/watch/providers?language=en-US`;
+	const options = {
+		method: 'GET',
+		headers: {
+			accept: 'application/json',
+			Authorization: `Bearer ${env.TMDB_API_KEY}`
+		}
+	};
+
+	const response = await fetch(url, options);
+	const data = await response.json();
+
+	return data.results;
+}
+
+export async function checkWatched(id: number, did: string, kind: Kind): Promise<boolean | number> {
 	const movie = await db
 		.select()
 		.from(table.items)
 		.where(
 			and(
 				eq(kind === 'movie' ? table.items.movieId : table.items.showId, id),
-				eq(table.items.username, username)
+				eq(table.items.did, did)
 			)
 		);
 
@@ -101,20 +113,28 @@ export async function checkWatched(
 	return false;
 }
 
-export async function getWatchedMoviesIds(username: string) {
+export async function getWatchedMoviesIds(did: string) {
 	const movies = await db
-		.select({ movieId: table.items.movieId })
+		.select({
+			movieId: table.items.movieId,
+			rating: table.items.rating,
+			ratingText: table.items.ratingText
+		})
 		.from(table.items)
-		.where(and(eq(table.items.username, username), eq(table.items.watched, 1)));
+		.where(and(eq(table.items.did, did), eq(table.items.watched, 1)));
 
-	return new Set(movies.map((movie) => movie.movieId ?? 0));
+	return new Map(movies.map((movie) => [movie.movieId ?? 0, movie.rating ?? 0]));
 }
 
-export async function getWatchedShowsIds(username: string) {
+export async function getWatchedShowsIds(did: string) {
 	const shows = await db
-		.select({ showId: table.items.showId })
+		.select({
+			showId: table.items.showId,
+			rating: table.items.rating,
+			ratingText: table.items.ratingText
+		})
 		.from(table.items)
-		.where(and(eq(table.items.username, username), eq(table.items.watched, 1)));
+		.where(and(eq(table.items.did, did), eq(table.items.watched, 1)));
 
-	return new Set(shows.map((show) => show.showId ?? 0));
+	return new Map(shows.map((show) => [show.showId ?? 0, show.rating ?? 0]));
 }
