@@ -1,5 +1,5 @@
 {
-	"name": "nyx",
+	"name": "skywatched",
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
@@ -45,6 +45,7 @@
 		"@node-rs/argon2": "^1.1.0",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
+		"@sveltejs/adapter-vercel": "^5.5.2",
 		"clsx": "^2.1.1",
 		"dotenv": "^16.4.5",
 		"drizzle-orm": "^0.33.0",

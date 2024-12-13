@@ -1,10 +1,10 @@
-# nyx
+# skywatched
 
-university project. linktree but for movies. eventually with social media features using the at protocol.
+university project. social media for movies and tv shows using the at protocol.
 
-[live demo](https://nyx-kappa.vercel.app/)
+[live demo](https://skywatched.app/)
 
-## setup
+## development
 
 1. copy the .env.example file to .env and set the variables:
 
