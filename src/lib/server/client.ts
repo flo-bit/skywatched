@@ -3,7 +3,7 @@ import { db } from './db';
 import { SessionStore, StateStore } from './storage';
 import { dev } from '$app/environment';
 
-const publicUrl = 'https://nyx-kappa.vercel.app';
+const publicUrl = 'https://skywatched.app';
 const port = 5173;
 const url = dev ? `http://[::1]:${port}` : publicUrl;
 const enc = encodeURIComponent;
@@ -16,7 +16,7 @@ export const atclient = new NodeOAuthClient({
 	stateStore: new StateStore(db),
 	sessionStore: new SessionStore(db),
 	clientMetadata: {
-		client_name: 'nyx',
+		client_name: 'skywatched',
 		client_id: clientId,
 		client_uri: url,
 		redirect_uris: [`${url}/oauth/callback`],

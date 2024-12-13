@@ -16,7 +16,7 @@
 
 		<div class="text-center">
 			<h1 class="text-balance text-5xl font-semibold tracking-tight text-base-100 sm:text-7xl">
-				nyx
+				skywatched
 			</h1>
 			<p class="text-md mt-8 text-pretty font-medium text-base-400 sm:text-lg">
 				social media for movies. work in progress.
