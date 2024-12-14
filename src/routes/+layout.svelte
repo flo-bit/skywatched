@@ -1,25 +1,19 @@
 <script lang="ts">
-	import Footer from '$lib/Components/Footer.svelte';
-	import Logo from '$lib/Components/Logo.svelte';
-	import { Toaster } from 'svelte-sonner';
-	import { showLoginModal, watchedItems } from '$lib/state.svelte';
 	import '../app.css';
-	import RateMovieModal from '$lib/Components/RateMovieModal.svelte';
 
-	let { children, data } = $props();
+	import Footer from '$lib/Components/Footer.svelte';
+	import { toast, Toaster } from 'svelte-sonner';
+	import { watchedItems } from '$lib/state.svelte';
+	import RateMovieModal from '$lib/Components/RateMovieModal.svelte';
 
 	import LoginModal from '$lib/Components/LoginModal.svelte';
 	import Sidebar from '$lib/Components/Sidebar.svelte';
 	import VideoPlayer from '$lib/Components/VideoPlayer.svelte';
 
-
-	console.log(data.watchedMovies);
-	console.log(data.watchedShows);
-	
-	watchedItems.ratedMovies = new Map(data.watchedMovies);
-	watchedItems.ratedShows = new Map(data.watchedShows);
-
 	import { onNavigate } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	let { children, data } = $props();
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -30,6 +24,60 @@
 				await navigation.complete;
 			});
 		});
+	});
+
+	function useCachedRatedItems() {
+		try {
+			const cachedRatedItems = localStorage.getItem(`ratedItems-${data.user.did}`);
+			const lastUpdate = localStorage.getItem(`ratedItems-${data.user.did}-lastUpdate`);
+			if (cachedRatedItems && lastUpdate && new Date(lastUpdate).getTime() + 10 * 60 * 1000 > Date.now()) {
+				watchedItems.ratedMovies = new Map(JSON.parse(cachedRatedItems).movies.map((movie) => [movie.id, movie]));
+				watchedItems.ratedShows = new Map(JSON.parse(cachedRatedItems).shows.map((show) => [show.id, show]));
+
+				console.log(watchedItems.ratedMovies);
+				console.log(watchedItems.ratedShows);
+				return true;
+			}
+		} catch (error) {
+			console.error('Error fetching rated items', error);
+		}
+
+		return false;
+	}
+
+	async function fetchRatedItems() {
+		try {
+			// if not, fetch them
+			const response = await fetch(`/api/getAllRated?did=${data.user.did}`);
+			const items = await response.json();
+
+			watchedItems.ratedMovies = new Map(items.movies.map((movie) => [movie.id, movie]));
+			watchedItems.ratedShows = new Map(items.shows.map((show) => [show.id, show]));
+			localStorage.setItem(`ratedItems-${data.user.did}`, JSON.stringify(items));
+			localStorage.setItem(`ratedItems-${data.user.did}-lastUpdate`, new Date().toISOString());
+
+			console.log('fetched rated items');
+
+			return true;
+		} catch (error) {
+			console.error('Error fetching rated items', error);
+			return false;
+		}
+	}
+
+	onMount(async () => {
+		// check if user is logged in
+		if (!data.user) return;
+
+		if (useCachedRatedItems()) {
+			console.log('using cached rated items');
+		} else {
+			console.log('fetching rated items');
+			if (!(await fetchRatedItems())) {
+				console.error('Error fetching rated items');
+				toast.error('Error getting your rated items');
+			}
+		}
 	});
 </script>
 

@@ -1,4 +1,4 @@
-<footer class="bg-black border-t border-base-800">
+<footer class="bg-black border-t border-base-800 z-10 relative">
 	<div class="mx-auto max-w-2xl sm:px-6 lg:max-w-4xl xl:max-w-6xl py-12 md:flex md:items-center md:justify-between lg:px-8">
 	  <div class="flex justify-center gap-x-6 md:order-2">
 		

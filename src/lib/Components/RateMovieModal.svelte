@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { rateMovieModal, watchedItems } from '$lib/state.svelte';
+	import { toast } from 'svelte-sonner';
 	import Rating from './Rating.svelte';
 
 	let rating = $state(rateMovieModal.selectedItem.currentRating ?? 0);
@@ -67,6 +68,8 @@
 									showId: rateMovieModal.selectedItem.showId,
 									rating
 								});
+
+								toast.success('Rating saved');
 							}}
 							type="button"
 							class="inline-flex w-full justify-center rounded-md border border-accent-900 bg-accent-950/80 px-3 py-2 text-sm font-semibold text-accent-300 shadow-sm hover:bg-accent-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"

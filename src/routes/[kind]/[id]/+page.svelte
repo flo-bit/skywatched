@@ -13,11 +13,11 @@
 <img
 	src="https://image.tmdb.org/t/p/w780{data.result.backdrop_path}"
 	alt=""
-	class="fixed -z-20 h-full w-full object-cover object-center opacity-20"
+	class="fixed h-full w-full object-cover object-center opacity-20"
 />
-<div class="fixed inset-0 -z-10 h-full w-full bg-black/70"></div>
+<div class="fixed inset-0 h-full w-full bg-black/50"></div>
 
-<Container>
+<Container class="relative z-10">
 	<div class="flex gap-4 px-4 pt-8">
 		<img
 			src="https://image.tmdb.org/t/p/w500{data.result.poster_path}"
