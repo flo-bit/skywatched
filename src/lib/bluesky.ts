@@ -16,3 +16,12 @@ export async function resolveHandle({
 	const data = await agent.com.atproto.identity.resolveHandle({ handle });
 	return data.data.did;
 }
+
+export async function getProfile({ did, agent = undefined }: { did: string; agent?: AgentType }) {
+	if (!agent) {
+		agent = new AtpBaseClient({ service: 'https://api.bsky.app' });
+	}
+
+	const { data } = await agent.app.bsky.actor.getProfile({ actor: did });
+	return data;
+}

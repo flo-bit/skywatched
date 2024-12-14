@@ -3,15 +3,18 @@ import { checkWatched, getDetails } from '$lib/server/movies';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 import * as table from '$lib/server/db/schema';
 import { eq, and } from 'drizzle-orm';
+import { AtpBaseClient } from '@atproto/api';
+import { REL_COLLECTION } from '$lib';
+import { TID } from '@atproto/common';
 
 // Given a cursor and limit (opt)
 // Return a JSON of FeedViewPost
 export const POST: RequestHandler = async ({ request, locals }) => {
 	const user = locals.user;
-	if (!user) {
+	const agent = locals.agent;
+	if (!user || !agent || agent instanceof AtpBaseClient) {
 		return error(401, 'Unauthorized API call');
 	}
-
 	const body = await request.json();
 	const rating = body.rating;
 	const review = body.review;
@@ -19,34 +22,25 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	const id = body.id;
 	const did = user.did;
 
-	const result = await getDetails(id, kind);
-	const watched = await checkWatched(id, did, kind);
+	const rkey = TID.nextStr();
 
-	if (watched !== false) {
-		await db
-			.update(table.items)
-			.set({ rating, ratingText: review })
-			.where(
-				and(
-					eq(kind === 'movie' ? table.items.movieId : table.items.showId, id),
-					eq(table.items.did, did)
-				)
-			);
-	} else {
-		await db.insert(table.items).values({
-			did: did,
-			id: crypto.randomUUID(),
-			movieId: kind === 'movie' ? id : null,
-			showId: kind === 'tv' ? id : null,
-			watched: 1,
-			originalTitle: result.original_title ?? result.original_name,
-			posterPath: result.poster_path,
-			timestamp: new Date(),
-			rating,
-			ratingText: review
-		});
-	}
-	console.log('rated');
+	await agent.com.atproto.repo.putRecord({
+		repo: did,
+		collection: REL_COLLECTION,
+		rkey,
+		record: {
+			item: {
+				ref: `tmdb:${kind === 'movie' ? 'm' : 's'}`,
+				value: id.toString()
+			},
+			rating: { value: rating * 2, createdAt: new Date().toISOString() },
+			note: {
+				value: review,
+				createdAt: new Date().toISOString(),
+				updatedAt: new Date().toISOString()
+			}
+		}
+	});
 
 	return json({ status: 'rated' });
 };

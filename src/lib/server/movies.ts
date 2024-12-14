@@ -2,6 +2,7 @@ import { env } from '$env/dynamic/private';
 import { db } from './db';
 import * as table from '$lib/server/db/schema';
 import { eq, and } from 'drizzle-orm';
+import type { Agent } from '@atproto/api';
 
 export type Kind = 'movie' | 'tv';
 
@@ -137,4 +138,44 @@ export async function getWatchedShowsIds(did: string) {
 		.where(and(eq(table.items.did, did), eq(table.items.watched, 1)));
 
 	return new Map(shows.map((show) => [show.showId ?? 0, show.rating ?? 0]));
+}
+
+export async function getWatchedMoviesIdsFromPDS(agent: Agent, did: string) {
+	const allRecords = await agent.com.atproto.repo.listRecords({
+		repo: did,
+		collection: 'my.skylights.rel'
+	});
+
+	const movies = allRecords.data.records.filter((record) => record.value.item.ref === 'tmdb:m');
+
+	return new Map(
+		movies.map((movie) => [
+			parseInt(movie.value.item.value ?? '0'),
+			{
+				rating: movie.value.rating.value / 2,
+				ratingText: movie.value.note?.value,
+				updatedAt: movie.value.note?.updatedAt ?? movie.value.rating.createdAt
+			}
+		])
+	);
+}
+
+export async function getWatchedShowsIdsFromPDS(agent: Agent, did: string) {
+	const allRecords = await agent.com.atproto.repo.listRecords({
+		repo: did,
+		collection: 'my.skylights.rel'
+	});
+
+	const shows = allRecords.data.records.filter((record) => record.value.item.ref === 'tmdb:s');
+
+	return new Map(
+		shows.map((show) => [
+			parseInt(show.value.item.value ?? '0'),
+			{
+				rating: show.value.rating.value / 2,
+				ratingText: show.value.note?.value,
+				updatedAt: show.value.note?.updatedAt ?? show.value.rating.createdAt
+			}
+		])
+	);
 }

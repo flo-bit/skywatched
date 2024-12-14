@@ -1,5 +1,5 @@
 <footer class="bg-black border-t border-base-800">
-	<div class="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
+	<div class="mx-auto max-w-2xl sm:px-6 lg:max-w-4xl xl:max-w-6xl py-12 md:flex md:items-center md:justify-between lg:px-8">
 	  <div class="flex justify-center gap-x-6 md:order-2">
 		
 		<a href="https://github.com/flo-bit/skywatched" class="text-base-400 hover:text-base-300" target="_blank">
@@ -13,7 +13,7 @@
 	 
 
 		<img src="/tmdb_logo.svg" alt="TMDB logo" class="h-3" />
-		<p class="mt-2 text-center text-xs text-base-400">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+		<p class="mt-2 text-center text-xs text-base-400">This website uses the TMDB API but is not endorsed or certified by TMDB.</p>
 
 	  </div>
 	</div>

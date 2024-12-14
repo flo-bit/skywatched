@@ -3,10 +3,6 @@ import { redirect } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load(event) {
-	if (!event.locals.user) {
-		return redirect(302, '/login');
-	}
-
 	const query = event.url.searchParams.get('query');
 
 	if (query) {

@@ -45,7 +45,7 @@
 					class="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-black/30 to-black/70"
 				></div>
 				<div class="absolute bottom-2 left-0 right-0 z-10 flex justify-center">
-					<Rating rating={watchedItems.getRating(item) ?? 0} />
+					<Rating rating={watchedItems.getRating(item).rating ?? 0} />
 				</div>
 			{:else}
 				<button

@@ -19,7 +19,7 @@
 				skywatched
 			</h1>
 			<p class="text-md mt-8 text-pretty font-medium text-base-400 sm:text-lg">
-				social media for movies. work in progress.
+				social media for movies based on atproto. work in progress.
 			</p>
 		</div>
 

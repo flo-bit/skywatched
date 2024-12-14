@@ -1,0 +1,79 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+	import { BASE_PATH } from '$lib';
+	import { cn } from '$lib/utils';
+	import User from '$lib/Components/User.svelte';
+	import { showSidebar } from '$lib/state.svelte';
+	import { fade, slide } from 'svelte/transition';
+	import { onNavigate } from '$app/navigation';
+
+	const menu = [
+		{
+			icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+</svg>`,
+			label: 'Home',
+			href: '/'
+		},
+		{
+			icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+</svg>`,
+			label: 'Search',
+			href: '/search'
+		}
+	];
+
+	let { user } = $props();
+
+	onNavigate(() => {
+		showSidebar.value = false;
+	});
+</script>
+
+{#key $page.url.pathname}
+	<div
+		class={cn(
+			'fixed bottom-2 left-0 top-2 z-50 w-[4.5rem] rounded-r-xl border-y border-r border-base-800 bg-base-900 backdrop-blur-sm py-2 transition-transform duration-300',
+			showSidebar.value ? 'translate-x-0' : '-translate-x-20 md:translate-x-0'
+		)}
+	>
+		<ul role="list" class="flex h-full flex-col items-center justify-between space-y-1 pb-2">
+			<div class="flex flex-col items-center space-y-1">
+				{#each menu as item}
+					<li>
+						<a
+							href={item.href}
+							class={cn(
+								'group flex gap-x-3 rounded-md  p-3 text-sm/6 font-semibold',
+								$page.url.pathname === BASE_PATH + item.href
+									? 'bg-base-900 text-white'
+									: 'text-base-400 hover:bg-base-800 hover:text-white'
+							)}
+						>
+							{@html item.icon}
+							<span class="sr-only">{item.label}</span>
+						</a>
+					</li>
+				{/each}
+			</div>
+
+			<User {user} />
+		</ul>
+	</div>
+{/key}
+
+{#if showSidebar.value}
+	<div transition:fade class="fixed inset-0 z-40 bg-base-900/30 backdrop-blur-sm" onclick={() => showSidebar.toggle()}></div>
+{:else}
+	<button
+		class="md:hidden fixed bottom-2 left-2 z-50 rounded-xl border border-base-800 bg-base-900/75 backdrop-blur-sm p-2"
+		onclick={() => showSidebar.toggle()}
+	>
+		<span class="sr-only">Open Menu</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+      <path fill-rule="evenodd" d="M3 9a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 9Zm0 6.75a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+    </svg>
+    
+</button>
+{/if}

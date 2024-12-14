@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { type PageData } from './$types';
-	import { enhance } from '$app/forms';
 	import { cn } from '$lib/utils';
-	import { rateMovieModal, watchedItems } from '$lib/state.svelte';
+	import { rateMovieModal, videoPlayer, watchedItems } from '$lib/state.svelte';
 
 	import Container from '$lib/Components/Container.svelte';
-	import VideoPlayer from '$lib/Components/VideoPlayer.svelte';
 	import ItemsList from '$lib/Components/ItemsList.svelte';
 	import Rating from '$lib/Components/Rating.svelte';
 
@@ -20,7 +18,7 @@
 <div class="fixed inset-0 -z-10 h-full w-full bg-black/70"></div>
 
 <Container>
-	<div class="flex gap-4 pt-8">
+	<div class="flex gap-4 px-4 pt-8">
 		<img
 			src="https://image.tmdb.org/t/p/w500{data.result.poster_path}"
 			alt=""
@@ -30,51 +28,9 @@
 			<div class="max-w-xl text-2xl font-semibold text-white sm:text-4xl">
 				{data.result.original_title ?? data.result.original_name}
 			</div>
-			{#if data.user}
-				<div class="flex gap-4">
-					<button
-						class={cn(
-							'inline-flex items-center gap-2 rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-75 hover:bg-white/20 ',
-							watchedItems.hasRated(data.result)
-								? 'bg-green-500/10 text-green-400 hover:bg-green-500/20'
-								: ''
-						)}
-						onclick={() => {
-							rateMovieModal.selectedItem = {
-								movieId: data.result.movieId,
-								showId: data.result.showId,
-								kind: data.result.movieId ? 'movie' : 'tv',
-								name: data.result.original_title ?? data.result.original_name,
-								currentRating: watchedItems.getRating(data.result) ?? 0,
-								currentReview: ''
-							};
-
-							rateMovieModal.showModal = true;
-						}}
-					>
-						{#if watchedItems.hasRated(data.result)}
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="2.5"
-								stroke="currentColor"
-								class="size-5"
-							>
-								<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-							</svg>
-							rated
-						{:else}
-							rate
-						{/if}
-					</button>
-
-					<Rating rating={watchedItems.getRating(data.result) ?? 0} />
-				</div>
-			{/if}
 
 			{#if data.watchProviders.DE?.flatrate}
-				<div class="mt-4 text-sm text-white">
+				<div class="mt-2 sm:mt-4 text-sm text-white">
 					<div class="mb-2 flex flex-wrap gap-4 text-xs font-medium">
 						stream on
 						<span class="text-base-400"
@@ -99,16 +55,63 @@
 		</div>
 	</div>
 
-	<div class="my-8 text-sm text-white">
+	<div class="py-8 px-4 text-sm text-white">
+		{#if data.user}
+			<div class="flex gap-4">
+				{#if !watchedItems.hasRated(data.result)}
+					<button
+						class={cn(
+							'inline-flex items-center gap-2 rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-75 hover:bg-white/20 ',
+							watchedItems.hasRated(data.result)
+								? 'bg-green-500/10 text-green-400 hover:bg-green-500/20'
+								: ''
+						)}
+						onclick={() => {
+							rateMovieModal.selectedItem = {
+								movieId: data.result.movieId,
+								showId: data.result.showId,
+								kind: data.result.movieId ? 'movie' : 'tv',
+								name: data.result.original_title ?? data.result.original_name,
+								currentRating: watchedItems.getRating(data.result)?.rating ?? 0,
+								currentReview: watchedItems.getRating(data.result)?.ratingText ?? ''
+							};
+
+							rateMovieModal.showModal = true;
+						}}
+					>
+						rate {data.kind === 'movie' ? 'movie' : 'show'}
+					</button>
+				{:else}
+				<div class="text-lg font-semibold flex gap-2">
+					your rating: <Rating rating={watchedItems.getRating(data.result)?.rating ?? 0} />
+				</div>
+				{/if}
+			</div>
+		{/if}
 		<div class="my-8 max-w-2xl text-sm text-white">
 			<div class="mb-2 text-lg font-semibold">overview</div>
 			{data.result.overview}
 		</div>
 
 		{#if data.trailer}
-			<div class="mb-2 text-lg font-semibold">trailer</div>
+			<button
+				onclick={() => videoPlayer.show(data.trailer ?? '')}
+				type="button"
+				class="inline-flex items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					fill="currentColor"
+					class="-ml-0.5 size-5"
+				>
+					<path
+						d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z"
+					/>
+				</svg>
 
-			<VideoPlayer id={data.trailer} />
+				Trailer
+			</button>
 		{/if}
 
 		{#if data.recommendations.length > 0}
@@ -116,5 +119,5 @@
 
 			<ItemsList items={data.recommendations} showMark={!!data.user} />
 		{/if}
-	</div></Container
->
+	</div>
+</Container>
