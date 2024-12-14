@@ -12,6 +12,9 @@
 
 	import { onNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { navigating } from '$app/stores';
+	import { slide } from 'svelte/transition';
+	import { expoOut } from 'svelte/easing';
 
 	let { children, data } = $props();
 
@@ -30,9 +33,17 @@
 		try {
 			const cachedRatedItems = localStorage.getItem(`ratedItems-${data.user.did}`);
 			const lastUpdate = localStorage.getItem(`ratedItems-${data.user.did}-lastUpdate`);
-			if (cachedRatedItems && lastUpdate && new Date(lastUpdate).getTime() + 10 * 60 * 1000 > Date.now()) {
-				watchedItems.ratedMovies = new Map(JSON.parse(cachedRatedItems).movies.map((movie) => [movie.id, movie]));
-				watchedItems.ratedShows = new Map(JSON.parse(cachedRatedItems).shows.map((show) => [show.id, show]));
+			if (
+				cachedRatedItems &&
+				lastUpdate &&
+				new Date(lastUpdate).getTime() + 10 * 60 * 1000 > Date.now()
+			) {
+				watchedItems.ratedMovies = new Map(
+					JSON.parse(cachedRatedItems).movies.map((movie) => [movie.id, movie])
+				);
+				watchedItems.ratedShows = new Map(
+					JSON.parse(cachedRatedItems).shows.map((show) => [show.id, show])
+				);
 
 				console.log(watchedItems.ratedMovies);
 				console.log(watchedItems.ratedShows);
@@ -80,6 +91,13 @@
 		}
 	});
 </script>
+
+{#if $navigating}
+	<div
+		class="fixed left-0 right-0 top-0 z-50 h-0.5 bg-accent-500"
+		in:slide={{ delay: 200, duration: 10000, axis: 'x', easing: expoOut }}
+	></div>
+{/if}
 
 <div class="min-h-screen bg-base-950">
 	{@render children()}

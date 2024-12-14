@@ -27,7 +27,7 @@
 		{#if item.poster_path}
 			<img
 				src="https://image.tmdb.org/t/p/w500{item.poster_path}"
-				alt="movie poster for {item.original_title}"
+				alt="movie poster for {item.original_title ?? item.original_name}"
 				class="size-full object-cover object-center lg:size-full"
 			/>
 		{/if}
