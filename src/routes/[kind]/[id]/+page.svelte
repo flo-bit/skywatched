@@ -6,6 +6,7 @@
 	import Container from '$lib/Components/Container.svelte';
 	import ItemsList from '$lib/Components/ItemsList.svelte';
 	import Rating from '$lib/Components/Rating.svelte';
+	import ReviewCard from '$lib/Components/ReviewCard.svelte';
 
 	let { data }: { data: PageData } = $props();
 </script>
@@ -30,15 +31,17 @@
 			</div>
 
 			{#if data.watchProviders.DE?.flatrate}
-				<div class="mt-2 sm:mt-4 text-sm text-white">
+				<div class="mt-2 text-sm text-white sm:mt-4">
 					<div class="mb-2 flex flex-wrap gap-4 text-xs font-medium">
 						stream on
-						<span class="text-base-400"
-							>(powered by <a
+						<span class="flex items-center gap-2 text-base-400"
+							>from <a
 								href="https://www.justwatch.com"
 								target="_blank"
-								class="text-base-300 hover:text-accent-300">justwatch</a
-							>)</span
+								class="text-base-300 hover:text-accent-300"
+							>
+								<img src="/justwatch_logo.svg" alt="justwatch" class="h-3" />
+							</a></span
 						>
 					</div>
 					<a href={data.watchProviders.DE.link} target="_blank" class="flex flex-wrap gap-2">
@@ -55,7 +58,7 @@
 		</div>
 	</div>
 
-	<div class="py-8 px-4 text-sm text-white">
+	<div class="px-4 py-8 text-sm text-white">
 		{#if data.user}
 			<div class="flex gap-4">
 				{#if !watchedItems.hasRated(data.result)}
@@ -82,9 +85,15 @@
 						rate {data.kind === 'movie' ? 'movie' : 'show'}
 					</button>
 				{:else}
-				<div class="text-lg font-semibold flex gap-2">
-					your rating: <Rating rating={watchedItems.getRating(data.result)?.rating ?? 0} />
-				</div>
+					<!-- <div class="flex gap-2 text-lg font-semibold">
+						your rating: <Rating rating={watchedItems.getRating(data.result)?.rating ?? 0} />
+					</div> -->
+
+					<ReviewCard
+						item={data.result}
+						review={watchedItems.getRating(data.result)}
+						user={data.user}
+					/>
 				{/if}
 			</div>
 		{/if}
