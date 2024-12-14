@@ -1,14 +1,8 @@
-import { db } from '$lib/server/db';
-import { checkWatched, getDetails } from '$lib/server/movies';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
-import * as table from '$lib/server/db/schema';
-import { eq, and } from 'drizzle-orm';
 import { AtpBaseClient } from '@atproto/api';
 import { REL_COLLECTION } from '$lib';
 import { TID } from '@atproto/common';
 
-// Given a cursor and limit (opt)
-// Return a JSON of FeedViewPost
 export const POST: RequestHandler = async ({ request, locals }) => {
 	const user = locals.user;
 	const agent = locals.agent;
@@ -24,7 +18,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
 	const rkey = TID.nextStr();
 
-	await agent.com.atproto.repo.putRecord({
+	const record = {
 		repo: did,
 		collection: REL_COLLECTION,
 		rkey,
@@ -33,14 +27,17 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				ref: `tmdb:${kind === 'movie' ? 'm' : 's'}`,
 				value: id.toString()
 			},
-			rating: { value: rating * 2, createdAt: new Date().toISOString() },
-			note: {
-				value: review,
-				createdAt: new Date().toISOString(),
-				updatedAt: new Date().toISOString()
-			}
+			rating: { value: rating * 2, createdAt: new Date().toISOString() }
 		}
-	});
+	};
+	if (review) {
+		record.record.note = {
+			value: review,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString()
+		};
+	}
+	await agent.com.atproto.repo.putRecord(record);
 
 	return json({ status: 'rated' });
 };
