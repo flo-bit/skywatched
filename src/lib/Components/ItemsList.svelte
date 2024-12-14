@@ -15,7 +15,7 @@
 
 <div
 	class={cn(
-		'flex gap-x-6 gap-y-10 overflow-x-auto',
+		'flex gap-x-6 overflow-x-auto',
 		className
 	)}
 >

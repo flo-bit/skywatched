@@ -1,7 +1,6 @@
-import { resolveHandle } from '$lib/bluesky.js';
-import { db } from '$lib/server/db';
-import * as table from '$lib/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { getProfile, resolveHandle } from '$lib/bluesky.js';
+import { getDetails } from '$lib/server/movies.js';
+import { AtpBaseClient } from '@atproto/api';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load(event) {
@@ -9,18 +8,53 @@ export async function load(event) {
 
 	const did = await resolveHandle({ handle: handle });
 
-	const movies = await db.select().from(table.items).where(eq(table.items.did, did));
+	const profile = await getProfile({ did });
 
-	// filter out movies that are not watched
-	const watchedItems = movies.filter((movie) => movie.watched === 1);
-
-	// sort movies by timestamp
-	watchedItems.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+	const agent = new AtpBaseClient({ service: 'https://bsky.social' });
+	const test = await agent.com.atproto.repo.listRecords({
+		repo: did,
+		collection: 'my.skylights.rel'
+	});
 
 	let isUser = false;
 	if (event.locals.user?.did === did) {
 		isUser = true;
 	}
 
-	return { items: watchedItems, isUser, username: event.params.handle };
+	const items = [];
+	const promises = [];
+	let count = 0;
+	for (const record of test.data.records) {
+		if (record.value.item.ref === 'tmdb:m') {
+			const detailsPromise = getDetails(parseInt(record.value.item.value), 'movie').then(
+				(details) =>
+					items.push({
+						movieId: parseInt(record.value.item.value),
+						...details,
+						rating: record.value.rating.value / 2,
+						ratingText: record.value.note?.value
+					})
+			);
+			promises.push(detailsPromise);
+			count++;
+		} else if (record.value.item.ref === 'tmdb:s') {
+			const detailsPromise = getDetails(parseInt(record.value.item.value), 'tv').then((details) =>
+				items.push({
+					showId: parseInt(record.value.item.value),
+					...details,
+					rating: record.value.rating.value / 2,
+					ratingText: record.value.note?.value
+				})
+			);
+			promises.push(detailsPromise);
+			count++;
+		}
+
+		if (count > 10) {
+			break;
+		}
+	}
+	await Promise.all(promises);
+
+	return { items, isUser, username: event.params.handle, profile };
 }

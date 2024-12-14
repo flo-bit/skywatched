@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { fade, fly, slide } from 'svelte/transition';
-	import { showLoginModel } from '$lib/state.svelte';
-
-	let loginModal = showLoginModel();
+	import { showLoginModal } from '$lib/state.svelte';
 </script>
 
-{#if loginModal.value}
+{#if showLoginModal.value}
 	<div
 		class="fixed inset-0 z-[100] w-screen overflow-y-auto"
 		aria-labelledby="modal-title"
@@ -14,14 +12,14 @@
 	>
 		<div
 			class="fixed inset-0 bg-base-950/75 backdrop-blur-sm transition-opacity"
-			onclick={() => loginModal.toggle()}
+			onclick={() => showLoginModal.toggle()}
 			aria-hidden="true"
 		></div>
 
 		<div class="pointer-events-none fixed inset-0 z-10 w-screen overflow-y-auto">
 			<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 				<div
-					class="pointer-events-auto relative transform overflow-hidden rounded-lg border border-base-700 bg-base-800 px-4 pb-4 pt-2 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+					class="pointer-events-auto w-full relative transform overflow-hidden rounded-lg border border-base-700 bg-base-800 px-4 pb-4 pt-2 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
 				>
 					<div>
 						<div class="text-center">

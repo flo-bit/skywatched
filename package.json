@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "vite dev --host",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -40,7 +40,9 @@
 	},
 	"dependencies": {
 		"@atproto/api": "^0.13.20",
+		"@atproto/lex-cli": "^0.5.3",
 		"@atproto/oauth-client-node": "^0.2.4",
+		"@atproto/xrpc-server": "^0.7.4",
 		"@libsql/client": "^0.9.0",
 		"@node-rs/argon2": "^1.1.0",
 		"@oslojs/crypto": "^1.0.1",

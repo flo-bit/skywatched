@@ -1,6 +1,6 @@
 export const watchedItems = $state({
-	ratedMovies: new Map<number, number>(),
-	ratedShows: new Map<number, number>(),
+	ratedMovies: new Map<number, { rating: number; ratingText?: string; updatedAt: string }>(),
+	ratedShows: new Map<number, { rating: number; ratingText?: string; updatedAt: string }>(),
 
 	hasRated: (item: { movieId?: number; showId?: number }) => {
 		const id = item.movieId ?? item.showId;
@@ -8,16 +8,26 @@ export const watchedItems = $state({
 		return item.movieId ? watchedItems.ratedMovies.has(id) : watchedItems.ratedShows.has(id);
 	},
 
-	addRated: (item: { movieId?: number; showId?: number; rating: number }) => {
+	addRated: (item: { movieId?: number; showId?: number; rating: number; ratingText?: string }) => {
 		const id = item.movieId ?? item.showId;
 		if (!id) return;
-		if (item.movieId) watchedItems.ratedMovies.set(id, item.rating);
-		else watchedItems.ratedShows.set(id, item.rating);
+		if (item.movieId)
+			watchedItems.ratedMovies.set(id, {
+				rating: item.rating,
+				ratingText: item.ratingText,
+				updatedAt: new Date().toISOString()
+			});
+		else
+			watchedItems.ratedShows.set(id, {
+				rating: item.rating,
+				ratingText: item.ratingText,
+				updatedAt: new Date().toISOString()
+			});
 	},
 
 	getRating: (item: { movieId?: number; showId?: number }) => {
 		const id = item.movieId ?? item.showId;
-		if (!id) return 0;
+		if (!id) return undefined;
 		return item.movieId ? watchedItems.ratedMovies.get(id) : watchedItems.ratedShows.get(id);
 	}
 });
@@ -46,17 +56,37 @@ export const rateMovieModal: {
 	}
 });
 
-let showLoginModelState = $state(false);
-
-export function showLoginModel() {
-	function toggle() {
-		showLoginModelState = !showLoginModelState;
+export const showLoginModal = $state({
+	value: false,
+	toggle: () => {
+		showLoginModal.value = !showLoginModal.value;
 	}
+});
 
-	return {
-		get value() {
-			return showLoginModelState;
-		},
-		toggle
-	};
-}
+export const showSidebar = $state({
+	value: false,
+	toggle: () => {
+		showSidebar.value = !showSidebar.value;
+	}
+});
+
+export const videoPlayer: {
+	showing: boolean;
+	id: string | undefined;
+
+	show: (id: string) => void;
+	hide: () => void;
+} = $state({
+	showing: false,
+	id: undefined,
+
+	show: (id: string) => {
+		videoPlayer.id = id;
+		videoPlayer.showing = true;
+	},
+
+	hide: () => {
+		videoPlayer.id = undefined;
+		videoPlayer.showing = false;
+	}
+});
