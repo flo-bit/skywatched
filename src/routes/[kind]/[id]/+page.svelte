@@ -55,10 +55,52 @@
 					</a>
 				</div>
 			{/if}
+
+			{#if data.trailer}
+				<button
+					onclick={() => videoPlayer.show(data.trailer ?? '')}
+					type="button"
+					class="hidden w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 sm:inline-flex"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="currentColor"
+						class="-ml-0.5 size-5"
+					>
+						<path
+							d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z"
+						/>
+					</svg>
+
+					Trailer
+				</button>
+			{/if}
 		</div>
 	</div>
 
 	<div class="px-4 py-8 text-sm text-white">
+		{#if data.trailer}
+			<button
+				onclick={() => videoPlayer.show(data.trailer ?? '')}
+				type="button"
+				class="inline-flex mb-4 w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 sm:hidden"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					fill="currentColor"
+					class="-ml-0.5 size-5"
+				>
+					<path
+						d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z"
+					/>
+				</svg>
+
+				Trailer
+			</button>
+		{/if}
+
 		{#if data.user}
 			<div class="flex gap-4">
 				{#if !watchedItems.hasRated(data.result)}
@@ -92,40 +134,20 @@
 			{data.result.overview}
 		</div>
 
-		{#if data.trailer}
-			<button
-				onclick={() => videoPlayer.show(data.trailer ?? '')}
-				type="button"
-				class="inline-flex items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					fill="currentColor"
-					class="-ml-0.5 size-5"
-				>
-					<path
-						d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z"
-					/>
-				</svg>
 
-				Trailer
-			</button>
+		{#if data.recommendations.length > 0}
+			<div class="mb-2 mt-8 text-lg font-semibold">recommendations</div>
+
+			<ItemsList items={data.recommendations} showMark={!!data.user} />
 		{/if}
 
 		{#if data.ratings.length > 0}
 			<div class="mb-2 mt-8 text-lg font-semibold">recent ratings</div>
 			<div class="flex flex-col gap-2">
 				{#each data.ratings as rating}
-					<ReviewCard data={rating} />
+					<ReviewCard data={rating} showMovieDetails={false} />
 				{/each}
 			</div>
-		{/if}
-
-		{#if data.recommendations.length > 0}
-			<div class="mb-2 mt-8 text-lg font-semibold">recommendations</div>
-
-			<ItemsList items={data.recommendations} showMark={!!data.user} />
 		{/if}
 	</div>
 </Container>

@@ -73,3 +73,9 @@ export async function getRecentRecordsForItem({
 	const data = await response.json();
 	return data;
 }
+
+export async function getRecordByUri({ uri }: { uri: string }): Promise<MainRecord> {
+	const response = await fetch(`https://skywatched-jetstream.fly.dev/api/record?uri=${uri}`);
+	const data = await response.json();
+	return data;
+}

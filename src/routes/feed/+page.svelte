@@ -11,18 +11,16 @@
 	});
 </script>
 
-<Container class="relative z-10 py-16">
+<Container class="relative z-10 py-8 sm:py-16">
 	<div class="flex flex-col gap-4 px-4">
-		<div class="flex flex-col gap-4">
-			<h1 class="text-2xl font-bold">Feed</h1>
-		</div>
+		<h1 class="pb-4 text-2xl font-bold">Feed</h1>
 	</div>
 
 	{#if data.feed.length > 0}
-	<div class="mx-auto max-w-2xl pt-16 flex flex-col gap-4">
-		{#each data.feed as record}
+		<div class="mx-auto flex max-w-2xl flex-col gap-4 px-4">
+			{#each data.feed as record}
 				<ReviewCard data={record} />
-		{/each}
-	</div>
+			{/each}
+		</div>
 	{/if}
 </Container>

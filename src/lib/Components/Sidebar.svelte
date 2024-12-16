@@ -4,7 +4,7 @@
 	import { cn } from '$lib/utils';
 	import User from '$lib/Components/User.svelte';
 	import { showSidebar } from '$lib/state.svelte';
-	import { fade, slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { onNavigate } from '$app/navigation';
 
 	const menu = [
@@ -41,7 +41,7 @@
 {#key $page.url.pathname}
 	<div
 		class={cn(
-			'fixed bottom-2 left-0 top-2 z-50 w-[4.5rem] rounded-r-xl border-y border-r border-base-800 bg-base-900 backdrop-blur-sm py-2 transition-transform duration-300',
+			'fixed bottom-2 left-0 top-2 z-50 w-[4.5rem] py-2 transition-transform duration-300',
 			showSidebar.value ? 'translate-x-0' : '-translate-x-20 md:translate-x-0'
 		)}
 	>
@@ -53,9 +53,9 @@
 							href={item.href}
 							class={cn(
 								'group flex gap-x-3 rounded-md  p-3 text-sm/6 font-semibold',
-								$page.url.pathname === BASE_PATH + item.href
-									? 'bg-base-900 text-white'
-									: 'text-base-400 hover:bg-base-800 hover:text-white'
+								$page.url.pathname === item.href
+									? 'text-accent-400 bg-accent-950/10'
+									: 'text-base-200 hover:bg-accent-950/20 hover:text-accent-400 transition-colors duration-100'
 							)}
 						>
 							{@html item.icon}
@@ -71,7 +71,9 @@
 {/key}
 
 {#if showSidebar.value}
-	<div transition:fade class="fixed inset-0 z-40 bg-base-900/30 backdrop-blur-sm" onclick={() => showSidebar.toggle()}></div>
+	<button transition:fade class="fixed md:hidden inset-0 z-40 bg-base-900/50 backdrop-blur-sm" onclick={() => showSidebar.toggle()}>
+		<span class="sr-only">Close Menu</span>
+	</button>
 {:else}
 	<button
 		class="md:hidden fixed bottom-2 left-2 z-50 rounded-xl border border-base-800 bg-base-900/75 backdrop-blur-sm p-2"

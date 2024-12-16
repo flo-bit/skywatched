@@ -11,7 +11,7 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				base: colors.neutral,
+				base: colors.zinc,
 				accent: colors.sky,
 
 				tmdb_primary: '#0d253f',

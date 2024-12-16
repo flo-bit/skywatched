@@ -16,7 +16,7 @@
 <span class="sr-only">Open user menu</span>
     <div
       class={cn(
-        'border-base-400/50 bg-base-100 dark:border-base-700 dark:bg-base-800 size-8 overflow-hidden rounded-full border',
+        'border-base-400/50 bg-base-100 dark:border-base-700 hover:border-accent-400 dark:bg-base-800 size-8 overflow-hidden rounded-full border transition-colors duration-100',
         false
           ? 'bg-accent-100/50 dark:bg-accent-800/50 border-accent-300/50 dark:border-accent-500/50'
           : ''
