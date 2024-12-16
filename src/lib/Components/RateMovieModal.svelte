@@ -22,7 +22,7 @@
 		<div class="pointer-events-none fixed inset-0 z-50 h-screen w-screen overflow-y-auto">
 			<div class="flex h-screen items-end justify-center p-4 text-center sm:items-center sm:p-0">
 				<div
-					class="pointer-events-auto relative w-full transform overflow-hidden rounded-lg border border-base-700 bg-base-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:max-w-sm sm:p-6"
+					class="pointer-events-auto relative w-full transform overflow-hidden rounded-lg border border-base-800 bg-base-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:max-w-sm sm:p-6"
 				>
 					<div>
 						<h3 class="text-lg font-semibold text-base-50" id="modal-title">
@@ -32,7 +32,7 @@
 						<div class="mt-4 flex items-center gap-2">
 							<p class="text-xs font-medium text-base-50">stars</p>
 
-							<Rating bind:rating />
+							<Rating bind:rating canChange/>
 						</div>
 
 						<div class="mt-4">
@@ -44,7 +44,7 @@
 									id="comment"
 									bind:value={review}
 									placeholder="write a review"
-									class="block w-full rounded-md bg-base-900 px-3 py-1.5 text-base text-base-50 outline outline-1 -outline-offset-1 outline-base-700 placeholder:text-base-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-accent-600 sm:text-sm/6"
+									class="block w-full rounded-md bg-base-950 px-3 py-1.5 text-base text-base-50 outline outline-1 -outline-offset-1 outline-base-700 placeholder:text-base-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-accent-600 sm:text-sm/6"
 								></textarea>
 							</div>
 						</div>

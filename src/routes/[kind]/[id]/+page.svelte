@@ -7,6 +7,7 @@
 	import ItemsList from '$lib/Components/ItemsList.svelte';
 	import Rating from '$lib/Components/Rating.svelte';
 	import ReviewCard from '$lib/Components/ReviewCard.svelte';
+	import ReviewList from '$lib/Components/ReviewList.svelte';
 
 	let { data }: { data: PageData } = $props();
 </script>
@@ -30,7 +31,7 @@
 				{data.result.original_title ?? data.result.original_name}
 			</div>
 
-			{#if data.watchProviders.DE?.flatrate}
+			{#if data.watchProviders.US?.flatrate}
 				<div class="mt-2 text-sm text-white sm:mt-4">
 					<div class="mb-2 flex flex-wrap gap-4 text-xs font-medium">
 						stream on
@@ -44,8 +45,8 @@
 							</a></span
 						>
 					</div>
-					<a href={data.watchProviders.DE.link} target="_blank" class="flex flex-wrap gap-2">
-						{#each data.watchProviders.DE.flatrate as provider}
+					<a href={data.watchProviders.US.link} target="_blank" class="flex flex-wrap gap-2">
+						{#each data.watchProviders.US.flatrate as provider}
 							<img
 								src="https://image.tmdb.org/t/p/w500{provider.logo_path}"
 								alt={provider.provider_name}
@@ -140,13 +141,11 @@
 			<ItemsList items={data.recommendations} showMark={!!data.user} />
 		{/if}
 
-		{#if data.ratings.length > 0}
-			<div class="mb-2 mt-8 text-lg font-semibold">recent ratings</div>
-			<div class="flex flex-col gap-2">
-				{#each data.ratings as rating}
-					<ReviewCard data={rating} showMovieDetails={false} />
-				{/each}
-			</div>
-		{/if}
 	</div>
+
+	{#if data.ratings.length > 0}
+	<div class="mb-2 mt-8 text-lg font-semibold px-4">recent reviews</div>
+	
+	<ReviewList reviews={data.ratings} showMovieDetails={false} class="pb-8"/>
+{/if}
 </Container>

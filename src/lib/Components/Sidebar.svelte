@@ -46,7 +46,7 @@
 		)}
 	>
 		<ul role="list" class="flex h-full flex-col items-center justify-between space-y-1 pb-2">
-			<div class="flex flex-col items-center space-y-1">
+			<div class="flex flex-col items-center space-y-2">
 				{#each menu as item}
 					<li>
 						<a
