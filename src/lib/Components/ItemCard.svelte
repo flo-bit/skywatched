@@ -1,17 +1,16 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { rateMovieModal, watchedItems } from '$lib/state.svelte';
 	import { cn } from '$lib/utils';
-	import { toast } from 'svelte-sonner';
 	import Rating from './Rating.svelte';
+	
 	const {
 		item,
 		showMark
 	}: {
 		item: {
 			poster_path: string;
-			original_title?: string;
-			original_name?: string;
+			title?: string;
+			name?: string;
 			movieId?: number;
 			showId?: number;
 			rating?: number;
@@ -27,7 +26,7 @@
 		{#if item.poster_path}
 			<img
 				src="https://image.tmdb.org/t/p/w500{item.poster_path}"
-				alt="movie poster for {item.original_title ?? item.original_name}"
+				alt="movie poster for {item.title ?? item.name}"
 				class="size-full object-cover object-center lg:size-full"
 			/>
 		{/if}
@@ -45,7 +44,7 @@
 					class="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-black/30 to-black/70"
 				></div>
 				<div class="absolute bottom-2 left-0 right-0 z-10 flex justify-center">
-					<Rating rating={watchedItems.getRating(item).rating ?? 0} />
+					<Rating rating={watchedItems.getRating(item)?.rating ?? 0} />
 				</div>
 			{:else}
 				<button
@@ -60,7 +59,7 @@
 							movieId: item.movieId,
 							showId: item.showId,
 							kind: item.movieId ? 'movie' : 'tv',
-							name: item.original_title ?? item.original_name,
+							name: item.title ?? item.name,
 							currentRating: 0,
 							currentReview: ''
 						};
@@ -88,7 +87,7 @@
 			<a href="/{item.movieId ? 'movie' : 'tv'}/{item.movieId ?? item.showId}">
 				<span aria-hidden="true" class="absolute inset-0"></span>
 				<div class="line-clamp-2 max-w-full">
-					{item.original_title ?? item.original_name}
+					{item.title ?? item.name}
 				</div>
 			</a>
 		</h3>

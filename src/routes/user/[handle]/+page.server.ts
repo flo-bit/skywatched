@@ -1,4 +1,5 @@
 import { getProfile, resolveHandle } from '$lib/bluesky.js';
+import { getRecentRecordOfUser } from '$lib/db';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load(event) {
@@ -6,9 +7,10 @@ export async function load(event) {
 
 	const did = await resolveHandle({ handle: handle });
 
-	const profile = await getProfile({ did });
+	const profilePromise = getProfile({ did });
+	const itemsPromise = getRecentRecordOfUser({ did });
 
-	const isUser = event.locals.user?.did === did;
+	const [profile, items] = await Promise.all([profilePromise, itemsPromise]);
 
-	return { isUser, username: event.params.handle, profile };
+	return { isUser: event.locals.user?.did === did, username: event.params.handle, profile, items };
 }

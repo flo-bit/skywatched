@@ -84,16 +84,6 @@
 					>
 						rate {data.kind === 'movie' ? 'movie' : 'show'}
 					</button>
-				{:else}
-					<!-- <div class="flex gap-2 text-lg font-semibold">
-						your rating: <Rating rating={watchedItems.getRating(data.result)?.rating ?? 0} />
-					</div> -->
-
-					<ReviewCard
-						item={data.result}
-						review={watchedItems.getRating(data.result)}
-						user={data.user}
-					/>
 				{/if}
 			</div>
 		{/if}
@@ -121,6 +111,15 @@
 
 				Trailer
 			</button>
+		{/if}
+
+		{#if data.ratings.length > 0}
+			<div class="mb-2 mt-8 text-lg font-semibold">recent ratings</div>
+			<div class="flex flex-col gap-2">
+				{#each data.ratings as rating}
+					<ReviewCard data={rating} />
+				{/each}
+			</div>
 		{/if}
 
 		{#if data.recommendations.length > 0}
