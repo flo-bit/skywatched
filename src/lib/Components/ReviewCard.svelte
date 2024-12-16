@@ -3,7 +3,8 @@
 	import Rating from './Rating.svelte';
 	import RelativeTime from './relative-time/RelativeTime.svelte';
 
-	let { data, showMovieDetails = true }: { data: MainRecord; showMovieDetails?: boolean } = $props();
+	let { data, showMovieDetails = true }: { data: MainRecord; showMovieDetails?: boolean } =
+		$props();
 </script>
 
 <a
@@ -14,16 +15,16 @@
 >
 	<div class="flex gap-4">
 		{#if showMovieDetails}
-		<div
-			class="relative z-20 aspect-[2/3] h-44 w-auto shrink-0 overflow-hidden rounded-md border border-base-800 bg-base-900/50 transition-opacity duration-75 group-hover:opacity-75"
-		>
-			{#if data.record.metadata?.poster_path}
-				<img
-					src="https://image.tmdb.org/t/p/w500{data.record.metadata.poster_path}"
-					alt="movie poster for {data.record.metadata.title}"
-					class="size-full object-cover object-center lg:size-full"
-				/>
-			{/if}
+			<div
+				class="relative z-20 aspect-[2/3] h-44 w-auto shrink-0 overflow-hidden rounded-md border border-base-800 bg-base-900/50 transition-opacity duration-75 group-hover:opacity-75"
+			>
+				{#if data.record.metadata?.poster_path}
+					<img
+						src="https://image.tmdb.org/t/p/w500{data.record.metadata.poster_path}"
+						alt="movie poster for {data.record.metadata.title}"
+						class="size-full object-cover object-center lg:size-full"
+					/>
+				{/if}
 			</div>
 		{/if}
 		<div class="flex w-full flex-col justify-center gap-4">

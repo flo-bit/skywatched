@@ -5,7 +5,7 @@
 	const {
 		items,
 		class: className,
-		showMark,
+		showMark
 	}: {
 		items: { poster_path: string; original_title: string; movieId?: number; showId?: number }[];
 		class?: string;
@@ -13,12 +13,7 @@
 	} = $props();
 </script>
 
-<div
-	class={cn(
-		'flex gap-x-6 overflow-x-auto',
-		className
-	)}
->
+<div class={cn('flex gap-x-6 overflow-x-auto', className)}>
 	{#each items as item}
 		<ItemCard {item} {showMark} />
 	{/each}

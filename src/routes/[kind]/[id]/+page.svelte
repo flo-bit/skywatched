@@ -84,7 +84,7 @@
 			<button
 				onclick={() => videoPlayer.show(data.trailer ?? '')}
 				type="button"
-				class="inline-flex mb-4 w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 sm:hidden"
+				class="mb-4 inline-flex w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 sm:hidden"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +133,6 @@
 			<div class="mb-2 text-lg font-semibold">overview</div>
 			{data.result.overview}
 		</div>
-
 
 		{#if data.recommendations.length > 0}
 			<div class="mb-2 mt-8 text-lg font-semibold">recommendations</div>

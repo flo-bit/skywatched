@@ -1,23 +1,23 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 
-  const { onclick, isActive, children } = $props();
+	const { onclick, isActive, children } = $props();
 </script>
 
 <li>
-  <button
-    {onclick}
-    class={'relative block px-3 py-2 text-xs transition duration-200 ' +
-      (isActive
-        ? 'text-accent-500 dark:text-accent-400'
-        : 'hover:text-accent-500 dark:hover:text-accent-400 cursor-pointer')}
-  >
-    {@render children()}
-    {#if isActive}
-      <span
-        transition:fade
-        class="from-accent-500/0 via-accent-500/40 to-accent-500/0 dark:from-accent-400/0 dark:via-accent-400/40 dark:to-accent-400/0 absolute inset-x-1 -bottom-px h-px bg-gradient-to-r"
-      ></span>
-    {/if}
-  </button>
+	<button
+		{onclick}
+		class={'relative block px-3 py-2 text-xs transition duration-200 ' +
+			(isActive
+				? 'text-accent-500 dark:text-accent-400'
+				: 'cursor-pointer hover:text-accent-500 dark:hover:text-accent-400')}
+	>
+		{@render children()}
+		{#if isActive}
+			<span
+				transition:fade
+				class="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-accent-500/0 via-accent-500/40 to-accent-500/0 dark:from-accent-400/0 dark:via-accent-400/40 dark:to-accent-400/0"
+			></span>
+		{/if}
+	</button>
 </li>

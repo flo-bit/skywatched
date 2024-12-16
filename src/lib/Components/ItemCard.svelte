@@ -2,7 +2,7 @@
 	import { rateMovieModal, watchedItems } from '$lib/state.svelte';
 	import { cn } from '$lib/utils';
 	import Rating from './Rating.svelte';
-	
+
 	const {
 		item,
 		showMark

@@ -59,4 +59,3 @@ export const actions: Actions = {
 		redirect(301, '/');
 	}
 };
-

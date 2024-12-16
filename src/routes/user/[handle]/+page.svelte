@@ -10,12 +10,12 @@
 	<Profile profile={data.profile} />
 
 	{#if data.items.length > 0}
-		<div class="flex flex-col gap-8 w-full items-center py-8 px-4">
+		<div class="flex w-full flex-col items-center gap-8 px-4 py-8">
 			{#each data.items as item}
 				<ReviewCard data={item} />
 			{/each}
 		</div>
 	{:else}
-		<p class="text-center text-base-500 py-8">No movies or tv shows rated yet.</p>
+		<p class="py-8 text-center text-base-500">No movies or tv shows rated yet.</p>
 	{/if}
 </Container>
