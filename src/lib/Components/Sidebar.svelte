@@ -4,7 +4,7 @@
 	import { cn } from '$lib/utils';
 	import User from '$lib/Components/User.svelte';
 	import { showSidebar } from '$lib/state.svelte';
-	import { fade, slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { onNavigate } from '$app/navigation';
 
 	const menu = [
@@ -41,7 +41,7 @@
 {#key $page.url.pathname}
 	<div
 		class={cn(
-			'fixed bottom-2 left-0 top-2 z-50 w-[4.5rem] rounded-r-xl border-y border-r border-base-800 bg-base-900 backdrop-blur-sm py-2 transition-transform duration-300',
+			'fixed bottom-2 left-0 top-2 z-50 w-[4.5rem] py-2 transition-transform duration-300',
 			showSidebar.value ? 'translate-x-0' : '-translate-x-20 md:translate-x-0'
 		)}
 	>
@@ -53,9 +53,9 @@
 							href={item.href}
 							class={cn(
 								'group flex gap-x-3 rounded-md  p-3 text-sm/6 font-semibold',
-								$page.url.pathname === BASE_PATH + item.href
-									? 'bg-base-900 text-white'
-									: 'text-base-400 hover:bg-base-800 hover:text-white'
+								$page.url.pathname === item.href
+									? 'bg-accent-950/10 text-accent-400'
+									: 'text-base-200 transition-colors duration-100 hover:bg-accent-950/20 hover:text-accent-400'
 							)}
 						>
 							{@html item.icon}
@@ -71,16 +71,25 @@
 {/key}
 
 {#if showSidebar.value}
-	<div transition:fade class="fixed inset-0 z-40 bg-base-900/30 backdrop-blur-sm" onclick={() => showSidebar.toggle()}></div>
+	<button
+		transition:fade
+		class="fixed inset-0 z-40 bg-base-900/50 backdrop-blur-sm md:hidden"
+		onclick={() => showSidebar.toggle()}
+	>
+		<span class="sr-only">Close Menu</span>
+	</button>
 {:else}
 	<button
-		class="md:hidden fixed bottom-2 left-2 z-50 rounded-xl border border-base-800 bg-base-900/75 backdrop-blur-sm p-2"
+		class="fixed bottom-2 left-2 z-50 rounded-xl border border-base-800 bg-base-900/75 p-2 backdrop-blur-sm md:hidden"
 		onclick={() => showSidebar.toggle()}
 	>
 		<span class="sr-only">Open Menu</span>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-      <path fill-rule="evenodd" d="M3 9a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 9Zm0 6.75a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
-    </svg>
-    
-</button>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+			<path
+				fill-rule="evenodd"
+				d="M3 9a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 9Zm0 6.75a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
+				clip-rule="evenodd"
+			/>
+		</svg>
+	</button>
 {/if}

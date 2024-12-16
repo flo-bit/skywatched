@@ -53,7 +53,7 @@
 			></button>
 			<div
 				class={cn(
-					'aspect-video max-h-screen relative w-full overflow-hidden rounded-xl border border-black bg-white object-cover dark:border-white/10 dark:bg-white/5',
+					'aspect-video relative max-h-screen w-full overflow-hidden rounded-xl border border-black bg-white object-cover dark:border-white/10 dark:bg-white/5',
 					className
 				)}
 			>

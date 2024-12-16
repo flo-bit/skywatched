@@ -1,9 +1,9 @@
 <script lang="ts">
-  let { value = $bindable(), ...rest } = $props();
+	let { value = $bindable(), ...rest } = $props();
 </script>
 
 <input
-  bind:value
-  class="dark:bg-base-950 text-base-900 dark:text-base-100 ring-base-300 dark:ring-base-700 placeholder:text-base-400 dark:placeholder:text-base-600 focus:ring-accent-600 block w-full rounded-full border-0 py-1.5 ring-1 shadow-sm ring-inset focus:ring-2 focus:ring-inset sm:text-sm/6"
-  {...rest}
+	bind:value
+	class="block w-full rounded-full border-0 py-1.5 text-base-900 shadow-sm ring-1 ring-inset ring-base-300 placeholder:text-base-400 focus:ring-2 focus:ring-inset focus:ring-accent-600 sm:text-sm/6 dark:bg-base-950 dark:text-base-100 dark:ring-base-700 dark:placeholder:text-base-600"
+	{...rest}
 />

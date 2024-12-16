@@ -5,7 +5,7 @@
 	const {
 		items,
 		class: className,
-		showMark,
+		showMark
 	}: {
 		items: { poster_path: string; original_title: string; movieId?: number; showId?: number }[];
 		class?: string;

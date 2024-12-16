@@ -2,7 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-
 ::selection {
 	@apply bg-accent-800/50 text-accent-50;
 }
