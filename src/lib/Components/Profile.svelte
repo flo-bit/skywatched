@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { ProfileViewDetailed } from '@atproto/api/dist/client/types/app/bsky/actor/defs';
+	import Avatar from './Avatar.svelte';
 
 	let { profile }: { profile: ProfileViewDetailed } = $props();
 </script>
@@ -18,13 +19,8 @@
 			{/if}
 		</div>
 		<div class="-mt-12 flex items-end space-x-5 px-4 sm:-mt-16 sm:px-6 lg:px-8">
-			<div class="flex">
-				<img
-					class="size-24 rounded-full ring-4 ring-base-950 sm:size-32"
-					src={profile.avatar}
-					alt=""
-				/>
-			</div>
+			
+			<Avatar src={profile.avatar} size="size-24 sm:size-32" />
 			<div
 				class="flex min-w-0 flex-1 flex-row sm:flex-row sm:items-center sm:justify-end sm:space-x-6 sm:pb-1"
 			>
