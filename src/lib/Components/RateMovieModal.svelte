@@ -32,7 +32,7 @@
 						<div class="mt-4 flex items-center gap-2">
 							<p class="text-xs font-medium text-base-50">stars</p>
 
-							<Rating bind:rating canChange/>
+							<Rating bind:rating canChange />
 						</div>
 
 						<div class="mt-4">

@@ -19,7 +19,6 @@
 			{/if}
 		</div>
 		<div class="-mt-12 flex items-end space-x-5 px-4 sm:-mt-16 sm:px-6 lg:px-8">
-			
 			<Avatar src={profile.avatar} size="size-24 sm:size-32" />
 			<div
 				class="flex min-w-0 flex-1 flex-row sm:flex-row sm:items-center sm:justify-end sm:space-x-6 sm:pb-1"

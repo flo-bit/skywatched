@@ -140,12 +140,11 @@
 
 			<ItemsList items={data.recommendations} showMark={!!data.user} />
 		{/if}
-
 	</div>
 
 	{#if data.ratings.length > 0}
-	<div class="mb-2 mt-8 text-lg font-semibold px-4">recent reviews</div>
-	
-	<ReviewList reviews={data.ratings} showMovieDetails={false} class="pb-8"/>
-{/if}
+		<div class="mb-2 mt-8 px-4 text-lg font-semibold">recent reviews</div>
+
+		<ReviewList reviews={data.ratings} showMovieDetails={false} class="pb-8" />
+	{/if}
 </Container>
