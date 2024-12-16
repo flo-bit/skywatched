@@ -7,8 +7,8 @@
 </script>
 
 <Container>
-	<div class="px-4">
-		<h1 class="py-8 text-4xl font-bold tracking-tight text-base-50">search for a movie or show</h1>
+	<div class="px-4 py-16">
+		<h1 class="pb-8 text-4xl font-bold tracking-tight text-base-50">search for a movie or show</h1>
 
 		<form class="relative mt-6 flex items-center" method="GET">
 			<input

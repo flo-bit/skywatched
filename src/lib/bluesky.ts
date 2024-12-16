@@ -95,3 +95,9 @@ export async function getRatedItemsWithDetails({ did }: { did: string }) {
 
 	return items;
 }
+
+export async function getReviewById(id: string) {
+	// Implement the logic to fetch a single review by ID
+	// This could involve querying a database or an external API
+	// Return the review data in the expected format
+}
