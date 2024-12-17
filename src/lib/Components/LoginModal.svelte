@@ -17,7 +17,7 @@
 		></div>
 
 		<div class="pointer-events-none fixed inset-0 z-10 w-screen overflow-y-auto">
-			<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+			<div class="flex min-h-[100dvh] items-end justify-center p-4 text-center sm:items-center sm:p-0">
 				<div
 					class="pointer-events-auto relative w-full transform overflow-hidden rounded-lg border border-base-700 bg-base-800 px-4 pb-4 pt-2 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
 				>
