@@ -4,6 +4,8 @@ university project. social media for movies and tv shows using the at protocol.
 
 [live demo](https://skywatched.app/)
 
+backend/jetstream consumer can be found at [flo-bit/skywatched-backend](https://github.com/flo-bit/skywatched-backend)
+
 ## development
 
 1. copy the .env.example file to .env and set the variables:
