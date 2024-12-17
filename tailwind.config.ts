@@ -21,5 +21,6 @@ export default {
 		}
 	},
 
-	plugins: [typography, forms, aspectRatio]
+	plugins: [typography, forms, aspectRatio],
+	darkMode: 'class'
 } satisfies Config;
