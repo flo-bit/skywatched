@@ -1,3 +1,13 @@
+<script>
+	import { rateMovieModal, showLoginModal } from '$lib/state.svelte';
+
+	const { data } = $props();
+</script>
+
+<svelte:head>
+	<title>skywatched</title>
+</svelte:head>
+
 <div class="h-screen bg-base-900">
 	<div class="relative isolate flex h-screen items-center justify-center overflow-hidden">
 		<img src="/movie.webp" alt="" class="absolute inset-0 -z-10 size-full object-cover" />
@@ -18,9 +28,30 @@
 			<h1 class="text-balance text-5xl font-semibold tracking-tight text-base-100 sm:text-7xl">
 				skywatched
 			</h1>
-			<p class="text-md mt-8 text-pretty font-medium text-base-400 sm:text-lg">
-				social media for movies based on at proto. work in progress.
+			<p class="text-md mt-8 text-pretty font-medium text-base-300 sm:text-lg">
+				review movies and shows with your bluesky account.
 			</p>
+			{#if !data.user}
+				<button
+					onclick={() => {
+						showLoginModal.toggle();
+					}}
+					type="button"
+					class="mt-8 inline-flex w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
+				>
+					Sign in with Bluesky
+				</button>
+			{:else}
+				<button
+					onclick={() => {
+						rateMovieModal.showEmpty();
+					}}
+					type="button"
+					class="mt-8 inline-flex w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
+				>
+					New review
+				</button>
+			{/if}
 		</div>
 
 		<div

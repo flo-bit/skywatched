@@ -7,7 +7,7 @@
 		$props();
 </script>
 
-<div class="w-full max-w-2xl p-6 backdrop-blur-sm">
+<div class="relative w-full max-w-2xl rounded-xl p-6 backdrop-blur-sm">
 	<div class="flex items-center gap-4">
 		{#if showMovieDetails}
 			<a
@@ -18,7 +18,7 @@
 			>
 				{#if data.record.metadata?.poster_path}
 					<img
-						src="https://image.tmdb.org/t/p/w500{data.record.metadata.poster_path}"
+						src="https://image.tmdb.org/t/p/w154{data.record.metadata.poster_path}"
 						alt="movie poster for {data.record.metadata.title}"
 						class="size-full object-cover object-center lg:size-full"
 					/>
@@ -65,4 +65,8 @@
 			{@html data.record.note?.value?.replace('\n', '<br /><br />')}
 		</div>
 	{/if}
+
+	<!-- <a href={`/review/${encodeURIComponent(data.uri)}`}>
+		<span class="absolute inset-0 z-10"></span>
+	</a> -->
 </div>

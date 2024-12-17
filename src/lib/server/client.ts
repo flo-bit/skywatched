@@ -6,10 +6,9 @@ import { dev } from '$app/environment';
 const publicUrl = 'https://skywatched.app';
 const port = 5173;
 const url = dev ? `http://[::1]:${port}` : publicUrl;
-const enc = encodeURIComponent;
 
-const encodeCallbackUrl = enc(`${url}/oauth/callback`);
-const devClientId = `http://localhost?redirect_uri=${encodeCallbackUrl}&scope=${enc('atproto transition:generic')}`;
+const encodeCallbackUrl = encodeURIComponent(`${url}/oauth/callback`);
+const devClientId = `http://localhost?redirect_uri=${encodeCallbackUrl}&scope=${encodeURIComponent('atproto transition:generic')}`;
 const clientId = !dev ? `${publicUrl}/client-metadata.json` : devClientId;
 
 export const atclient = new NodeOAuthClient({

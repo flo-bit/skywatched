@@ -51,6 +51,18 @@
 								>Login</button
 							>
 						</div>
+
+						<div class="mt-4 border-t border-base-700 pt-4 text-sm leading-7 text-base-300">
+							Don't have an account?
+							<br />
+							<a
+								href="https://bsky.app"
+								target="_blank"
+								class="font-medium text-accent-400 hover:text-accent-500"
+							>
+								Create one on bluesky
+							</a> and come back here.
+						</div>
 					</form>
 				</div>
 			</div>

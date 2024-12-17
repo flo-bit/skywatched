@@ -3,7 +3,7 @@
 	import { BASE_PATH } from '$lib';
 	import { cn } from '$lib/utils';
 	import User from '$lib/Components/User.svelte';
-	import { showSidebar } from '$lib/state.svelte';
+	import { rateMovieModal, showSidebar } from '$lib/state.svelte';
 	import { fade } from 'svelte/transition';
 	import { onNavigate } from '$app/navigation';
 
@@ -28,6 +28,20 @@
 </svg>`,
 			label: 'Search',
 			href: '/search'
+		}
+	];
+
+	const userMenu = [
+		{
+			icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+</svg>`,
+			label: 'New review',
+			href: '/review/new',
+			onclick: () => {
+				showSidebar.value = false;
+				rateMovieModal.showEmpty();
+			}
 		}
 	];
 
@@ -64,8 +78,27 @@
 					</li>
 				{/each}
 			</div>
+			<div class="flex flex-col items-center space-y-2">
+				{#if user}
+					{#each userMenu as item}
+						<li>
+							<a
+								href={item.href}
+								class={'group flex gap-x-3 rounded-md  p-3 text-sm/6 font-semibold text-base-200 transition-colors duration-100 hover:bg-accent-950/20 hover:text-accent-400'}
+								onclick={(event) => {
+									event.preventDefault();
+									item.onclick();
+								}}
+							>
+								{@html item.icon}
+								<span class="sr-only">{item.label}</span>
+							</a>
+						</li>
+					{/each}
+				{/if}
 
-			<User {user} />
+				<User {user} />
+			</div>
 		</ul>
 	</div>
 {/key}

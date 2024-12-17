@@ -21,11 +21,11 @@
 
 <div class="group relative">
 	<div
-		class="pointer-events-none relative z-20 aspect-[2/3] h-auto min-h-44 w-full overflow-hidden rounded-md border border-base-800 bg-base-900/50 transition-opacity duration-75 group-hover:opacity-75 sm:min-h-64"
+		class="pointer-events-none relative z-20 aspect-[2/3] h-auto min-h-44 w-full overflow-hidden rounded-md border border-base-800 bg-base-900/50 transition-opacity duration-75 group-hover:opacity-75 sm:min-h-44"
 	>
 		{#if item.poster_path}
 			<img
-				src="https://image.tmdb.org/t/p/w500{item.poster_path}"
+				src="https://image.tmdb.org/t/p/w342{item.poster_path}"
 				alt="movie poster for {item.title ?? item.name}"
 				class="size-full object-cover object-center lg:size-full"
 			/>
@@ -55,15 +55,15 @@
 							: 'hover:border-accent-800/50 hover:bg-accent-900/50 hover:text-accent-400 hover:duration-0'
 					)}
 					onclick={() => {
-						rateMovieModal.selectedItem = {
+						rateMovieModal.show({
 							movieId: item.movieId,
 							showId: item.showId,
 							kind: item.movieId ? 'movie' : 'tv',
 							name: item.title ?? item.name,
 							currentRating: 0,
-							currentReview: ''
-						};
-						rateMovieModal.showModal = true;
+							currentReview: '',
+							posterPath: item.poster_path
+						});
 					}}
 				>
 					<span class="sr-only">rate</span>
