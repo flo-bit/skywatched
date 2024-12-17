@@ -5,3 +5,20 @@
 ::selection {
 	@apply bg-accent-800/50 text-accent-50;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+	height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	@apply bg-base-600 hover:bg-accent-500 transition-colors duration-150;
+    border-radius: 5px;
+}

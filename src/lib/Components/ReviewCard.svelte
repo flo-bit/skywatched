@@ -8,7 +8,7 @@
 </script>
 
 <div class="relative w-full max-w-2xl p-6 backdrop-blur-sm">
-	<div class="flex items-center gap-4">
+	<div class="flex items-center gap-4 max-w-full overflow-hidden">
 		{#if showMovieDetails}
 			<a
 				href={data.record.item.ref === 'tmdb:m'
@@ -28,7 +28,7 @@
 		{/if}
 
 		<div class="flex flex-col gap-3">
-			<a href={`/user/${data.author.handle}`} class="flex flex-row items-center gap-4 font-medium">
+			<a href={`/user/${data.author.handle}`} class="flex flex-row items-center gap-4 font-medium overflow-hidden">
 				<div class="flex items-center gap-2">
 					{#if data.author.avatar}
 						<img src={data.author.avatar} alt="user avatar" class="size-5 rounded-full" />
