@@ -4,6 +4,8 @@ university project. social media for movies and tv shows using the at protocol.
 
 [live demo](https://skywatched.app/)
 
+backend/jetstream consumer can be found at [flo-bit/skywatched-backend](https://github.com/flo-bit/skywatched-backend)
+
 ## development
 
 1. copy the .env.example file to .env and set the variables:
@@ -12,7 +14,10 @@ university project. social media for movies and tv shows using the at protocol.
 cp .env.example .env
 ```
 
-required only `TMDB_API_KEY` for now. get one [here](https://www.themoviedb.org/settings/api).
+required:
+
+- `TMDB_API_KEY` (get one [here](https://www.themoviedb.org/settings/api))
+- `NYX_PASSWORD` (can be generated on unix systems with `openssl rand -base64 32`)
 
 2. install the dependencies:
 
@@ -40,39 +45,3 @@ npm run dev
 - tailwind
 - turso (libSQL) w/ drizzle
 - lucia for auth
-
-## planning
-
-### MVP
-
-- login with username and password
-- search for movies (using the moviedb api)
-- mark movies as watched
-- user page with watched movies
-- dark mode
-
-### extra feature ideas
-
-- social media (feed, follow functionality) (using AT Protocol)
-- add tv shows, books, music, links
-- delete watched items
-- select favorite movie
-- mark movies as "want to watch"
-- rate and review movies
-- better UI showing for each movie:
-  - rotten tomatoes, etc. ratings
-  - trailer
-  - cast
-  - movie description
-- a "wikipedia game but for actors+movies" feature (get from movie to movie by just clicking on actors and movies)
-- netflix integration (sync watched movies)
-- show reviews of users on movie page
-- enhance reviews with AI
-- recommendations with AI
-- recommendations (based on watched movies, based on friends)
-- light mode
-
-### roadmap
-
-- [ ] setup project
-- [ ] build mvp
