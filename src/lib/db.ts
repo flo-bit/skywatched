@@ -67,9 +67,6 @@ export async function getRecentRecordsForItem({
 	const response = await fetch(
 		`https://skywatched-jetstream.fly.dev/api/recent-records-by-item?ref=${ref}&value=${value}`
 	);
-	console.log(
-		`https://skywatched-jetstream.fly.dev/api/recent-records-by-item?ref=${ref}&value=${value}`
-	);
 	const data = await response.json();
 	return data;
 }

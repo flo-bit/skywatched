@@ -5,12 +5,14 @@
 
 	import Container from '$lib/Components/Container.svelte';
 	import ItemsList from '$lib/Components/ItemsList.svelte';
-	import Rating from '$lib/Components/Rating.svelte';
-	import ReviewCard from '$lib/Components/ReviewCard.svelte';
 	import ReviewList from '$lib/Components/ReviewList.svelte';
 
 	let { data }: { data: PageData } = $props();
 </script>
+
+<svelte:head>
+	<title>{data.result.original_title ?? data.result.original_name ?? ''} | skywatched</title>
+</svelte:head>
 
 <img
 	src="https://image.tmdb.org/t/p/w780{data.result.backdrop_path}"

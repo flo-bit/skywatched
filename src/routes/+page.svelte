@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>skywatched</title>
+</svelte:head>
+
 <div class="h-screen bg-base-900">
 	<div class="relative isolate flex h-screen items-center justify-center overflow-hidden">
 		<img src="/movie.webp" alt="" class="absolute inset-0 -z-10 size-full object-cover" />

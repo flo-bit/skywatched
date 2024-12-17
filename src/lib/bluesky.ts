@@ -1,5 +1,6 @@
 import { REL_COLLECTION } from '$lib';
 import { Agent, AtpBaseClient } from '@atproto/api';
+import type { Record } from '@atproto/api/src/client/types/com/atproto/repo/listRecords';
 
 type AgentType = Agent | AtpBaseClient | null;
 
@@ -32,7 +33,7 @@ export async function getAllRated({ did, agent = undefined }: { did: string; age
 	}
 
 	let cursor: string | undefined = undefined;
-	let items = [];
+	let items: Record[] = [];
 	do {
 		const test = await agent.com.atproto.repo.listRecords({
 			repo: did,

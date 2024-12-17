@@ -19,7 +19,7 @@ export async function GET({ request, cookies }: RequestEvent) {
 			sameSite: 'lax'
 		});
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 		error(500, { message: (err as Error).message });
 	}
 

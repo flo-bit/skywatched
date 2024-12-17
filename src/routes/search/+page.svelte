@@ -6,6 +6,10 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
+<svelte:head>
+	<title>search | skywatched</title>
+</svelte:head>
+
 <Container>
 	<div class="px-4 py-16">
 		<h1 class="pb-8 text-4xl font-bold tracking-tight text-base-50">search for a movie or show</h1>

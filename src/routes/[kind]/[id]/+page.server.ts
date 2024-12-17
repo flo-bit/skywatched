@@ -39,8 +39,6 @@ export async function load(event) {
 		return error(404, 'Not found');
 	}
 
-	console.log(ratings);
-
 	return {
 		result: {
 			...result,

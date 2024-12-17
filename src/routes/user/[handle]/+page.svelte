@@ -6,6 +6,10 @@
 	let { data } = $props();
 </script>
 
+<svelte:head>
+	<title>{data.profile.displayName || data.profile.handle}'s reviews</title>
+</svelte:head>
+
 <Container>
 	<Profile profile={data.profile} />
 

@@ -21,7 +21,7 @@
 
 <div class="group relative">
 	<div
-		class="pointer-events-none relative z-20 aspect-[2/3] h-auto min-h-44 w-full overflow-hidden rounded-md border border-base-800 bg-base-900/50 transition-opacity duration-75 group-hover:opacity-75 sm:min-h-64"
+		class="pointer-events-none relative z-20 aspect-[2/3] h-auto min-h-44 w-full overflow-hidden rounded-md border border-base-800 bg-base-900/50 transition-opacity duration-75 group-hover:opacity-75 sm:min-h-44"
 	>
 		{#if item.poster_path}
 			<img
