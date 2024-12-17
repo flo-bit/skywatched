@@ -2,6 +2,7 @@
 	import { rateMovieModal, watchedItems } from '$lib/state.svelte';
 	import { toast } from 'svelte-sonner';
 	import Rating from './Rating.svelte';
+	import SearchCombobox from './SearchCombobox.svelte';
 
 	let rating = $state(rateMovieModal.selectedItem.currentRating ?? 0);
 	let review = $state(rateMovieModal.selectedItem.currentReview ?? '');
@@ -24,16 +25,62 @@
 				<div
 					class="pointer-events-auto relative w-full transform overflow-hidden rounded-lg border border-base-800 bg-base-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:max-w-sm sm:p-6"
 				>
+					<button
+						class="absolute right-2 top-2 rounded-full bg-base-800/50 p-1 hover:bg-base-800/80"
+						onclick={() => (rateMovieModal.showModal = false)}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="size-4"
+						>
+							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+						</svg>
+
+						<span class="sr-only">close</span>
+					</button>
+
 					<div>
-						<h3 class="text-lg font-semibold text-base-50" id="modal-title">
-							Rate {rateMovieModal.selectedItem.name}
+						<h3 class="text-md mb-4 font-semibold text-base-50" id="modal-title">
+							Rate and review
 						</h3>
 
-						<div class="mt-4 flex items-center gap-2">
-							<p class="text-xs font-medium text-base-50">stars</p>
+						{#if rateMovieModal.selectedItem.name}
+							<div class="relative flex items-center gap-4">
+								<div
+									class="relative z-20 aspect-[2/3] h-32 w-auto shrink-0 overflow-hidden rounded-md border border-base-800 bg-base-900/50"
+								>
+									{#if rateMovieModal.selectedItem.posterPath}
+										<img
+											src="https://image.tmdb.org/t/p/w154{rateMovieModal.selectedItem.posterPath}"
+											alt="movie poster for {rateMovieModal.selectedItem.name}"
+											class="size-full object-cover object-center lg:size-full"
+										/>
+									{/if}
+								</div>
+								<h3
+									class="mb-4 flex flex-col gap-2 text-xl font-semibold text-base-50"
+									id="modal-title"
+								>
+									{rateMovieModal.selectedItem.name}
 
-							<Rating bind:rating canChange />
-						</div>
+									<Rating bind:rating canChange size="size-7" />
+								</h3>
+								<!-- <div class="absolute right-2 top-0">
+								<button
+									onclick={() => (rateMovieModal.showModal = false)}
+									class="rounded-full bg-base-800/50 p-1 px-2 text-xs text-base-50 hover:bg-base-800/70 hover:text-base-100"
+								>
+									change
+								</button>
+							</div> -->
+							</div>
+						{:else}
+							<SearchCombobox />
+						{/if}
 
 						<div class="mt-4">
 							<label for="comment" class="block text-xs font-medium text-base-50">review</label>
@@ -44,7 +91,7 @@
 									id="comment"
 									bind:value={review}
 									placeholder="write a review"
-									class="block w-full rounded-md bg-base-950 px-3 py-1.5 text-base text-base-50 outline outline-1 -outline-offset-1 outline-base-700 placeholder:text-base-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-accent-600 sm:text-sm/6"
+									class="outline-nonse block w-full rounded-lg border border-base-800 bg-base-950 px-3 py-1.5 text-base text-base-50 -outline-offset-1 placeholder:text-base-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-accent-400 sm:text-sm/6"
 								></textarea>
 							</div>
 						</div>
@@ -74,7 +121,7 @@
 							}}
 							type="button"
 							class="inline-flex w-full justify-center rounded-md border border-accent-900 bg-accent-950/80 px-3 py-2 text-sm font-semibold text-accent-300 shadow-sm hover:bg-accent-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
-							>save</button
+							>review</button
 						>
 					</div>
 				</div>

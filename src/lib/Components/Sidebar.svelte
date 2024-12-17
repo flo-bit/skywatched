@@ -40,7 +40,7 @@
 			href: '/review/new',
 			onclick: () => {
 				showSidebar.value = false;
-				rateMovieModal.showModal = true;
+				rateMovieModal.showEmpty();
 			}
 		}
 	];

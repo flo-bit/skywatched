@@ -25,7 +25,7 @@
 	>
 		{#if item.poster_path}
 			<img
-				src="https://image.tmdb.org/t/p/w500{item.poster_path}"
+				src="https://image.tmdb.org/t/p/w342{item.poster_path}"
 				alt="movie poster for {item.title ?? item.name}"
 				class="size-full object-cover object-center lg:size-full"
 			/>
@@ -55,15 +55,15 @@
 							: 'hover:border-accent-800/50 hover:bg-accent-900/50 hover:text-accent-400 hover:duration-0'
 					)}
 					onclick={() => {
-						rateMovieModal.selectedItem = {
+						rateMovieModal.show({
 							movieId: item.movieId,
 							showId: item.showId,
 							kind: item.movieId ? 'movie' : 'tv',
 							name: item.title ?? item.name,
 							currentRating: 0,
-							currentReview: ''
-						};
-						rateMovieModal.showModal = true;
+							currentReview: '',
+							posterPath: item.poster_path
+						});
 					}}
 				>
 					<span class="sr-only">rate</span>

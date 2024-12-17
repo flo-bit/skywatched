@@ -11,8 +11,54 @@
 </script>
 
 <svelte:head>
-	<title>{data.result.original_title ?? data.result.original_name ?? ''} | skywatched</title>
+	<title>{data.result.title ?? data.result.name ?? ''} | skywatched</title>
 </svelte:head>
+
+{#snippet buttons()}
+	{#if data.user && !watchedItems.hasRated(data.result)}
+		<button
+			class={cn(
+				'inline-flex items-center gap-2 rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-75 hover:bg-white/20 ',
+				watchedItems.hasRated(data.result)
+					? 'bg-green-500/10 text-green-400 hover:bg-green-500/20'
+					: ''
+			)}
+			onclick={() => {
+				rateMovieModal.show({
+					movieId: data.result.movieId,
+					showId: data.result.showId,
+					kind: data.result.movieId ? 'movie' : 'tv',
+					name: data.result.original_title ?? data.result.original_name,
+					posterPath: data.result.poster_path,
+					currentRating: watchedItems.getRating(data.result)?.rating ?? 0,
+					currentReview: watchedItems.getRating(data.result)?.ratingText ?? ''
+				});
+			}}
+		>
+			rate {data.kind === 'movie' ? 'movie' : 'show'}
+		</button>
+	{/if}
+	{#if data.trailer}
+		<button
+			onclick={() => videoPlayer.show(data.trailer ?? '')}
+			type="button"
+			class="inline-flex w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 24 24"
+				fill="currentColor"
+				class="-ml-0.5 size-5"
+			>
+				<path
+					d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z"
+				/>
+			</svg>
+
+			Trailer
+		</button>
+	{/if}
+{/snippet}
 
 <img
 	src="https://image.tmdb.org/t/p/w780{data.result.backdrop_path}"
@@ -30,10 +76,10 @@
 		/>
 		<div class="flex flex-col gap-4">
 			<div class="max-w-xl text-2xl font-semibold text-white sm:text-4xl">
-				{data.result.original_title ?? data.result.original_name}
+				{data.result.title ?? data.result.name}
 			</div>
 
-			{#if data.watchProviders.US?.flatrate}
+			{#if data.settings?.streaming_region?.code && data.watchProviders[data.settings.streaming_region.code]?.flatrate}
 				<div class="mt-2 text-sm text-white sm:mt-4">
 					<div class="mb-2 flex flex-wrap gap-4 text-xs font-medium">
 						stream on
@@ -47,8 +93,12 @@
 							</a></span
 						>
 					</div>
-					<a href={data.watchProviders.US.link} target="_blank" class="flex flex-wrap gap-2">
-						{#each data.watchProviders.US.flatrate as provider}
+					<a
+						href={data.watchProviders[data.settings.streaming_region.code].link}
+						target="_blank"
+						class="flex flex-wrap gap-2"
+					>
+						{#each data.watchProviders[data.settings.streaming_region.code].flatrate as provider}
 							<img
 								src="https://image.tmdb.org/t/p/w500{provider.logo_path}"
 								alt={provider.provider_name}
@@ -58,81 +108,17 @@
 					</a>
 				</div>
 			{/if}
-
-			{#if data.trailer}
-				<button
-					onclick={() => videoPlayer.show(data.trailer ?? '')}
-					type="button"
-					class="hidden w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 sm:inline-flex"
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 24 24"
-						fill="currentColor"
-						class="-ml-0.5 size-5"
-					>
-						<path
-							d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z"
-						/>
-					</svg>
-
-					Trailer
-				</button>
-			{/if}
+			<div class="hidden gap-2 sm:flex">
+				{@render buttons()}
+			</div>
 		</div>
 	</div>
 
-	<div class="px-4 py-8 text-sm text-white">
-		{#if data.trailer}
-			<button
-				onclick={() => videoPlayer.show(data.trailer ?? '')}
-				type="button"
-				class="mb-4 inline-flex w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 sm:hidden"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					fill="currentColor"
-					class="-ml-0.5 size-5"
-				>
-					<path
-						d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z"
-					/>
-				</svg>
-
-				Trailer
-			</button>
-		{/if}
-
-		{#if data.user}
-			<div class="flex gap-4">
-				{#if !watchedItems.hasRated(data.result)}
-					<button
-						class={cn(
-							'inline-flex items-center gap-2 rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-75 hover:bg-white/20 ',
-							watchedItems.hasRated(data.result)
-								? 'bg-green-500/10 text-green-400 hover:bg-green-500/20'
-								: ''
-						)}
-						onclick={() => {
-							rateMovieModal.selectedItem = {
-								movieId: data.result.movieId,
-								showId: data.result.showId,
-								kind: data.result.movieId ? 'movie' : 'tv',
-								name: data.result.original_title ?? data.result.original_name,
-								currentRating: watchedItems.getRating(data.result)?.rating ?? 0,
-								currentReview: watchedItems.getRating(data.result)?.ratingText ?? ''
-							};
-
-							rateMovieModal.showModal = true;
-						}}
-					>
-						rate {data.kind === 'movie' ? 'movie' : 'show'}
-					</button>
-				{/if}
-			</div>
-		{/if}
-		<div class="my-8 max-w-2xl text-sm text-white">
+	<div class="px-4 pb-8 pt-4 text-sm text-white">
+		<div class="mb-4 flex gap-2 sm:hidden">
+			{@render buttons()}
+		</div>
+		<div class="mb-4 max-w-2xl text-sm text-white">
 			<div class="mb-2 text-lg font-semibold">overview</div>
 			{data.result.overview}
 		</div>

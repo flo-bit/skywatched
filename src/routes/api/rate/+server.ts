@@ -18,7 +18,23 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
 	const rkey = TID.nextStr();
 
-	const record = {
+	const record: {
+		repo: string;
+		collection: string;
+		rkey: string;
+		record: {
+			item: {
+				ref: string;
+				value: string;
+			};
+			rating: { value: number; createdAt: string };
+			note?: {
+				value: string;
+				createdAt: string;
+				updatedAt: string;
+			};
+		};
+	} = {
 		repo: did,
 		collection: REL_COLLECTION,
 		rkey,

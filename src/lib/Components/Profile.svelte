@@ -19,18 +19,26 @@
 				<div class="aspect-[8/1] w-full"></div>
 			{/if}
 		</div>
-		<div class={cn(profile.banner ? '-mt-11' : '-mt-8', "sm:-mt-16 flex items-end space-x-5 px-4 sm:px-6 lg:px-8")}>
+		<div
+			class={cn(
+				profile.banner ? '-mt-11' : '-mt-8',
+				'flex items-end space-x-5 px-4 sm:-mt-16 sm:px-6 lg:px-8'
+			)}
+		>
 			<Avatar src={profile.avatar} size="size-24 sm:size-32" />
 			<div
 				class="flex min-w-0 flex-1 flex-row sm:flex-row sm:items-center sm:justify-end sm:space-x-6 sm:pb-1"
 			>
 				<div
-					class={cn(profile.banner ? 'mt-4 sm:mt-0' : '-mt-[4.5rem] sm:-mt-[6.5rem]', "flex min-w-0 flex-1 flex-col items-baseline")}
+					class={cn(
+						profile.banner ? 'mt-4 sm:mt-0' : '-mt-[4.5rem] sm:-mt-[6.5rem]',
+						'flex min-w-0 flex-1 flex-col items-baseline'
+					)}
 				>
 					<h1 class="truncate text-xl font-bold text-base-900 dark:text-base-100">
 						{profile.displayName || profile.handle}
 					</h1>
-					<div class="text-sm truncate text-base-900 dark:text-base-400">
+					<div class="truncate text-sm text-base-900 dark:text-base-400">
 						@{profile.handle}
 					</div>
 				</div>

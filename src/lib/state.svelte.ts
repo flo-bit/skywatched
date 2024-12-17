@@ -32,17 +32,24 @@ export const watchedItems = $state({
 	}
 });
 
+type RateMovieModalItem = {
+	movieId: number | undefined;
+	showId: number | undefined;
+	kind: string | undefined;
+	name: string | undefined;
+	posterPath: string | undefined;
+	currentRating: number | undefined;
+	currentReview: string | undefined;
+};
+
 export const rateMovieModal: {
 	showModal: boolean;
 
-	selectedItem: {
-		movieId: number | undefined;
-		showId: number | undefined;
-		kind: string | undefined;
-		name: string | undefined;
-		currentRating: number | undefined;
-		currentReview: string | undefined;
-	};
+	selectedItem: RateMovieModalItem;
+
+	show: (item: RateMovieModalItem) => void;
+	hide: () => void;
+	showEmpty: () => void;
 } = $state({
 	showModal: false,
 
@@ -51,8 +58,31 @@ export const rateMovieModal: {
 		showId: undefined,
 		kind: undefined,
 		name: undefined,
+		posterPath: undefined,
 		currentRating: undefined,
 		currentReview: undefined
+	},
+
+	show: (item: RateMovieModalItem) => {
+		rateMovieModal.selectedItem = item;
+		rateMovieModal.showModal = true;
+	},
+
+	hide: () => {
+		rateMovieModal.showModal = false;
+	},
+
+	showEmpty: () => {
+		rateMovieModal.selectedItem = {
+			movieId: undefined,
+			showId: undefined,
+			kind: undefined,
+			name: undefined,
+			posterPath: undefined,
+			currentRating: undefined,
+			currentReview: undefined
+		};
+		rateMovieModal.showModal = true;
 	}
 });
 

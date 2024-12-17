@@ -39,10 +39,10 @@
 				new Date(lastUpdate).getTime() + 10 * 60 * 1000 > Date.now()
 			) {
 				watchedItems.ratedMovies = new Map(
-					JSON.parse(cachedRatedItems).movies.map((movie) => [movie.id, movie])
+					JSON.parse(cachedRatedItems).movies.map((movie: any) => [movie.id, movie])
 				);
 				watchedItems.ratedShows = new Map(
-					JSON.parse(cachedRatedItems).shows.map((show) => [show.id, show])
+					JSON.parse(cachedRatedItems).shows.map((show: any) => [show.id, show])
 				);
 
 				console.log(watchedItems.ratedMovies);
@@ -62,8 +62,8 @@
 			const response = await fetch(`/api/getAllRated?did=${data.user.did}`);
 			const items = await response.json();
 
-			watchedItems.ratedMovies = new Map(items.movies.map((movie) => [movie.id, movie]));
-			watchedItems.ratedShows = new Map(items.shows.map((show) => [show.id, show]));
+			watchedItems.ratedMovies = new Map(items.movies.map((movie: any) => [movie.id, movie]));
+			watchedItems.ratedShows = new Map(items.shows.map((show: any) => [show.id, show]));
 			localStorage.setItem(`ratedItems-${data.user.did}`, JSON.stringify(items));
 			localStorage.setItem(`ratedItems-${data.user.did}-lastUpdate`, new Date().toISOString());
 

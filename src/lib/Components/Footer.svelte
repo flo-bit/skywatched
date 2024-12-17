@@ -19,7 +19,9 @@
 			</a>
 		</div>
 		<div class="mt-8 flex flex-col items-center md:order-1 md:items-start">
-			<img src="/tmdb_logo.svg" alt="TMDB logo" class="h-3" />
+			<a href="https://www.themoviedb.org/" target="_blank">
+				<img src="/tmdb_logo.svg" alt="TMDB logo" class="h-3" />
+			</a>
 			<p class="mt-2 text-center text-xs text-base-400">
 				This website uses the TMDB API but is not endorsed or certified by TMDB.
 			</p>
