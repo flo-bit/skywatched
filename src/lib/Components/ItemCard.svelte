@@ -28,6 +28,7 @@
 				src="https://image.tmdb.org/t/p/w342{item.poster_path}"
 				alt="movie poster for {item.title ?? item.name}"
 				class="size-full object-cover object-center lg:size-full"
+				loading="lazy"
 			/>
 		{/if}
 

@@ -179,3 +179,51 @@ export async function getWatchedShowsIdsFromPDS(agent: Agent, did: string) {
 		])
 	);
 }
+
+export async function getCast(id: number, kind: Kind) {
+	const url = `https://api.themoviedb.org/3/${kind}/${id}/credits?language=en-US`;
+	const options = {
+		method: 'GET',
+		headers: {
+			accept: 'application/json',
+			Authorization: `Bearer ${env.TMDB_API_KEY}`
+		}
+	};
+
+	const response = await fetch(url, options);
+	const data = await response.json();
+
+	return data.cast;
+}
+
+export async function getPersonDetails(personId: number) {
+	const url = `https://api.themoviedb.org/3/person/${personId}?language=en-US`;
+	const options = {
+		method: 'GET',
+		headers: {
+			accept: 'application/json',
+			Authorization: `Bearer ${env.TMDB_API_KEY}`
+		}
+	};
+
+	const response = await fetch(url, options);
+	const data = await response.json();
+
+	return data;
+}
+
+export async function getCombinedCredits(personId: number) {
+	const url = `https://api.themoviedb.org/3/person/${personId}/combined_credits?language=en-US`;
+	const options = {
+		method: 'GET',
+		headers: {
+			accept: 'application/json',
+			Authorization: `Bearer ${env.TMDB_API_KEY}`
+		}
+	};
+
+	const response = await fetch(url, options);
+	const data = await response.json();
+
+	return data;
+}
