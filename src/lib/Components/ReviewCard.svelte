@@ -7,7 +7,7 @@
 		$props();
 </script>
 
-<div class="relative w-full max-w-2xl rounded-xl p-6 backdrop-blur-sm">
+<div class="relative w-full max-w-2xl p-6 backdrop-blur-sm">
 	<div class="flex items-center gap-4">
 		{#if showMovieDetails}
 			<a
