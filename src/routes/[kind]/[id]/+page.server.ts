@@ -1,5 +1,11 @@
 import { getRecentRecordsForItem } from '$lib/db.js';
-import { getDetails, getRecommendations, getTrailer, getWatchProviders } from '$lib/server/movies';
+import {
+	getCast,
+	getDetails,
+	getRecommendations,
+	getTrailer,
+	getWatchProviders
+} from '$lib/server/movies';
 import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
@@ -27,12 +33,15 @@ export async function load(event) {
 		value: id.toString()
 	});
 
-	const [result, trailer, recommendations, watchProviders, ratings] = await Promise.all([
+	const castPromise = getCast(id, kind);
+
+	const [result, trailer, recommendations, watchProviders, ratings, cast] = await Promise.all([
 		resultPromise,
 		trailerPromise,
 		recommendationsPromise,
 		watchProvidersPromise,
-		ratingsPromise
+		ratingsPromise,
+		castPromise
 	]);
 
 	if (!result || result.success === false) {
@@ -56,6 +65,7 @@ export async function load(event) {
 		}),
 		kind,
 		watchProviders,
-		ratings
+		ratings,
+		cast
 	};
 }

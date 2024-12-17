@@ -6,6 +6,7 @@
 	import Container from '$lib/Components/Container.svelte';
 	import ItemsList from '$lib/Components/ItemsList.svelte';
 	import ReviewList from '$lib/Components/ReviewList.svelte';
+	import Avatar from '$lib/Components/Avatar.svelte';
 
 	let { data }: { data: PageData } = $props();
 </script>
@@ -67,7 +68,7 @@
 />
 <div class="fixed inset-0 h-full w-full bg-black/50"></div>
 
-<Container class="relative z-10">
+<Container class="relative z-10 pt-4 pb-8">
 	<div class="flex gap-4 px-4 pt-8">
 		<img
 			src="https://image.tmdb.org/t/p/w500{data.result.poster_path}"
@@ -114,7 +115,7 @@
 		</div>
 	</div>
 
-	<div class="px-4 pb-8 pt-4 text-sm text-white">
+	<div class="px-4 pt-4 text-sm text-white">
 		<div class="mb-4 flex gap-2 sm:hidden">
 			{@render buttons()}
 		</div>
@@ -122,17 +123,40 @@
 			<div class="mb-2 text-lg font-semibold">overview</div>
 			{data.result.overview}
 		</div>
-
-		{#if data.recommendations.length > 0}
-			<div class="mb-2 mt-8 text-lg font-semibold">recommendations</div>
-
-			<ItemsList items={data.recommendations} showMark={!!data.user} />
-		{/if}
 	</div>
 
 	{#if data.ratings.length > 0}
-		<div class="mb-2 mt-8 px-4 text-lg font-semibold">recent reviews</div>
+		<div class="mt-8 px-4 text-lg font-semibold">reviews</div>
 
-		<ReviewList reviews={data.ratings} showMovieDetails={false} class="pb-8" />
+		<ReviewList reviews={data.ratings} showMovieDetails={false} class="" />
+	{/if}
+
+	{#if data.recommendations.length > 0}
+		<div class="px-4 pt-4 text-sm text-white">
+			<div class="mb-2 text-lg font-semibold">recommendations</div>
+
+			<ItemsList items={data.recommendations} showMark={!!data.user} />
+		</div>
+	{/if}
+
+	{#if data.cast.length > 0}
+		<div class="px-4 pb-8 pt-4 text-sm text-white">
+			<div class="mb-2 text-lg font-semibold">cast</div>
+
+			<div class={cn('flex gap-x-6 overflow-x-auto')}>
+				{#each data.cast as castMember}
+					<a href={`/cast/${castMember.id}`} class="flex flex-col gap-1 items-center">
+						<Avatar
+							src={castMember.profile_path
+								? 'https://image.tmdb.org/t/p/w500' + castMember.profile_path
+								: undefined}
+							size="size-32"
+						/>
+						<div class="text-xs font-medium text-center">{castMember.name}</div>
+						<div class="text-xs text-base-400 text-center">{castMember.character}</div>
+					</a>
+				{/each}
+			</div>
+		</div>
 	{/if}
 </Container>
