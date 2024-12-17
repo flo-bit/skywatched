@@ -20,8 +20,8 @@
 			onclick={() => (rateMovieModal.showModal = false)}
 			aria-hidden="true"
 		></div>
-		<div class="pointer-events-none fixed inset-0 z-50 h-screen w-screen overflow-y-auto">
-			<div class="flex h-screen items-end justify-center p-4 text-center sm:items-center sm:p-0">
+		<div class="pointer-events-none fixed inset-0 z-50 h-[100dvh] w-screen overflow-y-auto">
+			<div class="flex h-[100dvh] items-end justify-center p-4 text-center sm:items-center sm:p-0">
 				<div
 					class="pointer-events-auto relative w-full transform overflow-hidden rounded-lg border border-base-800 bg-base-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:max-w-sm sm:p-6"
 				>
