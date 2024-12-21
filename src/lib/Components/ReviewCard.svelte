@@ -20,8 +20,9 @@
 					<img
 						src="https://image.tmdb.org/t/p/w154{data.record.metadata.poster_path}"
 						alt="movie poster for {data.record.metadata.title}"
-						class="size-full object-cover object-center lg:size-full"
-					/>
+						class="poster size-full object-cover object-center lg:size-full"
+						style:--name={`poster-${data.record.item.value}`}
+						/>
 				{/if}
 				<span class="sr-only">View {data.record.metadata?.title}</span>
 			</a>
@@ -48,7 +49,8 @@
 						href={data.record.item.ref === 'tmdb:m'
 							? `/movie/${data.record.item.value}`
 							: `/tv/${data.record.item.value}`}
-						class="text-2xl font-bold hover:text-accent-200"
+						class="title text-2xl font-bold hover:text-accent-200"
+						style:--name={`title-${data.record.item.value}`}
 					>
 						{data.record.metadata?.title}
 					</a>

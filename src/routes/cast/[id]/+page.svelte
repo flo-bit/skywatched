@@ -20,10 +20,6 @@
 		return Math.abs(ageDate.getUTCFullYear() - 1970);
 	}
 
-	onMount(() => {
-		console.log(data.combinedCredits.length);
-	});
-
 	let showFullBiography = $state(false);
 </script>
 

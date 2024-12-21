@@ -18,6 +18,7 @@ required:
 
 - `TMDB_API_KEY` (get one [here](https://www.themoviedb.org/settings/api))
 - `NYX_PASSWORD` (can be generated on unix systems with `openssl rand -base64 32`)
+- `BACKEND_URL` (the url of the backend server)
 
 2. install the dependencies:
 
@@ -25,13 +26,7 @@ required:
 npm install
 ```
 
-3. run the database migrations:
-
-```bash
-npm run db:migrate
-```
-
-4. run the development server:
+3. run the development server:
 
 ```bash
 npm run dev

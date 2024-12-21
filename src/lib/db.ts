@@ -1,3 +1,5 @@
+import { env } from '$env/dynamic/private';
+
 export type MainRecord = {
 	uri: string;
 	cid: string;
@@ -44,15 +46,13 @@ export type MainRecord = {
 };
 
 export async function getRecentRecordOfUser({ did }: { did: string }): Promise<MainRecord[]> {
-	const response = await fetch(
-		`https://skywatched-jetstream.fly.dev/api/recent-records-by-user?did=${did}`
-	);
+	const response = await fetch(`${env.BACKEND_URL}/api/recent-records-by-user?did=${did}`);
 	const data = await response.json();
 	return data;
 }
 
 export async function getRecentRecords(): Promise<MainRecord[]> {
-	const response = await fetch(`https://skywatched-jetstream.fly.dev/api/most-recent-records`);
+	const response = await fetch(`${env.BACKEND_URL}/api/most-recent-records?limit=10`);
 	const data = await response.json();
 	return data;
 }
@@ -65,14 +65,14 @@ export async function getRecentRecordsForItem({
 	value: string;
 }): Promise<MainRecord[]> {
 	const response = await fetch(
-		`https://skywatched-jetstream.fly.dev/api/recent-records-by-item?ref=${ref}&value=${value}`
+		`${env.BACKEND_URL}/api/recent-records-by-item?ref=${ref}&value=${value}`
 	);
 	const data = await response.json();
 	return data;
 }
 
 export async function getRecordByUri({ uri }: { uri: string }): Promise<MainRecord> {
-	const response = await fetch(`https://skywatched-jetstream.fly.dev/api/record?uri=${uri}`);
+	const response = await fetch(`${env.BACKEND_URL}/api/record?uri=${uri}`);
 	const data = await response.json();
 	return data;
 }
