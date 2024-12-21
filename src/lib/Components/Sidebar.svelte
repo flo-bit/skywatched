@@ -55,7 +55,7 @@
 {#key $page.url.pathname}
 	<div
 		class={cn(
-			'fixed bottom-2 left-0 top-2 z-50 w-[4.5rem] py-2 transition-transform duration-300',
+			'sidebar fixed bottom-2 left-0 top-2 z-50 w-[4.5rem] py-2 transition-transform duration-300',
 			showSidebar.value ? 'translate-x-0' : '-translate-x-20 md:translate-x-0'
 		)}
 	>
@@ -126,3 +126,9 @@
 		</svg>
 	</button>
 {/if}
+
+<style>
+	.sidebar {
+		view-transition-name: sidebar;
+	}
+</style>

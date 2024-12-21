@@ -31,7 +31,6 @@ export async function load(event) {
 			};
 		});
 
-	console.log(combinedCredits.cast.length);
 	return {
 		combinedCredits: combinedCredits.cast,
 		personDetails

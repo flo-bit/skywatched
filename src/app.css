@@ -22,3 +22,11 @@
 	@apply bg-base-600 hover:bg-accent-500 transition-colors duration-150;
     border-radius: 5px;
 }
+
+.poster {
+	view-transition-name: var(--name);
+}
+
+.title {
+	view-transition-name: var(--name);
+}

@@ -12,11 +12,8 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const crosspost = (formData.get('crosspost-enabled') ?? 'false') as string;
 
-		console.log(formData);
-
 		const region = formData.get('region') as string;
 		const region_data = available_regions.find((r) => r.english_name === region);
-		console.log(region_data);
 
 		await agent.com.atproto.repo.putRecord({
 			repo: locals.user.did,

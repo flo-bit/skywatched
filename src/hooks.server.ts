@@ -5,7 +5,7 @@ import { decryptToString } from '$lib/server/crypts';
 import { decodeBase64, decodeBase64urlIgnorePadding } from '@oslojs/encoding';
 
 import type { Handle } from '@sveltejs/kit';
-import { NYX_PASSWORD } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sid = event.cookies.get('sid');
@@ -15,7 +15,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				return resolve(event);
 			}
 			const decoded = decodeBase64urlIgnorePadding(sid);
-			const key = decodeBase64(NYX_PASSWORD);
+			const key = decodeBase64(env.NYX_PASSWORD || '');
 			const decrypted = await decryptToString(key, decoded);
 			const oauthSession = await atclient.restore(decrypted);
 

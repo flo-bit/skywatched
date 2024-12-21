@@ -31,6 +31,13 @@
 
 	function useCachedRatedItems() {
 		try {
+			// if no version number is set or it's not 1, clear the cache
+			const version = localStorage.getItem('skywatched-version');
+			if (!version || version !== '1') {
+				localStorage.clear();
+				return false;
+			}
+
 			const cachedRatedItems = localStorage.getItem(`ratedItems-${data.user.did}`);
 			const lastUpdate = localStorage.getItem(`ratedItems-${data.user.did}-lastUpdate`);
 			if (
@@ -45,8 +52,6 @@
 					JSON.parse(cachedRatedItems).shows.map((show: any) => [show.id, show])
 				);
 
-				console.log(watchedItems.ratedMovies);
-				console.log(watchedItems.ratedShows);
 				return true;
 			}
 		} catch (error) {
@@ -127,7 +132,7 @@
 
 <div
 	style="background-image: url(/nnnoise.svg)"
-	class="pointer-events-none fixed inset-0 z-50 size-full opacity-70"
+	class="pointer-events-none fixed inset-0 z-50 size-full opacity-20"
 ></div>
 
 <style>
