@@ -3,7 +3,7 @@ import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load(event) {
-	const id = parseInt(event.params.id);
+	const id = parseInt(event.params.id.split('-')[0]);
 
 	if (!id) {
 		return error(404, 'Not found');

@@ -10,7 +10,7 @@ import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load(event) {
-	const id = parseInt(event.params.id);
+	const id = parseInt(event.params.id.split('-')[0]);
 	const kind = event.params.kind;
 
 	if (kind !== 'movie' && kind !== 'tv') {

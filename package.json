@@ -47,6 +47,7 @@
 		"@atproto/lex-cli": "^0.5.3",
 		"@atproto/oauth-client-node": "^0.2.4",
 		"@atproto/xrpc-server": "^0.7.4",
+		"@ethercorps/sveltekit-og": "^4.0.0-next.1",
 		"@libsql/client": "^0.9.0",
 		"@node-rs/argon2": "^1.1.0",
 		"@oslojs/crypto": "^1.0.1",

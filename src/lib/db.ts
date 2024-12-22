@@ -57,7 +57,7 @@ export async function getRecentRecordOfUser({ did }: { did: string }): Promise<M
 }
 
 export async function getRecentRecords(): Promise<MainRecord[]> {
-	const response = await fetch(`${env.BACKEND_URL}/api/most-recent-records?limit=10`);
+	const response = await fetch(`${env.BACKEND_URL}/api/most-recent-records?limit=50`);
 	const data = await response.json();
 	return data;
 }
