@@ -41,7 +41,12 @@ export type MainRecord = {
 		};
 		crosspost?: {
 			uri: string;
+			likes?: number;
+			reposts?: number;
+			replies?: number;
 		};
+
+		likes?: number;
 	};
 };
 

@@ -68,7 +68,7 @@
 />
 <div class="fixed inset-0 h-full w-full bg-black/50"></div>
 
-<Container class="relative z-10 pt-4 pb-8">
+<Container class="relative z-10 pb-8 pt-4">
 	<div class="flex gap-4 px-4 pt-8">
 		<img
 			src="https://image.tmdb.org/t/p/w500{data.result.poster_path}"
@@ -77,7 +77,10 @@
 			style:--name={`poster-${data.result.id}`}
 		/>
 		<div class="flex flex-col gap-4">
-			<div class="title max-w-xl text-2xl font-semibold text-white sm:text-4xl" style:--name={`title-${data.result.id}`}>
+			<div
+				class="title max-w-xl text-2xl font-semibold text-white sm:text-4xl"
+				style:--name={`title-${data.result.id}`}
+			>
 				{data.result.title ?? data.result.name}
 			</div>
 
@@ -146,15 +149,15 @@
 
 			<div class={cn('flex gap-x-6 overflow-x-auto')}>
 				{#each data.cast as castMember}
-					<a href={`/cast/${castMember.id}`} class="flex flex-col gap-1 items-center">
+					<a href={`/cast/${castMember.id}`} class="flex flex-col items-center gap-1">
 						<Avatar
 							src={castMember.profile_path
 								? 'https://image.tmdb.org/t/p/w500' + castMember.profile_path
 								: undefined}
 							size="size-32"
 						/>
-						<div class="text-xs font-medium text-center">{castMember.name}</div>
-						<div class="text-xs text-base-400 text-center">{castMember.character}</div>
+						<div class="text-center text-xs font-medium">{castMember.name}</div>
+						<div class="text-center text-xs text-base-400">{castMember.character}</div>
 					</a>
 				{/each}
 			</div>

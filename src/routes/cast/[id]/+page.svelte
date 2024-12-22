@@ -49,7 +49,10 @@
 				{data.personDetails.biography}
 			</div>
 			{#if !showFullBiography}
-				<button class="text-accent-400 font-semibold mt-1" onclick={() => (showFullBiography = true)}>
+				<button
+					class="mt-1 font-semibold text-accent-400"
+					onclick={() => (showFullBiography = true)}
+				>
 					show more
 				</button>
 			{/if}
