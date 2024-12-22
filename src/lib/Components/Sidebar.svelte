@@ -56,24 +56,30 @@
 	<div
 		class={cn(
 			'sidebar fixed bottom-2 left-0 top-2 z-50 w-[4.5rem] py-2 transition-transform duration-300',
-			showSidebar.value ? 'translate-x-0' : '-translate-x-20 md:translate-x-0'
+			showSidebar.value ? 'translate-x-0' : '-translate-x-64 md:translate-x-0'
 		)}
 	>
-		<ul role="list" class="flex h-full flex-col items-center justify-between space-y-1 pb-2">
+		<ul
+			role="list"
+			class="flex h-full flex-col items-center justify-end space-y-1 pb-2 md:justify-between"
+		>
 			<div class="flex flex-col items-center space-y-2">
 				{#each menu as item}
-					<li>
+					<li class="group relative size-12">
 						<a
 							href={item.href}
 							class={cn(
-								'group flex gap-x-3 rounded-md  p-3 text-sm/6 font-semibold',
+								'group flex items-center  gap-x-3 rounded-md p-3 text-sm/6 font-semibold',
 								$page.url.pathname === item.href
 									? 'bg-accent-950/10 text-accent-400'
 									: 'text-base-200 transition-colors duration-100 hover:bg-accent-950/20 hover:text-accent-400'
 							)}
 						>
 							{@html item.icon}
-							<span class="sr-only">{item.label}</span>
+							<span
+								class="absolute left-14 rounded-lg backdrop-blur-md transition-opacity duration-200 group-hover:opacity-100 md:bg-accent-950/20 md:px-3 md:py-2 md:opacity-0"
+								>{item.label}</span
+							>
 						</a>
 					</li>
 				{/each}
@@ -81,17 +87,20 @@
 			<div class="flex flex-col items-center space-y-2">
 				{#if user}
 					{#each userMenu as item}
-						<li>
+						<li class="group relative size-12">
 							<a
 								href={item.href}
-								class={'group flex gap-x-3 rounded-md  p-3 text-sm/6 font-semibold text-base-200 transition-colors duration-100 hover:bg-accent-950/20 hover:text-accent-400'}
+								class={'group flex items-center gap-x-3 rounded-md p-3 text-sm/6 font-semibold text-base-200 transition-colors duration-100 hover:bg-accent-950/20 hover:text-accent-400'}
 								onclick={(event) => {
 									event.preventDefault();
 									item.onclick();
 								}}
 							>
 								{@html item.icon}
-								<span class="sr-only">{item.label}</span>
+								<span
+									class="absolute left-14 w-[6.5rem] rounded-lg backdrop-blur-md transition-opacity duration-200 group-hover:opacity-100 md:bg-accent-950/20 md:px-3 md:py-2 md:opacity-0"
+									>{item.label}</span
+								>
 							</a>
 						</li>
 					{/each}
@@ -106,14 +115,33 @@
 {#if showSidebar.value}
 	<button
 		transition:fade
-		class="fixed inset-0 z-40 bg-base-900/50 backdrop-blur-sm md:hidden"
+		class="fixed inset-0 z-40 bg-base-950/90 backdrop-blur-sm md:hidden"
 		onclick={() => showSidebar.toggle()}
 	>
 		<span class="sr-only">Close Menu</span>
 	</button>
+
+	<button
+		transition:fade
+		onclick={() => showSidebar.toggle()}
+		class="fixed bottom-6 right-4 z-50 md:hidden"
+	>
+		<span class="sr-only">close Menu</span>
+
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke-width="1.5"
+			stroke="currentColor"
+			class="size-6"
+		>
+			<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+		</svg>
+	</button>
 {:else}
 	<button
-		class="fixed bottom-2 left-2 z-50 rounded-xl border border-base-800 bg-base-900/75 p-2 backdrop-blur-sm md:hidden"
+		class="fixed bottom-2 left-2 z-50 rounded-lg border border-base-800 bg-base-900/75 p-2 backdrop-blur-sm md:hidden"
 		onclick={() => showSidebar.toggle()}
 	>
 		<span class="sr-only">Open Menu</span>

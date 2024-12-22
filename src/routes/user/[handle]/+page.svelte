@@ -1,4 +1,5 @@
 <script lang="ts">
+	import BaseHeadTags from '$lib/Components/BaseHeadTags.svelte';
 	import Container from '$lib/Components/Container.svelte';
 	import Profile from '$lib/Components/Profile.svelte';
 	import ReviewList from '$lib/Components/ReviewList.svelte';
@@ -9,6 +10,8 @@
 <svelte:head>
 	<title>{data.profile.displayName || data.profile.handle}'s reviews</title>
 </svelte:head>
+
+<BaseHeadTags />
 
 <Container>
 	<Profile profile={data.profile} />

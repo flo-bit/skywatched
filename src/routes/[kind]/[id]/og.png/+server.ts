@@ -28,12 +28,12 @@ const template = (data: {
         <h2 tw="flex flex-col text-7xl font-bold text-zinc-100 text-left px-12 max-w-3xl">
             <span tw="flex tracking-tight">${data.title ?? data.name}</span>
         </h2>
-
-
     </div>
 
-	<div tw="flex text-5xl py-8 text-sky-400">
-		rate on skywatched.app
+	<div tw="flex text-4xl text-sky-400 items-end justify-end w-full px-8">
+		<div tw="flex">
+			rate on skywatched.app
+		</div>
 	</div>
 </div>`;
 };

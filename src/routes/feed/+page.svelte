@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { type PageData } from './$types';
 	import ReviewList from '$lib/Components/ReviewList.svelte';
+	import BaseHeadTags from '$lib/Components/BaseHeadTags.svelte';
 
 	let { data }: { data: PageData } = $props();
 </script>
@@ -11,8 +12,10 @@
 	<title>feed | skywatched</title>
 </svelte:head>
 
-<Container class="relative z-10 py-8 sm:py-16">
-	<div class="mx-auto max-w-2xl">
+<BaseHeadTags />
+
+<Container class="relative z-10 w-full py-8 sm:py-16">
+	<div class="mx-auto w-full max-w-2xl">
 		<div class="flex flex-col gap-4 px-4">
 			<h1 class="pb-4 text-2xl font-bold">Recent reviews</h1>
 		</div>
