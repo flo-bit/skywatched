@@ -52,6 +52,7 @@
 		"@node-rs/argon2": "^1.1.0",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
+		"@resvg/resvg-js": "^2.6.2",
 		"@rollup/plugin-node-resolve": "^16.0.0",
 		"@sveltejs/adapter-node": "^5.2.11",
 		"@sveltejs/adapter-vercel": "^5.5.2",
