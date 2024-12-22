@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { rateMovieModal, watchedItems } from '$lib/state.svelte';
-	import { cn } from '$lib/utils';
+	import { cn, nameToId } from '$lib/utils';
 	import Rating from './Rating.svelte';
 
 	const {
@@ -85,7 +85,9 @@
 	</div>
 	<div class="mt-2 flex justify-between">
 		<h3 class="sm:text-md text-sm font-medium text-base-50">
-			<a href="/{item.movieId ? 'movie' : 'tv'}/{item.movieId ?? item.showId}">
+			<a
+				href="/{item.movieId ? 'movie' : 'tv'}/{item.movieId ?? item.showId}-{nameToId(item.title ?? item.name ?? '')}"
+			>
 				<span aria-hidden="true" class="absolute inset-0"></span>
 				<div class="line-clamp-2 max-w-full">
 					{item.title ?? item.name}

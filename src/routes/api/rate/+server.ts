@@ -33,6 +33,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				createdAt: string;
 				updatedAt: string;
 			};
+			from?: string;
 		};
 	} = {
 		repo: did,
@@ -43,7 +44,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				ref: `tmdb:${kind === 'movie' ? 'm' : 's'}`,
 				value: id.toString()
 			},
-			rating: { value: rating * 2, createdAt: new Date().toISOString() }
+			rating: { value: rating * 2, createdAt: new Date().toISOString() },
+			from: 'skywatched'
 		}
 	};
 	if (review) {

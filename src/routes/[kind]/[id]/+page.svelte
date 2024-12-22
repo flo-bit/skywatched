@@ -1,18 +1,35 @@
 <script lang="ts">
 	import { type PageData } from './$types';
-	import { cn } from '$lib/utils';
+	import { cn, nameToId } from '$lib/utils';
 	import { rateMovieModal, videoPlayer, watchedItems } from '$lib/state.svelte';
+
 
 	import Container from '$lib/Components/Container.svelte';
 	import ItemsList from '$lib/Components/ItemsList.svelte';
 	import ReviewList from '$lib/Components/ReviewList.svelte';
 	import Avatar from '$lib/Components/Avatar.svelte';
+	import { page } from '$app/stores';
 
 	let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
 	<title>{data.result.title ?? data.result.name ?? ''} | skywatched</title>
+
+	<meta name="description" content="rate and review {data.result.title ?? data.result.name ?? ''} on skywatched" />
+
+	<meta property="og:url" content="{$page.url.href}" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="{data.result.title ?? data.result.name ?? ''} | skywatched" />
+	<meta property="og:description" content="rate and review {data.result.title ?? data.result.name ?? ''} on skywatched" />
+	<meta property="og:image" content="{$page.url.href}/og.png" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta property="twitter:domain" content="skywatched.app" />
+	<meta property="twitter:url" content="{$page.url.href}" />
+	<meta name="twitter:title" content="{data.result.title ?? data.result.name ?? ''} | skywatched" />
+	<meta name="twitter:description" content="rate and review {data.result.title ?? data.result.name ?? ''} on skywatched" />
+	<meta name="twitter:image" content="{$page.url.href}/og.png" />
 </svelte:head>
 
 {#snippet buttons()}
@@ -149,7 +166,7 @@
 
 			<div class={cn('flex gap-x-6 overflow-x-auto')}>
 				{#each data.cast as castMember}
-					<a href={`/cast/${castMember.id}`} class="flex flex-col items-center gap-1">
+					<a href={`/cast/${castMember.id}-${nameToId(castMember.name)}`} class="flex flex-col items-center gap-1">
 						<Avatar
 							src={castMember.profile_path
 								? 'https://image.tmdb.org/t/p/w500' + castMember.profile_path

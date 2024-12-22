@@ -3,6 +3,7 @@
 	import { toast } from 'svelte-sonner';
 	import Rating from './Rating.svelte';
 	import RelativeTime from './relative-time/RelativeTime.svelte';
+	import { nameToId } from '$lib/utils';
 
 	let { data, showMovieDetails = true }: { data: MainRecord; showMovieDetails?: boolean } =
 		$props();
@@ -15,8 +16,8 @@
 		{#if showMovieDetails}
 			<a
 				href={data.record.item.ref === 'tmdb:m'
-					? `/movie/${data.record.item.value}`
-					: `/tv/${data.record.item.value}`}
+					? `/movie/${data.record.item.value}-${nameToId(data.record.metadata?.title ?? '')}`
+					: `/tv/${data.record.item.value}-${nameToId(data.record.metadata?.title ?? '')}`}
 				class="relative z-20 mr-4 aspect-[2/3] h-32 w-auto shrink-0 overflow-hidden rounded-md border border-base-800 bg-base-900/50 transition-opacity duration-75 hover:opacity-80 group-hover:opacity-75"
 			>
 				{#if data.record.metadata?.poster_path}
@@ -53,8 +54,8 @@
 				{#if showMovieDetails}
 					<a
 						href={data.record.item.ref === 'tmdb:m'
-							? `/movie/${data.record.item.value}`
-							: `/tv/${data.record.item.value}`}
+							? `/movie/${data.record.item.value}-${nameToId(data.record.metadata?.title ?? '')}`
+							: `/tv/${data.record.item.value}-${nameToId(data.record.metadata?.title ?? '')}`}
 						class="title text-2xl font-bold hover:text-accent-200"
 						style:--name={`title-${data.record.item.value}`}
 					>
