@@ -48,7 +48,7 @@ export type MainRecord = {
 
 		likes?: number;
 	};
-};  
+};
 
 export async function getRecentRecordOfUser({ did }: { did: string }): Promise<MainRecord[]> {
 	const response = await fetch(`${env.BACKEND_URL}/api/recent-records-by-user?did=${did}`);

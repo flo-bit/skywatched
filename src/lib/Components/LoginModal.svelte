@@ -17,7 +17,9 @@
 		></div>
 
 		<div class="pointer-events-none fixed inset-0 z-10 w-screen overflow-y-auto">
-			<div class="flex min-h-[100dvh] items-end justify-center p-4 text-center sm:items-center sm:p-0">
+			<div
+				class="flex min-h-[100dvh] items-end justify-center p-4 text-center sm:items-center sm:p-0"
+			>
 				<div
 					class="pointer-events-auto relative w-full transform overflow-hidden rounded-lg border border-base-700 bg-base-800 px-4 pb-4 pt-2 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
 				>
@@ -39,7 +41,7 @@
 									type="text"
 									name="handle"
 									id="handle"
-									class="block w-full rounded-md border-0 py-1.5 text-base-900 shadow-sm ring-1 ring-inset ring-base-300 placeholder:text-base-400 focus:ring-2 focus:ring-inset focus:ring-accent-600 sm:text-sm/6 dark:bg-base-900 dark:text-base-100 dark:ring-base-700 dark:placeholder:text-base-600"
+									class="block w-full rounded-md border-0 py-1.5 text-base-900 shadow-sm ring-1 ring-inset ring-base-300 placeholder:text-base-400 focus:ring-2 focus:ring-inset focus:ring-accent-600 dark:bg-base-900 dark:text-base-100 dark:ring-base-700 dark:placeholder:text-base-600 sm:text-sm/6"
 									placeholder="yourname.bsky.social"
 								/>
 							</div>
