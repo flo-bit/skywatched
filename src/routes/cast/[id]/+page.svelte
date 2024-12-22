@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Avatar from '$lib/Components/Avatar.svelte';
+	import BaseHeadTags from '$lib/Components/BaseHeadTags.svelte';
 	import Container from '$lib/Components/Container.svelte';
 	import ItemsGrid from '$lib/Components/ItemsGrid.svelte';
 	import { onMount } from 'svelte';
@@ -22,6 +23,8 @@
 
 	let showFullBiography = $state(false);
 </script>
+
+<BaseHeadTags />
 
 <Container class="relative z-10 pb-8 pt-4">
 	<div class="flex items-center gap-4 px-4 pt-8">

@@ -1,4 +1,5 @@
 <script>
+	import BaseHeadTags from '$lib/Components/BaseHeadTags.svelte';
 	import Container from '$lib/Components/Container.svelte';
 	import ReviewList from '$lib/Components/ReviewList.svelte';
 	import { rateMovieModal, showLoginModal } from '$lib/state.svelte';
@@ -10,20 +11,23 @@
 	<title>skywatched</title>
 </svelte:head>
 
-<Container class="max-w-8xl relative z-10 w-full md:max-w-3xl lg:max-w-5xl xl:max-w-6xl">
-	<div class="max-w-8xl mx-auto flex w-full flex-col md:flex-row">
-		<div class="flex grow flex-col gap-4 py-8 md:border-r border-base-900">
-			<h1 class="text-balance px-8 text-3xl pb-6 font-semibold tracking-tight text-base-100">
-				Recent reviews
-			</h1>
+<BaseHeadTags />
+
+<Container class="relative z-10 w-full">
+	<div class="max-w-8xl mx-auto flex w-full flex-col md:flex-col">
+		<div class="mx-auto flex max-w-2xl grow flex-col gap-4 py-8">
+			<h1 class="pb-4 text-2xl font-bold">Recent reviews</h1>
+
 			{#if data.feed.length > 0}
-				<ReviewList reviews={data.feed}/>
+				<ReviewList reviews={data.feed} />
 			{/if}
 		</div>
 
-		<div class="order-first md:order-last px-8 text-base-100 h-96 md:h-screen flex flex-col items-center justify-center md:max-w-84">
-			<h1 class="tracking-tight font-semibold text-balance text-3xl sm:text-5xl">skywatched</h1>
-			<p class="text-md mt-8 text-pretty font-medium text-center text-base-300 sm:text-lg max-w-xs">
+		<div
+			class="md:max-w-84 order-first flex h-96 flex-col items-center justify-center px-8 text-base-100"
+		>
+			<h1 class="text-balance text-3xl font-semibold tracking-tight sm:text-5xl">skywatched</h1>
+			<p class="text-md mt-8 max-w-xs text-pretty text-center font-medium text-base-300 sm:text-lg">
 				review movies and shows with your bluesky friends.
 			</p>
 			{#if !data.user}

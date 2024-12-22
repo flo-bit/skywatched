@@ -1,10 +1,47 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import ReviewCard from '$lib/Components/ReviewCard.svelte';
 	import Container from '$lib/Components/Container.svelte';
+	import { page } from '$app/stores';
 
 	let { data } = $props();
 </script>
+
+<svelte:head>
+	<title>{data.record.author.displayName || data.record.author.handle}'s review | skywatched</title>
+
+	<meta
+		name="description"
+		content="{data.record.author.displayName || data.record.author.handle} reviewed {data.record
+			.record.metadata?.title ?? ''} on skywatched"
+	/>
+
+	<meta property="og:url" content={$page.url.href} />
+	<meta property="og:type" content="website" />
+	<meta
+		property="og:title"
+		content="{data.record.author.displayName || data.record.author.handle}'s review | skywatched"
+	/>
+	<meta
+		property="og:description"
+		content="{data.record.author.displayName || data.record.author.handle} reviewed {data.record
+			.record.metadata?.title ?? ''} on skywatched"
+	/>
+	<meta property="og:image" content="{$page.url.href}/og.png" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta property="twitter:domain" content="skywatched.app" />
+	<meta property="twitter:url" content={$page.url.href} />
+	<meta
+		name="twitter:title"
+		content="{data.record.author.displayName || data.record.author.handle}'s review | skywatched"
+	/>
+	<meta
+		name="twitter:description"
+		content="{data.record.author.displayName || data.record.author.handle} reviewed {data.record
+			.record.metadata?.title ?? ''} on skywatched"
+	/>
+	<meta name="twitter:image" content="{$page.url.href}/og.png" />
+</svelte:head>
 
 {#if data.record.record.metadata?.backdrop_path}
 	<img
@@ -13,6 +50,7 @@
 		class="fixed h-full w-full object-cover object-center opacity-20"
 	/>
 {/if}
+
 <div class="fixed inset-0 h-full w-full bg-black/50"></div>
 
 <Container class="z-10 flex h-screen flex-col items-center justify-center">

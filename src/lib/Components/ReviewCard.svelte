@@ -35,7 +35,7 @@
 		<div class="flex flex-col gap-3">
 			<a
 				href={`/user/${data.author.handle}`}
-				class="flex flex-row items-center gap-4 overflow-hidden font-medium"
+				class="z-20 flex flex-row items-center gap-4 overflow-hidden font-medium"
 			>
 				<div class="flex items-center gap-2">
 					{#if data.author.avatar}
@@ -56,14 +56,17 @@
 						href={data.record.item.ref === 'tmdb:m'
 							? `/movie/${data.record.item.value}-${nameToId(data.record.metadata?.title ?? '')}`
 							: `/tv/${data.record.item.value}-${nameToId(data.record.metadata?.title ?? '')}`}
-						class="title text-2xl font-bold hover:text-accent-200"
+						class="title z-20 text-2xl font-bold hover:text-accent-200"
 						style:--name={`title-${data.record.item.value}`}
 					>
 						{data.record.metadata?.title}
 					</a>
 				{/if}
 				{#if data.record.rating?.value}
-					<Rating rating={data.record.rating?.value / 2} size={'size-6'} />
+					<a href={`/review/${encodeURIComponent(data.uri)}`}>
+						<Rating rating={data.record.rating?.value / 2} size={'size-6'} />
+						<span class="sr-only">View review</span>
+					</a>
 				{/if}
 			</div>
 		</div>
@@ -155,6 +158,6 @@
 	</div>
 
 	<!-- <a href={`/review/${encodeURIComponent(data.uri)}`}>
-		<span class="absolute inset-0 z-10"></span>
+		<span class="absolute inset-0 z-10 hover:bg-accent-500/10"></span>
 	</a> -->
 </div>
