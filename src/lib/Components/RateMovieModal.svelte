@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { rateMovieModal, watchedItems } from '$lib/state.svelte';
+	import { crosspostModal, rateMovieModal, settings, watchedItems } from '$lib/state.svelte';
 	import { toast } from 'svelte-sonner';
 	import Rating from './Rating.svelte';
 	import SearchCombobox from './SearchCombobox.svelte';
@@ -11,6 +11,8 @@
 		rating = rateMovieModal.selectedItem.currentRating ?? 0;
 		review = rateMovieModal.selectedItem.currentReview ?? '';
 	});
+
+	let sending = $state(false);
 </script>
 
 {#if rateMovieModal.showModal}
@@ -99,9 +101,7 @@
 					<div class="mt-5 sm:mt-6">
 						<button
 							onclick={async () => {
-								rateMovieModal.showModal = false;
-
-								await fetch(`/api/rate`, {
+								const response = await fetch(`/api/rate`, {
 									method: 'POST',
 									body: JSON.stringify({
 										rating,
@@ -110,6 +110,19 @@
 										id: rateMovieModal.selectedItem.movieId ?? rateMovieModal.selectedItem.showId
 									})
 								});
+
+								if (!response.ok) {
+									toast.error('Failed to save rating');
+
+									return;
+								}
+								rateMovieModal.showModal = false;
+
+								const data = await response.json();
+
+								if (settings.crosspostEnabled && review.length > 0) {
+									crosspostModal.show(data.uri, review, rating, rateMovieModal.selectedItem.name ?? '');
+								}
 
 								watchedItems.addRated({
 									movieId: rateMovieModal.selectedItem.movieId,
@@ -120,8 +133,9 @@
 								toast.success('Rating saved');
 							}}
 							type="button"
-							class="inline-flex w-full justify-center rounded-md border border-accent-900 bg-accent-950/80 px-3 py-2 text-sm font-semibold text-accent-300 shadow-sm hover:bg-accent-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
-							>review</button
+							disabled={sending || !rateMovieModal.selectedItem.name}
+							class="inline-flex w-full justify-center rounded-md border border-accent-900 bg-accent-950/80 px-3 py-2 text-sm font-semibold text-accent-300 shadow-sm hover:bg-accent-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 disabled:opacity-50 disabled:cursor-not-allowed"
+							>{sending ? 'Sending...' : 'Review'}</button
 						>
 					</div>
 				</div>

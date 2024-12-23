@@ -30,12 +30,12 @@
 	let searching = false;
 
 	function onInput() {
-		if ($inputValue.length < 3) {
+		if ($inputValue.length < 2) {
 			results = [];
 		} else {
 			searching = true;
 			debounce(async () => {
-				if ($inputValue.length < 3) return;
+				if ($inputValue.length < 2) return;
 
 				const response = await fetch(`/api/search?q=${$inputValue}`);
 				const data = await response.json();
@@ -74,7 +74,7 @@
 			oninput={onInput}
 		/>
 		<div class="absolute right-2 top-1/2 z-10 -translate-y-1/2 text-accent-500">
-			{#if $open && $inputValue.length > 2}
+			{#if $open && $inputValue.length > 1}
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -104,7 +104,7 @@
 		</div>
 	</div>
 </div>
-{#if $open && $inputValue.length > 2}
+{#if $open && $inputValue.length > 1}
 	<ul
 		class=" z-50 flex max-h-[300px] flex-col overflow-hidden rounded-lg"
 		use:melt={$menu}
@@ -121,7 +121,7 @@
 						value: item,
 						label: item.title
 					})}
-					class="relative cursor-pointer scroll-my-2 px-2 py-2 data-[highlighted]:text-accent-200"
+					class="relative w-full cursor-pointer scroll-my-2 px-2 py-2 data-[highlighted]:text-accent-200"
 				>
 					<button
 						onclick={() => {
@@ -136,7 +136,7 @@
 							};
 							rateMovieModal.showModal = true;
 						}}
-						class="flex items-center justify-center gap-2"
+						class="flex items-center justify-start gap-2 w-full"
 					>
 						<div
 							class="relative z-20 aspect-[2/3] h-12 w-auto shrink-0 overflow-hidden rounded-md border border-base-800 bg-base-900/50"
@@ -156,7 +156,7 @@
 				>
 					{#if searching}
 						Searching...
-					{:else if $inputValue.length > 2}
+					{:else if $inputValue.length > 1}
 						No results found
 					{/if}
 				</li>

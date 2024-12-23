@@ -38,7 +38,7 @@ export async function GET({ request, cookies }: RequestEvent) {
 		});
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	} catch (_e) {
-		redirect(301, '/onboarding');
+		redirect(301, '/settings?new');
 	}
 
 	redirect(301, '/');

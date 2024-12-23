@@ -31,14 +31,16 @@ const template = (data: MainRecord) => {
 
             <span tw="flex tracking-tight mt-4">${data.record.metadata?.title}</span>
 
-			<div tw="flex items-center mt-8">
+			${
+				data.record.rating
+					? `<div tw="flex items-center mt-8">
 				<div tw="flex items-center">
 
 					${new Array(5)
 						.fill(0)
 						.map(
 							(_, i) => `<svg
-						tw="w-20 h-20 flex ${i * 2 < (data.record.rating?.value ?? 0) ? 'text-sky-400' : 'text-zinc-600'}"
+						tw="w-20 h-20 flex ${i * 2 < (data.record.rating?.value ?? 0) - 1 ? 'text-sky-400' : 'text-zinc-600'}"
 						viewBox="0 0 24 24"
 						fill="currentColor">
 						<path
@@ -50,7 +52,9 @@ const template = (data: MainRecord) => {
 						)
 						.join('')}
 				</div>
-			</div>
+			</div>`
+					: ``
+			}
         </div>
     </div>
 

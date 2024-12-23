@@ -4,6 +4,7 @@
 	import Rating from './Rating.svelte';
 	import RelativeTime from './relative-time/RelativeTime.svelte';
 	import { nameToId } from '$lib/utils';
+	// import { crosspostModal } from '$lib/state.svelte';
 
 	let { data, showMovieDetails = true }: { data: MainRecord; showMovieDetails?: boolean } =
 		$props();
@@ -68,6 +69,19 @@
 						<span class="sr-only">View review</span>
 					</a>
 				{/if}
+
+				<!-- <button
+					onclick={() => {
+						crosspostModal.show(
+							data.uri,
+							data.record.note?.value ?? '',
+							(data.record.rating?.value ?? 0) / 2,
+							data.record.metadata?.title ?? ''
+						);
+					}}
+				>
+					crosspost
+				</button> -->
 			</div>
 		</div>
 	</div>

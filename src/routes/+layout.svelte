@@ -3,7 +3,7 @@
 
 	import Footer from '$lib/Components/Footer.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
-	import { watchedItems } from '$lib/state.svelte';
+	import { settings, user, watchedItems } from '$lib/state.svelte';
 	import RateMovieModal from '$lib/Components/RateMovieModal.svelte';
 
 	import LoginModal from '$lib/Components/LoginModal.svelte';
@@ -15,6 +15,7 @@
 	import { navigating } from '$app/stores';
 	import { slide } from 'svelte/transition';
 	import { expoOut } from 'svelte/easing';
+	import CrosspostModal from '$lib/Components/CrosspostModal.svelte';
 
 	let { children, data } = $props();
 
@@ -85,6 +86,13 @@
 		// check if user is logged in
 		if (!data.user) return;
 
+		settings.streamingRegion = data.settings?.streaming_region.code;
+		settings.crosspostEnabled = data.settings?.crosspost_enabled;
+
+		user.displayName = data.user.displayName;
+		user.handle = data.user.handle;
+		user.avatar = data.user.avatar;
+
 		if (useCachedRatedItems()) {
 			console.log('using cached rated items');
 		} else {
@@ -129,6 +137,8 @@
 <LoginModal />
 
 <VideoPlayer />
+
+<CrosspostModal />
 
 <div
 	style="background-image: url(/nnnoise.svg)"

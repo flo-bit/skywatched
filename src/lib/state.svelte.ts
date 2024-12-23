@@ -86,6 +86,57 @@ export const rateMovieModal: {
 	}
 });
 
+export const crosspostModal: {
+	showModal: boolean;
+	uri: string | undefined;
+	review: string | undefined;
+	rating: number | undefined;
+	title: string | undefined;
+
+	show: (uri: string, review: string, rating: number, title: string) => void;
+	hide: () => void;
+} = $state({
+	showModal: false,
+	uri: undefined,
+	review: undefined,
+	rating: undefined,
+	title: undefined,
+
+	show: (uri: string, review: string, rating: number, title: string) => {
+		crosspostModal.uri = uri;
+		crosspostModal.review = review;
+		crosspostModal.rating = rating;
+		crosspostModal.title = title;
+		crosspostModal.showModal = true;
+	},
+
+	hide: () => {
+		crosspostModal.showModal = false;
+		crosspostModal.uri = undefined;
+		crosspostModal.review = undefined;
+		crosspostModal.rating = undefined;
+		crosspostModal.title = undefined;
+	}
+});
+
+export const settings: {
+	streamingRegion: string | undefined;
+	crosspostEnabled: boolean | undefined;
+} = $state({
+	streamingRegion: undefined,
+	crosspostEnabled: undefined
+});
+
+export const user: {
+	displayName: string | undefined;
+	handle: string | undefined;
+	avatar: string | undefined;
+} = $state({
+	displayName: undefined,
+	handle: undefined,
+	avatar: undefined
+});
+
 export const showLoginModal = $state({
 	value: false,
 	toggle: () => {
