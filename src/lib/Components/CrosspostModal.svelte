@@ -54,7 +54,7 @@
 
 						<p class="text-sm text-base-300">Do you want to crosspost this review to Bluesky?</p>
 
-						<div class="mt-4 rounded-xl border border-base-800 p-4 bg-base-950">
+						<div class="mt-4 rounded-xl border border-base-800 bg-base-950 p-4">
 							<div class="flex items-center gap-2">
 								{#if user.avatar}
 									<img src={user.avatar} alt="user avatar" class="size-5 rounded-full" />
@@ -68,9 +68,12 @@
 								{@html ratingText}
 							</p>
 
-							<div class="relative mt-4 aspect-2 h-auto w-full rounded-md bg-base-800 overflow-hidden border border-base-800">
-
-								<div class="absolute flex items-center justify-center inset-0 h-full w-full bg-base-950/90">
+							<div
+								class="relative mt-4 aspect-2 h-auto w-full overflow-hidden rounded-md border border-base-800 bg-base-800"
+							>
+								<div
+									class="absolute inset-0 flex h-full w-full items-center justify-center bg-base-950/90"
+								>
 									<p>Loading image...</p>
 								</div>
 								<img

@@ -27,6 +27,7 @@
 						alt="movie poster for {data.record.metadata.title}"
 						class="poster size-full object-cover object-center lg:size-full"
 						style:--name={`poster-${data.record.item.value}`}
+						loading="lazy"
 					/>
 				{/if}
 				<span class="sr-only">View {data.record.metadata?.title}</span>
@@ -40,7 +41,12 @@
 			>
 				<div class="flex items-center gap-2">
 					{#if data.author.avatar}
-						<img src={data.author.avatar} alt="user avatar" class="size-5 rounded-full" />
+						<img
+							src={data.author.avatar.replace('avatar', 'avatar_thumbnail')}
+							alt="user avatar"
+							loading="lazy"
+							class="size-6 rounded-full"
+						/>
 					{/if}
 					<div class="truncate text-sm font-medium">
 						{data.author.displayName || data.author.handle}

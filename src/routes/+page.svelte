@@ -15,8 +15,8 @@
 
 <Container class="relative z-10 w-full">
 	<div class="max-w-8xl mx-auto flex w-full flex-col md:flex-col">
-		<div class="mx-auto flex max-w-2xl grow flex-col gap-4 py-8">
-			<h1 class="pb-4 text-2xl font-bold px-4">Recent reviews</h1>
+		<div class="mx-auto flex w-full max-w-2xl grow flex-col gap-4 py-8">
+			<h1 class="px-4 pb-4 text-2xl font-bold">Recent reviews</h1>
 
 			{#if data.feed.length > 0}
 				<ReviewList reviews={data.feed} />

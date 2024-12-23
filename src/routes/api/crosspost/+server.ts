@@ -1,14 +1,12 @@
 import { error, json, type RequestHandler } from '@sveltejs/kit';
-import { AtpBaseClient, BlobRef } from '@atproto/api';
+import { AtpBaseClient, type BlobRef } from '@atproto/api';
 import { TID } from '@atproto/common';
 import { getRecordByUri } from '$lib/db';
-// import fs from 'fs';
 
 import imagemin from 'imagemin';
 import imageminWebp from 'imagemin-webp';
 
 export const POST: RequestHandler = async ({ request, locals, fetch }) => {
-	console.log('crosspost');
 	const user = locals.user;
 	const agent = locals.agent;
 	if (!user || !agent || agent instanceof AtpBaseClient) {
@@ -136,8 +134,6 @@ export const POST: RequestHandler = async ({ request, locals, fetch }) => {
 	};
 
 	await agent.com.atproto.repo.putRecord(record);
-
-	console.log('posted');
 
 	return json({ status: 'rated' });
 };

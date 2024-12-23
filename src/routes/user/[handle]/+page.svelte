@@ -13,7 +13,7 @@
 
 <BaseHeadTags />
 
-<Container>
+<Container class="max-w-full lg:max-w-full">
 	<Profile profile={data.profile} />
 
 	{#if data.items.length > 0}

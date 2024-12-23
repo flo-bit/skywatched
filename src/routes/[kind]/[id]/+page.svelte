@@ -22,7 +22,10 @@
 
 	<meta property="og:url" content={$page.url.href} />
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content="{data.result.title ?? data.result.name ?? ''} | skywatched.app" />
+	<meta
+		property="og:title"
+		content="{data.result.title ?? data.result.name ?? ''} | skywatched.app"
+	/>
 	<meta
 		property="og:description"
 		content={`Rate and review "${data.result.title ?? data.result.name ?? ''}" on skywatched`}
@@ -32,7 +35,10 @@
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta property="twitter:domain" content="skywatched.app" />
 	<meta property="twitter:url" content={$page.url.href} />
-	<meta name="twitter:title" content="{data.result.title ?? data.result.name ?? ''} | skywatched.app" />
+	<meta
+		name="twitter:title"
+		content="{data.result.title ?? data.result.name ?? ''} | skywatched.app"
+	/>
 	<meta
 		name="twitter:description"
 		content={`Rate and review "${data.result.title ?? data.result.name ?? ''}" on skywatched`}
@@ -103,7 +109,7 @@
 		/>
 		<div class="flex flex-col gap-4">
 			<div
-				class="title max-w-xl text-2xl font-semibold text-white sm:text-4xl"
+				class="title max-w-xl text-3xl font-semibold text-white sm:text-4xl"
 				style:--name={`title-${data.result.id}`}
 			>
 				{data.result.title ?? data.result.name}

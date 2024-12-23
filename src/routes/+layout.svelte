@@ -22,6 +22,11 @@
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
 
+		// if user goes from and to the same page, don't animate
+		if (navigation?.from?.url === navigation?.to?.url) {
+			return;
+		}
+
 		return new Promise((resolve) => {
 			document.startViewTransition(async () => {
 				resolve();
@@ -125,11 +130,12 @@
 		unstyled: true,
 		classes: {
 			toast:
-				'bg-base-900/70 backdrop-blur-sm border border-base-800 rounded-md shadow-md p-4 flex items-center gap-2 fixed bottom-4 right-4',
+				'bg-base-900/70 backdrop-blur-sm border border-base-800 rounded-md shadow-md p-4 flex items-center gap-2 fixed top-4 right-0 mx-2',
 			title: 'text-white',
 			description: 'text-white'
 		}
 	}}
+	position="top-right"
 />
 
 <RateMovieModal />

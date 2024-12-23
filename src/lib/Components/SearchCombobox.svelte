@@ -136,7 +136,7 @@
 							};
 							rateMovieModal.showModal = true;
 						}}
-						class="flex items-center justify-start gap-2 w-full"
+						class="flex w-full items-center justify-start gap-2"
 					>
 						<div
 							class="relative z-20 aspect-[2/3] h-12 w-auto shrink-0 overflow-hidden rounded-md border border-base-800 bg-base-900/50"
