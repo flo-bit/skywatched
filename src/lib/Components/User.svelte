@@ -41,7 +41,7 @@
 	</div>
 {/snippet}
 
-<div class="relative pt-4">
+<li class="relative pt-4">
 	{#if user}
 		<a href="/user/{user.handle}">
 			{@render renderUser()}
@@ -58,4 +58,4 @@
 			{@render renderUser()}
 		</button>
 	{/if}
-</div>
+</li>

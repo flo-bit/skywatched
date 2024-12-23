@@ -67,11 +67,8 @@
 			showSidebar.value ? 'translate-x-0' : '-translate-x-64 md:translate-x-0'
 		)}
 	>
-		<ul
-			role="list"
-			class="flex h-full flex-col items-center justify-end space-y-1 pb-2 md:justify-between"
-		>
-			<div class="flex flex-col items-center space-y-2">
+		<div class="flex h-full flex-col items-center justify-end space-y-1 pb-2 md:justify-between">
+			<ul class="flex flex-col items-center space-y-2">
 				{#each menu as item}
 					<li class="group relative size-12">
 						<a
@@ -85,14 +82,18 @@
 						>
 							{@html item.icon}
 							<span
-								class="absolute left-14 rounded-lg backdrop-blur-md transition-opacity duration-200 group-hover:opacity-100 md:bg-accent-950/20 md:px-3 md:py-2 md:opacity-0"
+								class="pointer-events-none absolute left-14 rounded-lg transition-opacity duration-200 group-hover:pointer-events-auto group-hover:opacity-100 md:bg-accent-950/20 md:px-3 md:py-2 md:opacity-0"
 								>{item.label}</span
 							>
+
+							{#if showSidebar.value}
+								<span class="absolute inset-0 block h-full w-screen md:hidden"></span>
+							{/if}
 						</a>
 					</li>
 				{/each}
-			</div>
-			<div class="flex flex-col items-center space-y-2">
+			</ul>
+			<ul class="flex flex-col items-center space-y-2">
 				{#if user}
 					{#each userMenu as item}
 						<li class="group relative">
@@ -108,17 +109,21 @@
 							>
 								{@html item.icon}
 								<span
-									class="absolute left-14 whitespace-nowrap rounded-lg backdrop-blur-md transition-opacity duration-200 group-hover:opacity-100 md:bg-accent-950/20 md:px-3 md:py-2 md:opacity-0"
+									class="pointer-events-none absolute left-14 whitespace-nowrap rounded-lg backdrop-blur-md transition-opacity duration-200 group-hover:pointer-events-auto group-hover:opacity-100 md:bg-accent-950/20 md:px-3 md:py-2 md:opacity-0"
 									>{item.label}</span
 								>
+
+								{#if showSidebar.value}
+									<span class="absolute inset-0 block h-full w-screen md:hidden"></span>
+								{/if}
 							</a>
 						</li>
 					{/each}
 				{/if}
 
 				<User {user} />
-			</div>
-		</ul>
+			</ul>
+		</div>
 	</div>
 {/key}
 

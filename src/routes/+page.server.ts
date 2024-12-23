@@ -15,7 +15,7 @@ export async function load() {
 		feed = await getRecentRecords();
 		lastUpdated = now;
 	}
-	return { feed };
+	return { feed: feed.slice(0, 10) };
 }
 
 export const actions: Actions = {

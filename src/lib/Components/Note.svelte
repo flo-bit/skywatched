@@ -1,13 +1,16 @@
 <script lang="ts">
-	import { cn } from "$lib/utils";
+	import { cn } from '$lib/utils';
 
-	let { children, class: className }: {
+	let {
+		children,
+		class: className
+	}: {
 		children: () => any;
 		class?: string;
 	} = $props();
 </script>
 
-<div class={cn('rounded-md bg-sky-500/10 border border-sky-500/20 p-4', className)}>
+<div class={cn('rounded-md border border-sky-500/20 bg-sky-500/10 p-4', className)}>
 	<div class="flex">
 		<div class="shrink-0">
 			<svg
