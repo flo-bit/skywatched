@@ -52,7 +52,7 @@
 						{data.author.displayName || data.author.handle}
 					</div>
 				</div>
-				<div class="shrink-0 pr-2 text-sm text-base-500">
+				<div class="shrink-0 pr-2 text-sm text-base-400 font-normal">
 					<RelativeTime date={new Date(data.updatedAt)} locale="en-US" />
 				</div>
 			</a>
