@@ -156,7 +156,7 @@
 	</button>
 {:else}
 	<button
-		class="fixed bottom-2 left-2 z-50 rounded-lg border border-base-800 bg-base-900/75 p-2 backdrop-blur-sm md:hidden"
+		class="fixed bottom-2 right-2 z-50 rounded-lg border border-base-800 bg-base-900/75 p-2 backdrop-blur-sm md:hidden"
 		onclick={() => showSidebar.toggle()}
 	>
 		<span class="sr-only">Open Menu</span>
