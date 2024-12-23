@@ -56,11 +56,22 @@
 <Container class="z-10 flex h-screen flex-col items-center justify-center">
 	<ReviewCard data={data.record} />
 
-	<div
-		class="z-10 rounded-lg border border-base-700 bg-base-50/5 px-3 py-2 text-xs font-medium text-base-200 transition-all duration-100 hover:bg-base-50/10"
-	>
-		<a href={`/user/${data.record.author.handle}`}>
-			all reviews by {data.record.author.displayName || data.record.author.handle}
-		</a>
+	<div class="flex flex-wrap items-center justify-center gap-4">
+		<div
+			class="z-10 rounded-lg border border-base-700 bg-base-50/5 px-3 py-2 text-xs font-medium text-base-200 transition-all duration-100 hover:bg-base-50/10"
+		>
+			<a
+				href={`/${data.record.record.item.ref === 'tmdb:m' ? 'movie' : 'tv'}/${data.record.record.item.value}`}
+			>
+				see {data.record.record.item.ref === 'tmdb:m' ? 'movie' : 'show'} details
+			</a>
+		</div>
+		<div
+			class="z-10 rounded-lg border border-base-700 bg-base-50/5 px-3 py-2 text-xs font-medium text-base-200 transition-all duration-100 hover:bg-base-50/10"
+		>
+			<a href={`/user/${data.record.author.handle}`}>
+				all reviews by {data.record.author.displayName || data.record.author.handle}
+			</a>
+		</div>
 	</div>
 </Container>

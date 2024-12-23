@@ -17,25 +17,25 @@
 
 	<meta
 		name="description"
-		content="rate and review {data.result.title ?? data.result.name ?? ''} on skywatched"
+		content={`Rate and review "${data.result.title ?? data.result.name ?? ''}" on skywatched`}
 	/>
 
 	<meta property="og:url" content={$page.url.href} />
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content="{data.result.title ?? data.result.name ?? ''} | skywatched" />
+	<meta property="og:title" content="{data.result.title ?? data.result.name ?? ''} | skywatched.app" />
 	<meta
 		property="og:description"
-		content="rate and review {data.result.title ?? data.result.name ?? ''} on skywatched"
+		content={`Rate and review "${data.result.title ?? data.result.name ?? ''}" on skywatched`}
 	/>
 	<meta property="og:image" content="{$page.url.href}/og.png" />
 
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta property="twitter:domain" content="skywatched.app" />
 	<meta property="twitter:url" content={$page.url.href} />
-	<meta name="twitter:title" content="{data.result.title ?? data.result.name ?? ''} | skywatched" />
+	<meta name="twitter:title" content="{data.result.title ?? data.result.name ?? ''} | skywatched.app" />
 	<meta
 		name="twitter:description"
-		content="rate and review {data.result.title ?? data.result.name ?? ''} on skywatched"
+		content={`Rate and review "${data.result.title ?? data.result.name ?? ''}" on skywatched`}
 	/>
 	<meta name="twitter:image" content="{$page.url.href}/og.png" />
 </svelte:head>

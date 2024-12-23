@@ -3,6 +3,11 @@
 	import { fly } from 'svelte/transition';
 
 	import availableRegions from './available_regions.json';
+	import { onMount } from 'svelte';
+	import { settings, user } from '$lib/state.svelte';
+	import Note from '$lib/Components/Note.svelte';
+
+	export let data;
 
 	type Region = {
 		iso_3166_1: string;
@@ -38,11 +43,28 @@
 				);
 			})
 		: availableRegions;
+
+	let crossPost = 'true';
+
+	onMount(() => {
+		$inputValue = data.settings?.streaming_region?.name ?? '';
+		crossPost = (data.settings?.crosspost_enabled ?? false) ? 'true' : 'false';
+	});
 </script>
 
 <div class="flex h-screen flex-col items-center justify-center">
 	<form class="w-full max-w-lg px-4" action="?/settings" method="POST">
-		<div class="mb-12 text-2xl font-bold text-base-50">Welcome to Skywatched!</div>
+		{#if data.isNew}
+			<div class="mb-8 text-2xl font-bold text-base-50">Welcome to Skywatched!</div>
+		{:else}
+			<div class="mb-8 text-2xl font-bold text-base-50">Settings</div>
+		{/if}
+
+		<Note class="mb-4">
+			Please note that all information you provide is stored on bluesky and as such <span
+				class="font-semibold">publicly visible.</span
+			>
+		</Note>
 
 		<div class="flex w-full flex-col gap-1">
 			<!-- svelte-ignore a11y-label-has-associated-control - $label contains the 'for' attribute -->
@@ -140,16 +162,16 @@
 		<fieldset class="mt-8">
 			<legend class="text-sm/6 font-semibold text-base-50">Crossposting</legend>
 			<p class="mt-1 max-w-sm text-sm/6 text-base-400">
-				Do you want to enable crossposting reviews to bluesky? You can still change this per review
-				later.
+				Do you want to enable crossposting reviews to bluesky? If you choose yes, we'll still ask
+				you to confirm for every review.
 			</p>
 			<div class="mt-6 space-y-4">
 				<div class="flex items-center">
 					<input
+						bind:group={crossPost}
 						id="crosspost-enabled"
 						name="crosspost-enabled"
 						type="radio"
-						checked
 						value="true"
 						class="relative size-4 appearance-none rounded-full border border-base-700 bg-white/10 before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-accent-500 checked:bg-accent-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 disabled:border-base-300 disabled:bg-base-100 disabled:before:bg-base-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
 					/>
@@ -159,6 +181,7 @@
 				</div>
 				<div class="flex items-center">
 					<input
+						bind:group={crossPost}
 						id="crosspost-disabled"
 						name="crosspost-enabled"
 						type="radio"

@@ -16,7 +16,7 @@
 <Container class="relative z-10 w-full">
 	<div class="max-w-8xl mx-auto flex w-full flex-col md:flex-col">
 		<div class="mx-auto flex max-w-2xl grow flex-col gap-4 py-8">
-			<h1 class="pb-4 text-2xl font-bold">Recent reviews</h1>
+			<h1 class="pb-4 text-2xl font-bold px-4">Recent reviews</h1>
 
 			{#if data.feed.length > 0}
 				<ReviewList reviews={data.feed} />
@@ -28,7 +28,7 @@
 		>
 			<h1 class="text-balance text-3xl font-semibold tracking-tight sm:text-5xl">skywatched</h1>
 			<p class="text-md mt-8 max-w-xs text-pretty text-center font-medium text-base-300 sm:text-lg">
-				review movies and shows with your bluesky friends.
+				review movies and shows with your friends from bluesky.
 			</p>
 			{#if !data.user}
 				<button

@@ -57,5 +57,5 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	}
 	await agent.com.atproto.repo.putRecord(record);
 
-	return json({ status: 'rated' });
+	return json({ status: 'rated', uri: `at://${did}/${REL_COLLECTION}/${rkey}` });
 };

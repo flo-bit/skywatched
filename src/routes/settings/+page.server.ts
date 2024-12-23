@@ -1,7 +1,15 @@
 import { error, redirect, type Actions } from '@sveltejs/kit';
 import available_regions from './available_regions.json';
 import { AtpBaseClient } from '@atproto/api';
+/** @type {import('./$types').PageServerLoad} */
+export async function load({ url }) {
+	// check if search params has ?new
+	const isNew = url.searchParams.has('new');
 
+	return {
+		isNew
+	};
+}
 export const actions: Actions = {
 	settings: async ({ request, locals }) => {
 		const agent = locals.agent;
