@@ -152,6 +152,38 @@ export async function getCast(id: number, kind: Kind) {
 	return data.cast;
 }
 
+export async function getPopularMovies() {
+	const url = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=1`;
+	const options = {
+		method: 'GET',
+		headers: {
+			accept: 'application/json',
+			Authorization: `Bearer ${env.TMDB_API_KEY}`
+		}
+	};
+
+	const response = await fetch(url, options);
+	const data = await response.json();
+
+	return data.results;
+}
+
+export async function getPopularShows() {
+	const url = `https://api.themoviedb.org/3/tv/popular?language=en-US&page=1`;
+	const options = {
+		method: 'GET',
+		headers: {
+			accept: 'application/json',
+			Authorization: `Bearer ${env.TMDB_API_KEY}`
+		}
+	};
+
+	const response = await fetch(url, options);
+	const data = await response.json();
+
+	return data.results;
+}
+
 export async function getPersonDetails(personId: number) {
 	const url = `https://api.themoviedb.org/3/person/${personId}?language=en-US`;
 	const options = {
