@@ -18,7 +18,7 @@ export async function load(event) {
 	}
 
 	if (!id) {
-		return error(404, 'Not found');
+		return error(404, `${kind === 'movie' ? 'Movie' : 'Show'} not found`);
 	}
 	const resultPromise = getDetails(id, kind);
 
@@ -45,7 +45,7 @@ export async function load(event) {
 	]);
 
 	if (!result || result.success === false) {
-		return error(404, 'Not found');
+		return error(404, `${kind} Not found`);
 	}
 
 	return {
