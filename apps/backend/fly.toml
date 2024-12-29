@@ -1,0 +1,29 @@
+# fly.toml app configuration file generated for skywatched-jetstream on 2024-12-15T05:01:23+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'skywatched-jetstream'
+primary_region = 'lax'
+
+[build]
+
+[env]
+  LITEFS_PROD_DIR = '/var/lib/litefs'
+  NODE_ENV = 'production'
+
+[[mounts]]
+  source = 'litefs'
+  destination = '/var/lib/litefs'
+
+[http_service]
+  internal_port = 3001
+  force_https = true
+  auto_stop_machines = 'off'
+  auto_start_machines = true
+  processes = ['app']
+
+[[vm]]
+  memory = '512mb'
+  cpu_kind = 'shared'
+  cpus = 1
