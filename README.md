@@ -4,6 +4,8 @@ university project. social media for movies and tv shows using the at protocol.
 
 [live demo](https://skywatched.app/)
 
+backend/jetstream consumer can be found at [flo-bit/skywatched-backend](https://github.com/flo-bit/skywatched-backend)
+
 ## development
 
 this repository is a monorepo managed with [turbo](https://turbo.build/) and has the following parts:
