@@ -1,11 +1,7 @@
 {
 	"name": "skywatched",
-	"version": "0.0.0",
-	"private": true,
-	"workspaces": [
-		"apps/*",
-		"packages/*"
-	],
+	"version": "0.0.1",
+	"type": "module",
 	"scripts": {
 		"start": "node build",
 		"dev": "vite dev --host",
