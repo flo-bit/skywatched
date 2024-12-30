@@ -23,7 +23,7 @@
 				type="text"
 				name="query"
 				id="query"
-				class="block w-full rounded-xl border-0 bg-base-900 py-1.5 pr-14 text-base-50 shadow-sm ring-1 ring-inset ring-base-700 placeholder:text-base-400 focus:ring-2 focus:ring-inset focus:ring-accent-600 sm:text-sm/6"
+				class="block w-full rounded-md border-0 bg-base-900 py-1.5 pr-14 text-base-50 shadow-sm ring-1 ring-inset ring-base-700 placeholder:text-base-400 focus:ring-2 focus:ring-inset focus:ring-accent-600 sm:text-sm/6"
 			/>
 			<button
 				onsubmit={(event) => {
@@ -33,7 +33,7 @@
 					}
 				}}
 				type="submit"
-				class="absolute inset-y-0 right-0 flex py-2 px-2 text-accent-500 hover:text-accent-400 bg-accent-950/50 hover:bg-accent-950/70 border border-accent-800 rounded-r-xl"
+				class="absolute inset-y-0 right-0 flex py-2 pr-2 text-accent-500 hover:text-accent-400"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
