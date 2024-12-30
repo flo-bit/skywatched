@@ -1,0 +1,98 @@
+# syntax = docker/dockerfile:1
+
+##################################################
+# 1) Base image: Node + build essentials
+##################################################
+ARG NODE_VERSION=20.9.0
+FROM node:${NODE_VERSION}-slim as base
+
+LABEL fly_launch_runtime="SvelteKit"
+
+# Set production environment by default
+ENV NODE_ENV=production
+
+# SvelteKit or other Node apps typically need some build tools
+RUN apt-get update -qq && \
+	apt-get install --no-install-recommends -y \
+	build-essential \
+	node-gyp \
+	pkg-config \
+	python-is-python3
+
+# We'll do our work in /app
+WORKDIR /app
+
+
+##################################################
+# 2) Pruner stage: create a minimal subset
+##################################################
+FROM base as pruner
+
+# 1. Install turbo globally so we can run `turbo prune`
+RUN npm install -g turbo
+
+# 2. Copy the entire monorepo, excluding node_modules via `.dockerignore`
+COPY . .
+
+# 3. Prune the repo to only what's needed for the given PROJECT
+RUN turbo prune web --docker
+
+
+##################################################
+# 3) Builder stage: install + build
+##################################################
+FROM base as builder
+
+ARG PROJECT
+
+# 1. Copy pruned package.json/lockfiles from pruner
+# If you have an .npmrc or other lockfiles in /app/out/, copy them similarly:
+# COPY --from=pruner /app/out/npmrc .npmrc
+
+# 2. Copy the partially-generated monorepo JSON files
+COPY --from=pruner /app/out/json/ ./
+
+# 3. Install dependencies (includes devDeps so we can build)
+RUN npm install
+
+# 4. Copy the actual pruned source code
+COPY --from=pruner /app/out/full/ ./
+
+# 5. (Optional) Set environment variables for building
+ENV DATABASE_URL=file:local.db
+ENV DATABASE_AUTH_TOKEN=a
+
+# 6. Run the build only for this project
+#    e.g. "npm run build --workspace=web"
+RUN npm run build --workspace=web
+
+# 7. Remove dev dependencies to slim down
+RUN npm prune --omit=dev
+
+
+##################################################
+# 4) Runner stage: final minimal image
+##################################################
+FROM base as runner
+
+ARG PROJECT
+
+# Non-root user (good practice, optional)
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nodejs
+USER nodejs
+
+WORKDIR /app
+
+# Copy only the relevant output from builder
+# SvelteKit build output is typically in /app/apps/web/build
+COPY --from=builder /app/apps/web/build /app/build
+COPY --from=builder /app/apps/web/node_modules /app/node_modules
+COPY --from=builder /app/apps/web/package.json /app
+
+# Make sure the SvelteKit server binds to 0.0.0.0:3000 for Fly
+# (You can also pass --host=0.0.0.0 in your "start" script.)
+EXPOSE 3000
+
+# If your "start" script is in apps/web/package.json, we can do:
+CMD ["npm", "run", "start"]

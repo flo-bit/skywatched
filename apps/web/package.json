@@ -1,9 +1,10 @@
 {
-	"name": "@skywatched/web",
+	"name": "web",
+	"private": true,
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"start": "node build",
+		"start": "HOST=0.0.0.0 PORT=3000 node build",
 		"dev": "vite dev --host",
 		"build": "vite build",
 		"preview": "vite preview",
@@ -16,10 +17,10 @@
 		"db:studio": "drizzle-kit studio"
 	},
 	"devDependencies": {
-		"@skywatched/shared": "*",
 		"@flydotio/dockerfile": "^0.5.9",
 		"@melt-ui/pp": "^0.3.2",
 		"@melt-ui/svelte": "^0.86.2",
+		"@skywatched/shared": "*",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",

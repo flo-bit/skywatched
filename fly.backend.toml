@@ -1,0 +1,28 @@
+# fly.backend.toml
+app = "skywatched-jetstream"
+primary_region = "lax"
+
+[build]
+  [build.args]
+    PROJECT = "backend"
+
+[env]
+  # If you need environment variables
+  LITEFS_PROD_DIR = "/var/lib/litefs"
+  NODE_ENV = "production"
+
+[[mounts]]
+  source = "litefs"
+  destination = "/var/lib/litefs"
+
+[http_service]
+  internal_port = 3001
+  force_https = true
+  auto_stop_machines = 'off'
+  auto_start_machines = true
+  processes = ['app']
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1

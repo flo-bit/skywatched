@@ -1,9 +1,11 @@
 {
-  "name": "@skywatched/backend",
+  "name": "backend",
+  "private": true,
   "module": "app.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run src/app.ts"
+    "dev": "bun run src/app.ts",
+    "start": "bun run src/app.ts"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "latest",

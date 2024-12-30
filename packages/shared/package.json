@@ -3,8 +3,8 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "tsc --watch",
-		"build": "tsc"
+		"dev": "bun --watch --hot src/index.ts",
+		"build": "bun build src/index.ts --outdir dist"
 	},
 	"exports": {
 		".": "./src/index.ts"
