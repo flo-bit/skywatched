@@ -1,7 +1,20 @@
-# Misc
-*.pem
+node_modules
+
+# Output
+.output
+.vercel
+/.svelte-kit
+/build
+
+# OS
 .DS_Store
 Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
 
 # Vite
 vite.config.js.timestamp-*
@@ -9,38 +22,3 @@ vite.config.ts.timestamp-*
 
 # SQLite
 *.db
-
-# Dependencies
-node_modules
-.pnp
-.pnp.js
-
-# Local env files
-.env
-.env.*
-!.env.example
-!.env.test
-
-# Testing
-coverage
-
-# Turbo
-.turbo
-
-# Vercel
-.vercel
-
-# Build Outputs
-.next/
-out/
-dist
-.output
-.vercel
-/.svelte-kit
-/build
-
-# Debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
