@@ -2,20 +2,11 @@ import { atclient } from '$lib/server/client';
 import { isValidHandle } from '@atproto/syntax';
 import { error, redirect, type Actions } from '@sveltejs/kit';
 
-import { getRecentRecords, type MainRecord } from '$lib/db';
-
-let feed: MainRecord[] = [];
-let lastUpdated: Date | undefined = undefined;
+import { getRecentRecords } from '$lib/db';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
-	const now = new Date();
-	// if lastUpdated is more than 2 minutes ago, update the feed
-	if (!lastUpdated || now.getTime() - lastUpdated.getTime() > 2 * 60 * 1000) {
-		feed = await getRecentRecords();
-		lastUpdated = now;
-	}
-	return { feed: feed.slice(0, 10) };
+	return { feed: (await getRecentRecords()).slice(0, 10) };
 }
 
 export const actions: Actions = {
