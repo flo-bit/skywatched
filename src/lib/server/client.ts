@@ -4,7 +4,7 @@ import { SessionStore, StateStore } from './storage';
 import { dev } from '$app/environment';
 
 const publicUrl = 'https://skywatchedgoogle2-791157493831.us-central1.run.app';
-const port = 8080;
+const port = 5173;
 const url = dev ? `http://[::1]:${port}` : publicUrl;
 
 const encodeCallbackUrl = encodeURIComponent(`${url}/oauth/callback`);
