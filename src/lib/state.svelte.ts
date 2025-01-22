@@ -40,6 +40,8 @@ type RateMovieModalItem = {
 	posterPath: string | undefined;
 	currentRating: number | undefined;
 	currentReview: string | undefined;
+
+	editUri?: string;
 };
 
 export const rateMovieModal: {
@@ -60,7 +62,9 @@ export const rateMovieModal: {
 		name: undefined,
 		posterPath: undefined,
 		currentRating: undefined,
-		currentReview: undefined
+		currentReview: undefined,
+
+		editUri: undefined
 	},
 
 	show: (item: RateMovieModalItem) => {
@@ -80,7 +84,9 @@ export const rateMovieModal: {
 			name: undefined,
 			posterPath: undefined,
 			currentRating: undefined,
-			currentReview: undefined
+			currentReview: undefined,
+
+			editUri: undefined
 		};
 		rateMovieModal.showModal = true;
 	}

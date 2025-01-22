@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { type MainRecord } from '$lib/db';
-	import { user } from '$lib/state.svelte';
+	import { rateMovieModal, user } from '$lib/state.svelte';
 	import { createDropdownMenu, melt } from '@melt-ui/svelte';
+	import { toast } from 'svelte-sonner';
 	import { fly } from 'svelte/transition';
 
 	const {
-		elements: { trigger, menu, item, separator, arrow },
-		builders: { createSubmenu, createMenuRadioGroup, createCheckboxItem },
+		elements: { trigger, menu },
 		states: { open }
 	} = createDropdownMenu({
 		forceVisible: true,
@@ -37,7 +37,7 @@
 
 {#if $open}
 	<div
-		class="bg-base-900 border-base-800 divide-base-800 z-20 flex flex-col items-start divide-y overflow-hidden rounded-xl border"
+		class="bg-base-900 border-base-800 shadow-xl shadow-base-950 divide-base-800 z-20 flex flex-col items-start divide-y overflow-hidden rounded-xl border"
 		use:melt={$menu}
 		transition:fly={{ duration: 150, y: -10 }}
 	>
@@ -49,6 +49,16 @@
 						method: 'DELETE'
 					});
 					console.log(await response.json());
+
+					$open = false;
+
+					await new Promise((resolve) => setTimeout(resolve, 1000));
+
+					if (window.location.pathname.includes('/review/')) {
+						window.location.href = '/';
+					} else {
+						window.location.reload();
+					}
 				}}
 				><svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +80,19 @@
 			<button
 				class="item"
 				on:click={() => {
-					alert('Check for Updates...');
+					$open = false;
+
+					console.log(data.record.rating?.value)
+					rateMovieModal.show({
+						movieId: data.record.item.ref === 'tmdb:m' ? parseInt(data.record.item.value) : undefined,
+						showId: data.record.item.ref === 'tmdb:s' ? parseInt(data.record.item.value) : undefined,
+						kind: data.record.item.ref === 'tmdb:s' ? 'show' : 'movie',
+						name: data.record.metadata?.title,
+						posterPath: data.record.metadata?.poster_path,
+						currentRating: (data.record.rating?.value ?? 0) / 2,
+						currentReview: data.record.note?.value,
+						editUri: data.uri
+					});
 				}}
 				><svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +112,7 @@
 				edit review</button
 			>
 		{:else}
-			<button
+			<!-- <button
 				class="item"
 				on:click={() => {
 					alert('Check for Updates...');
@@ -112,36 +134,40 @@
 				</svg>
 
 				report review</button
-			>
+			> -->
+		{/if}
+
+		{#if data.record.crosspost?.uri}
+			<button class="item" on:click={() => {}}>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1"
+					stroke="currentColor"
+					class="size-4"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"
+					/>
+				</svg>
+				go to crosspost
+			</button>
 		{/if}
 
 		<button
 			class="item"
 			on:click={() => {
-				alert('Check for Updates...');
-			}}
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke-width="1"
-				stroke="currentColor"
-				class="size-4"
-			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"
-				/>
-			</svg>
-			go to crosspost
-		</button>
+				$open = false;
 
-		<button
-			class="item"
-			on:click={() => {
-				alert('Check for Updates...');
+				// copy link to clipboard
+				navigator.clipboard.writeText(
+					'https://skywatched.app/review/' + encodeURIComponent(data.uri)
+				);
+
+				toast.success('Link copied to clipboard');
 			}}
 		>
 			<svg
