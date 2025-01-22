@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '../utils';
+	import { cn } from '$lib/utils';
 
 	const { children, class: className }: { children: () => any; class?: string } = $props();
 </script>

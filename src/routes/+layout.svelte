@@ -1,21 +1,21 @@
 <script lang="ts">
 	import '../app.css';
 
-	import Footer from '$lib/Components/Footer.svelte';
+	import Footer from '$lib/Components/Layout/Footer.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
 	import { settings, user, watchedItems } from '$lib/state.svelte';
-	import RateMovieModal from '$lib/Components/RateMovieModal.svelte';
+	import RateMovieModal from '$lib/Components/Modals/RateMovieModal.svelte';
 
-	import LoginModal from '$lib/Components/LoginModal.svelte';
-	import Sidebar from '$lib/Components/Sidebar.svelte';
-	import VideoPlayer from '$lib/Components/VideoPlayer.svelte';
+	import LoginModal from '$lib/Components/Modals/LoginModal.svelte';
+	import Sidebar from '$lib/Components/Layout/Sidebar.svelte';
+	import VideoPlayer from '$lib/Components/Utils/VideoPlayer.svelte';
 
 	import { onNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { navigating } from '$app/stores';
 	import { slide } from 'svelte/transition';
 	import { expoOut } from 'svelte/easing';
-	import CrosspostModal from '$lib/Components/CrosspostModal.svelte';
+	import CrosspostModal from '$lib/Components/Modals/CrosspostModal.svelte';
 
 	let { children, data } = $props();
 

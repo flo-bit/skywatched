@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { crosspostModal, rateMovieModal, settings, watchedItems } from '$lib/state.svelte';
 	import { toast } from 'svelte-sonner';
-	import Rating from './Rating.svelte';
-	import SearchCombobox from './SearchCombobox.svelte';
+	import Rating from '../Items/Rating.svelte';
+	import SearchCombobox from '../UI/SearchCombobox.svelte';
 
 	let rating = $state(rateMovieModal.selectedItem.currentRating ?? 0);
 	let review = $state(rateMovieModal.selectedItem.currentReview ?? '');

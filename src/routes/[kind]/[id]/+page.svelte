@@ -3,10 +3,10 @@
 	import { cn, nameToId } from '$lib/utils';
 	import { rateMovieModal, videoPlayer, watchedItems } from '$lib/state.svelte';
 
-	import Container from '$lib/Components/Container.svelte';
-	import ItemsList from '$lib/Components/ItemsList.svelte';
-	import ReviewList from '$lib/Components/ReviewList.svelte';
-	import Avatar from '$lib/Components/Avatar.svelte';
+	import Container from '$lib/Components/Layout/Container.svelte';
+	import ItemsList from '$lib/Components/Items/ItemsList.svelte';
+	import ReviewList from '$lib/Components/Items/ReviewList.svelte';
+	import Avatar from '$lib/Components/User/Avatar.svelte';
 	import { page } from '$app/stores';
 
 	let { data }: { data: PageData } = $props();

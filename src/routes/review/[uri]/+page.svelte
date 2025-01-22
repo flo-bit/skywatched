@@ -1,6 +1,6 @@
 <script lang="ts">
-	import ReviewCard from '$lib/Components/ReviewCard.svelte';
-	import Container from '$lib/Components/Container.svelte';
+	import ReviewCard from '$lib/Components/Items/ReviewCard.svelte';
+	import Container from '$lib/Components/Layout/Container.svelte';
 	import { page } from '$app/stores';
 
 	let { data } = $props();

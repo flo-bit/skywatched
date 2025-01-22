@@ -2,9 +2,9 @@
 	import type { MainRecord } from '$lib/db';
 	import { toast } from 'svelte-sonner';
 	import Rating from './Rating.svelte';
-	import RelativeTime from './relative-time/RelativeTime.svelte';
+	import RelativeTime from '../Utils/relative-time/RelativeTime.svelte';
 	import { nameToId } from '$lib/utils';
-	import OptionButton from './OptionButton.svelte';
+	import OptionButton from '../Modals/OptionMenu.svelte';
 	// import { crosspostModal } from '$lib/state.svelte';
 
 	let { data, showMovieDetails = true }: { data: MainRecord; showMovieDetails?: boolean } =

@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { BASE_PATH } from '$lib';
 	import { cn } from '$lib/utils';
-	import User from '$lib/Components/User.svelte';
+	import User from '$lib/Components/User/User.svelte';
 	import { rateMovieModal, showSidebar } from '$lib/state.svelte';
 	import { fade } from 'svelte/transition';
 	import { onNavigate } from '$app/navigation';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '../utils';
+	import { cn } from '$lib/utils';
 	import Plyr from 'plyr';
 	import { videoPlayer } from '$lib/state.svelte';
 

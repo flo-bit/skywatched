@@ -4,7 +4,6 @@ import { ImageResponse } from '@ethercorps/sveltekit-og';
 import { error, type RequestHandler } from '@sveltejs/kit';
 
 const template = (data: MainRecord) => {
-
 	const backdrop = data.record.metadata?.backdrop_path;
 	const poster = data.record.metadata?.poster_path;
 
