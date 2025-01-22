@@ -16,6 +16,8 @@ ENV NODE_ENV="production"
 FROM base as build
 
 # set env variables
+ENV DATABASE_URL=file:local.db
+ENV DATABASE_AUTH_TOKEN=a
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
