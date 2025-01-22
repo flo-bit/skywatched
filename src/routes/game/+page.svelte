@@ -181,7 +181,7 @@
 	{/if}
 
 	{#if data.cast.length > 0}
-		<div class="px-4 pb-8 pt-4 text-sm text-white">
+		<div class="flex-col px-4 pb-8 pt-4 text-sm text-white">
 			<div class="mb-2 text-lg font-semibold">cast</div>
 
 			<div class={cn('flex gap-x-6 overflow-x-auto')}>
