@@ -18,6 +18,9 @@ FROM base as build
 # set env variables
 ENV DATABASE_URL=file:local.db
 ENV DATABASE_AUTH_TOKEN=a
+ENV TMDB_API_KEY=a
+ENV BACKEND_URL=a
+ENV NYX_PASSWORD=a
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
