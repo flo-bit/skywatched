@@ -4,35 +4,44 @@ import { ImageResponse } from '@ethercorps/sveltekit-og';
 import { error, type RequestHandler } from '@sveltejs/kit';
 
 const template = (data: MainRecord) => {
+
+	const backdrop = data.record.metadata?.backdrop_path;
+	const poster = data.record.metadata?.poster_path;
+
+	const avatar = data.author.avatar;
+	const displayName = data.author.displayName ?? data.author.handle;
+	const title = data.record.metadata?.title;
+	const rating = data.record.rating?.value;
+
 	return `
 <div tw="bg-zinc-900 flex flex-col w-full h-full items-center justify-center">
 	<div tw="flex absolute bottom-0 left-0 right-0 top-0 bg-sky-400">
-		<img src="https://image.tmdb.org/t/p/w780${data.record.metadata?.backdrop_path}" alt="" class="flex h-full w-full rounded-xl opacity-50" />
+		<img src="https://image.tmdb.org/t/p/w780${backdrop}" alt="" class="flex h-full w-full rounded-xl opacity-50" />
 
 		<div tw="flex absolute h-full w-full bg-black/80">
 		</div>
 	</div>
     <div tw="flex flex-row w-full py-12 px-4 items-center justify-start p-8">
 		<div tw="flex h-auto aspect-[3/2] w-82">
-			<img src="https://image.tmdb.org/t/p/w500${data.record.metadata?.poster_path}" alt="" 
+			<img src="https://image.tmdb.org/t/p/w500${poster}" alt="" 
 			class="flex h-full w-full rounded-xl border-2 border-zinc-800" style="border-radius: 16px; border-width: 1px; border-color: #3f3f46;" />
 		</div>
 
         <div tw="flex flex-col text-7xl font-bold text-zinc-100 text-left px-8 max-w-3xl">
 			<div tw="flex items-center">
-				${data.author.avatar ? `<img src=${data.author.avatar} tw="w-16 h-16 rounded-full" />` : ``}
+				${avatar ? `<img src=${avatar} tw="w-16 h-16 rounded-full" />` : ``}
 				<div tw="flex truncate text-4xl text-zinc-100 pl-4">
-					${data.author.displayName || data.author.handle}
+					${displayName}
 					<span tw="flex truncate text-sky-500 pl-2">
 						reviewed
 					</span>
 				</div>
 			</div>
 
-            <span tw="flex tracking-tight mt-4">${data.record.metadata?.title}</span>
+            <span tw="flex tracking-tight mt-4">${title}</span>
 
 			${
-				data.record.rating
+				rating
 					? `<div tw="flex items-center mt-8">
 				<div tw="flex items-center">
 
@@ -40,7 +49,7 @@ const template = (data: MainRecord) => {
 						.fill(0)
 						.map(
 							(_, i) => `<svg
-						tw="w-20 h-20 flex ${i * 2 < (data.record.rating?.value ?? 0) - 1 ? 'text-sky-400' : 'text-zinc-600'}"
+						tw="w-20 h-20 flex ${i * 2 < (rating ?? 0) - 1 ? 'text-sky-400' : 'text-zinc-600'}"
 						viewBox="0 0 24 24"
 						fill="currentColor">
 						<path

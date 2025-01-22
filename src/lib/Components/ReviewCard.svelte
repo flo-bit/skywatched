@@ -4,6 +4,7 @@
 	import Rating from './Rating.svelte';
 	import RelativeTime from './relative-time/RelativeTime.svelte';
 	import { nameToId } from '$lib/utils';
+	import OptionButton from './OptionButton.svelte';
 	// import { crosspostModal } from '$lib/state.svelte';
 
 	let { data, showMovieDetails = true }: { data: MainRecord; showMovieDetails?: boolean } =
@@ -119,8 +120,6 @@
           {/if}
         </button> -->
 
-		<!-- this is kind of how the bookmark button should look like too 
-				 (but it should work without login too and just use the local db) -->
 		<button
 			class="group inline-flex items-center gap-2 text-sm"
 			onclick={async () => {
@@ -175,6 +174,8 @@
 			{/if}
 			{(data.record.likes ?? 0) + (isLiked ? 1 : 0)}
 		</button>
+
+		<OptionButton data={data} />
 	</div>
 
 	<!-- <a href={`/review/${encodeURIComponent(data.uri)}`}>
