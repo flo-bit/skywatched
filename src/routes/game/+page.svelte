@@ -200,6 +200,12 @@
 						<div class="text-center text-xs text-base-400">{castMember.character}</div>
 					</a>
 				{/each}
+			</div>
+		</div>
+		<div class="px-4 pb-8 pt-4 text-sm text-white">
+			<div class="mb-2 text-lg font-semibold">cast</div>
+
+			<div class={cn('flex gap-x-6 overflow-x-auto')}>
 				{#each data.cast as castMember}
 					<a
 						href={`/cast/${castMember.id}-${nameToId(castMember.name)}`}
