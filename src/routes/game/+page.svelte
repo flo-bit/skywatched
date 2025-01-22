@@ -107,6 +107,12 @@
 			class="poster h-36 w-24 shrink-0 rounded-lg border border-white/10 sm:h-64 sm:w-44"
 			style:--name={`poster-${data.result.id}`}
 		/>
+		<img
+			src="https://image.tmdb.org/t/p/w500{data.result.poster_path}"
+			alt=""
+			class="poster h-36 w-24 shrink-0 rounded-lg border border-white/10 sm:h-64 sm:w-44"
+			style:--name={`poster-${data.result.id}`}
+		/>
 		<div class="flex flex-col gap-4">
 			<div
 				class="title max-w-xl text-3xl font-semibold text-white sm:text-4xl"
