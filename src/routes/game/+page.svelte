@@ -202,26 +202,5 @@
 				{/each}
 			</div>
 		</div>
-		<div class="px-4 pb-8 pt-4 text-sm text-white">
-			<div class="mb-2 text-lg font-semibold">cast</div>
-
-			<div class={cn('flex gap-x-6 overflow-x-auto')}>
-				{#each data.cast as castMember}
-					<a
-						href={`/cast/${castMember.id}-${nameToId(castMember.name)}`}
-						class="flex flex-col items-center gap-1"
-					>
-						<Avatar
-							src={castMember.profile_path
-								? 'https://image.tmdb.org/t/p/w500' + castMember.profile_path
-								: undefined}
-							size="size-32"
-						/>
-						<div class="text-center text-xs font-medium">{castMember.name}</div>
-						<div class="text-center text-xs text-base-400">{castMember.character}</div>
-					</a>
-				{/each}
-			</div>
-		</div>
 	{/if}
 </Container>
