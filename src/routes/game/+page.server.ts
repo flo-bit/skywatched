@@ -10,8 +10,8 @@ import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load(event) {
-	const id = 10193;
-	const kind = event.params.kind;
+	const id = "10193";
+	const kind = "movie";
 
 	if (kind !== 'movie' && kind !== 'tv') {
 		return error(404, 'Not found');
