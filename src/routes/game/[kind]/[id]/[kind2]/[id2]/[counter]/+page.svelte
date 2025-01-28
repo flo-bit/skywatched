@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type PageData } from './$types';
+	import { type PageData } from '../../../../../$types';
 	import { cn, nameToId } from '$lib/utils';
 	import { rateMovieModal, videoPlayer, watchedItems } from '$lib/state.svelte';
 

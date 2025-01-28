@@ -4,7 +4,9 @@ import {
 	getDetails,
 	getRecommendations,
 	getTrailer,
-	getWatchProviders
+	getWatchProviders,
+	getPersonDetails,
+	getCombinedCredits
 } from '$lib/server/movies';
 import { error } from '@sveltejs/kit';
 
@@ -12,6 +14,7 @@ import { error } from '@sveltejs/kit';
 export async function load(event) {
 	const id = "10193";
 	const kind = "movie";
+	const counter=0;
 
 	if (kind !== 'movie' && kind !== 'tv') {
 		return error(404, 'Not found');
@@ -35,7 +38,7 @@ export async function load(event) {
 
 	const castPromise = getCast(id, kind);
 
-	const [result, trailer, recommendations, watchProviders, ratings, cast] = await Promise.all([
+	const [result, trailer, recommendations, watchProviders, ratings, cast, counter] = await Promise.all([
 		resultPromise,
 		trailerPromise,
 		recommendationsPromise,
@@ -66,6 +69,7 @@ export async function load(event) {
 		kind,
 		watchProviders,
 		ratings,
-		cast
+		cast,
+		counter
 	};
 }
