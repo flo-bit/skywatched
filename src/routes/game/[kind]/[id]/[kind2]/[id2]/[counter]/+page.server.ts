@@ -15,7 +15,7 @@ export async function load(event) {
 	const id = parseInt(event.params.id.split('-')[0]);
 	const id2 = parseInt(event.params.id2.split('-')[0]);
 	const kind = event.params.kind;
-	const kind2=event.params.kind2;
+	const kind2= event.params.kind2;
 	const couter=0;
 
 	if (kind !== 'movie' && kind !== 'tv') {
@@ -40,15 +40,17 @@ export async function load(event) {
 	});
 
 	const castPromise = getCast(id, kind);
+	const castPromise2 = getCast(id2, kind2);
 
-	const [result,result2, trailer, recommendations, watchProviders, ratings, cast] = await Promise.all([
+	const [result,result2, trailer, recommendations, watchProviders, ratings, cast,cast2] = await Promise.all([
 		resultPromise,
 		resultPromise2,
 		trailerPromise,
 		recommendationsPromise,
 		watchProvidersPromise,
 		ratingsPromise,
-		castPromise
+		castPromise,
+		castPromise2
 	]);
 
 	if (!result || result.success === false) {
@@ -80,6 +82,7 @@ export async function load(event) {
 		watchProviders,
 		ratings,
 		cast,
+		cast2,
 		couter
 	};
 }

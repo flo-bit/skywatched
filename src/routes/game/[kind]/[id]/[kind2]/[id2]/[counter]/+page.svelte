@@ -202,7 +202,7 @@
 				{/each}
 			</div>
 			<div class={'flex gap-x-6 overflow-x-auto'}>
-				{#each data.cast as castMember}
+				{#each data.cast2 as castMember}
 					<a
 						href={`/cast/${castMember.id}-${nameToId(castMember.name)}`}
 						class="flex flex-col items-center gap-1"
