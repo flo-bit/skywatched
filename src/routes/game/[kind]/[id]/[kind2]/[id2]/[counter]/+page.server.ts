@@ -12,8 +12,10 @@ import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load(event) {
-	const id = "10193";
-	const kind = "movie";
+	const id = parseInt(event.params.id.split('-')[0]);
+	const id2 = parseInt(event.params.id2.split('-')[0]);
+	const kind = event.params.kind;
+	const kind2=event.params.kind2;
 	const couter=0;
 
 	if (kind !== 'movie' && kind !== 'tv') {
@@ -24,6 +26,7 @@ export async function load(event) {
 		return error(404, 'Not found');
 	}
 	const resultPromise = getDetails(id, kind);
+	const resultPromise2 = getDetails(id2, kind2);
 
 	const trailerPromise = getTrailer(id, kind);
 
@@ -38,8 +41,9 @@ export async function load(event) {
 
 	const castPromise = getCast(id, kind);
 
-	const [result, trailer, recommendations, watchProviders, ratings, cast] = await Promise.all([
+	const [result,result2, trailer, recommendations, watchProviders, ratings, cast] = await Promise.all([
 		resultPromise,
+		resultPromise2,
 		trailerPromise,
 		recommendationsPromise,
 		watchProvidersPromise,
@@ -57,6 +61,11 @@ export async function load(event) {
 			movieId: kind === 'movie' ? id : undefined,
 			showId: kind === 'tv' ? id : undefined
 		},
+		result2: {
+			...result2,
+			movieId: kind === 'movie' ? id : undefined,
+			showId: kind === 'tv' ? id : undefined
+		},
 		trailer,
 		// @ts-expect-error - TODO: fix this
 		recommendations: recommendations.map((item) => {
@@ -67,6 +76,7 @@ export async function load(event) {
 			}
 		}),
 		kind,
+		kind2,
 		watchProviders,
 		ratings,
 		cast,

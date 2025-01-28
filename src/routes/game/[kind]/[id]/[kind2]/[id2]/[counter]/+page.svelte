@@ -108,10 +108,10 @@
 			style:--name={`poster-${data.result.id}`}
 		/>
 		<img
-			src="https://image.tmdb.org/t/p/w500{data.result.poster_path}"
+			src="https://image.tmdb.org/t/p/w500{data.result2.poster_path}"
 			alt=""
 			class="poster h-36 w-24 shrink-0 rounded-lg border border-white/10 sm:h-64 sm:w-44"
-			style:--name={`poster-${data.result.id}`}
+			style:--name={`poster-${data.result2.id}`}
 		/>
 		<div class="flex flex-col gap-4">
 			<div
