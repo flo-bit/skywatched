@@ -70,26 +70,6 @@
 			rate {data.kind === 'movie' ? 'movie' : 'show'}
 		</button>
 	{/if}
-	{#if data.trailer}
-		<button
-			onclick={() => videoPlayer.show(data.trailer ?? '')}
-			type="button"
-			class="inline-flex w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 24 24"
-				fill="currentColor"
-				class="-ml-0.5 size-5"
-			>
-				<path
-					d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z"
-				/>
-			</svg>
-
-			Trailer
-		</button>
-	{/if}
 {/snippet}
 
 <img
@@ -107,6 +87,7 @@
 			class="poster h-36 w-24 shrink-0 rounded-lg border border-white/10 sm:h-64 sm:w-44"
 			style:--name={`poster-${data.result.id}`}
 		/>
+
 		<img
 			src="https://image.tmdb.org/t/p/w500{data.result2.poster_path}"
 			alt=""
@@ -181,7 +162,7 @@
 	{/if}
 
 	{#if data.cast.length > 0}
-		<div class="flex gap-x-6 px-4 pb-8 pt-4 text-sm text-white">
+		<div class="flex flex-col gap-x-6 px-4 pb-8 pt-4 text-sm text-white">
 			<!--<div class="mb-2 text-lg font-semibold">cast</div>*/-->
 
 			<div class={'flex gap-x-6 overflow-x-auto'}>
