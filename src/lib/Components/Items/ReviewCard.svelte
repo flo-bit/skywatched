@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { MainRecord } from '$lib/db';
 	import { toast } from 'svelte-sonner';
+
 	import Rating from './Rating.svelte';
-	import RelativeTime from './relative-time/RelativeTime.svelte';
+	import RelativeTime from '$lib/Components/Utils/relative-time/RelativeTime.svelte';
+	import OptionButton from '$lib/Components/Modals/OptionMenu.svelte';
+
 	import { nameToId } from '$lib/utils';
-	import OptionButton from './OptionButton.svelte';
-	// import { crosspostModal } from '$lib/state.svelte';
 
 	let { data, showMovieDetails = true }: { data: MainRecord; showMovieDetails?: boolean } =
 		$props();
@@ -27,7 +28,7 @@
 						src="https://image.tmdb.org/t/p/w154{data.record.metadata.poster_path}"
 						alt="movie poster for {data.record.metadata.title}"
 						class="poster size-full object-cover object-center lg:size-full"
-						style:--name={`poster-${data.record.item.value}`}
+						style:--name={`poster-${data.record.item.ref}-${data.record.item.value}`}
 						loading="lazy"
 					/>
 				{/if}

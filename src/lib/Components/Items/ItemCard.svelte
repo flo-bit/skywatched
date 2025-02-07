@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { rateMovieModal, watchedItems } from '$lib/state.svelte';
+	import { rateMovieModal } from '$lib/state/modals.svelte';
+	import { watchedItems } from '$lib/state/user.svelte';
+	import type { Item } from '$lib/types';
 	import { cn, nameToId } from '$lib/utils';
 	import Rating from './Rating.svelte';
 
@@ -7,14 +9,7 @@
 		item,
 		showMark
 	}: {
-		item: {
-			poster_path: string;
-			title?: string;
-			name?: string;
-			movieId?: number;
-			showId?: number;
-			rating?: number;
-		};
+		item: Item;
 		showMark?: boolean;
 	} = $props();
 </script>
@@ -26,20 +21,13 @@
 		{#if item.poster_path}
 			<img
 				src="https://image.tmdb.org/t/p/w342{item.poster_path}"
-				alt="movie poster for {item.title ?? item.name}"
+				alt="movie poster for {item.title}"
 				class="poster size-full object-cover object-center lg:size-full"
 				loading="lazy"
 			/>
 		{/if}
 
-		{#if item.rating}
-			<div
-				class="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-black/30 to-black/70"
-			></div>
-			<div class="absolute bottom-2 left-0 right-0 z-10 flex justify-center">
-				<Rating rating={item.rating} />
-			</div>
-		{:else if showMark}
+		{#if showMark}
 			{#if watchedItems.hasRated(item)}
 				<div
 					class="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-black/30 to-black/70"
@@ -57,13 +45,10 @@
 					)}
 					onclick={() => {
 						rateMovieModal.show({
-							movieId: item.movieId,
-							showId: item.showId,
-							kind: item.movieId ? 'movie' : 'tv',
-							name: item.title ?? item.name,
+							...item,
 							currentRating: 0,
 							currentReview: '',
-							posterPath: item.poster_path
+							poster_path: item.poster_path
 						});
 					}}
 				>
@@ -86,13 +71,13 @@
 	<div class="mt-2 flex justify-between">
 		<h3 class="sm:text-md text-sm font-medium text-base-50">
 			<a
-				href="/{item.movieId ? 'movie' : 'tv'}/{item.movieId ?? item.showId}-{nameToId(
-					item.title ?? item.name ?? ''
+				href="/{item.media_type}/{item.id}-{nameToId(
+					item.title ?? ''
 				)}"
 			>
 				<span aria-hidden="true" class="absolute inset-0"></span>
 				<div class="line-clamp-2 max-w-full">
-					{item.title ?? item.name}
+					{item.title}
 				</div>
 			</a>
 		</h3>

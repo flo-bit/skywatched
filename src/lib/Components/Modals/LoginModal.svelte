@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { fade, fly, slide } from 'svelte/transition';
-	import { showLoginModal } from '$lib/state.svelte';
+	import { showLoginModal } from '$lib/state/modals.svelte';
 </script>
 
 {#if showLoginModal.value}

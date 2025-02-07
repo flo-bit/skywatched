@@ -1,8 +1,8 @@
 <script lang="ts">
-	import BaseHeadTags from '$lib/Components/BaseHeadTags.svelte';
-	import Container from '$lib/Components/Container.svelte';
-	import Profile from '$lib/Components/Profile.svelte';
-	import ReviewList from '$lib/Components/ReviewList.svelte';
+	import BaseHeadTags from '$lib/Components/Layout/BaseHeadTags.svelte';
+	import Container from '$lib/Components/Layout/Container.svelte';
+	import Profile from '$lib/Components/User/Profile.svelte';
+	import ReviewList from '$lib/Components/Items/ReviewList.svelte';
 
 	let { data } = $props();
 </script>

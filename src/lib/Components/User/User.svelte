@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { showLoginModal } from '$lib/state.svelte';
+	import { showLoginModal } from '$lib/state/modals.svelte';
 	import { cn } from '$lib/utils';
 
 	type Props = {

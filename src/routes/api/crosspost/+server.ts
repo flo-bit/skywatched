@@ -5,6 +5,7 @@ import { getRecordByUri } from '$lib/db';
 
 import imagemin from 'imagemin';
 import imageminWebp from 'imagemin-webp';
+import { REL_COLLECTION } from '$lib';
 
 export const POST: RequestHandler = async ({ request, locals, fetch }) => {
 	const user = locals.user;
@@ -133,7 +134,51 @@ export const POST: RequestHandler = async ({ request, locals, fetch }) => {
 		}
 	};
 
+	// post to bluesky
 	await agent.com.atproto.repo.putRecord(record);
+
+	const crosspostUri = `at://${did}/app.bsky.feed.post/${rkey}`;
+
+	const updatedRecord: {
+		repo: string;
+		collection: string;
+		rkey: string;
+		record: {
+			item: {
+				ref: string;
+				value: string;
+			};
+			rating?: { value: number; createdAt: string };
+			note?: {
+				value: string;
+				createdAt: string;
+				updatedAt: string;
+			};
+			from?: string;
+			crosspost?: {
+				uri: string;
+				likes?: number;
+				reposts?: number;
+				replies?: number;
+			};
+		};
+	} = {
+		repo: did,
+		collection: REL_COLLECTION,
+		rkey,
+		record: {
+			item: reviewRecord.record.item,
+			rating: reviewRecord.record.rating,
+			from: 'skywatched',
+			note: reviewRecord.record.note,
+			crosspost: {
+				uri: crosspostUri
+			}
+		}
+	};
+
+	// update the main record with the crosspost uri
+	await agent.com.atproto.repo.putRecord(updatedRecord);
 
 	return json({ status: 'rated' });
 };

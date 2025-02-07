@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { rateMovieModal } from '$lib/state.svelte';
+	import { rateMovieModal } from '$lib/state/modals.svelte';
+	import { watchedItems } from '$lib/state/user.svelte';
+	import type { Item } from '$lib/types';
 	import { createCombobox, melt } from '@melt-ui/svelte';
 	import { fly } from 'svelte/transition';
 
@@ -18,14 +20,7 @@
 		debounceTimer = setTimeout(callback, 500);
 	};
 
-	let results: {
-		movieId: number | null;
-		showId: number | null;
-		title: string;
-		poster_path: string;
-		media_type: string;
-		kind: 'movie' | 'show';
-	}[] = [];
+	let results: Item[] = [];
 
 	let searching = false;
 
@@ -39,19 +34,7 @@
 
 				const response = await fetch(`/api/search?q=${$inputValue}`);
 				const data = await response.json();
-				results = data
-					.filter(
-						(item: any) =>
-							(item.media_type === 'movie' || item.media_type === 'tv') && item.poster_path
-					)
-					.map((item: any) => ({
-						movieId: item.media_type === 'movie' ? item.id : null,
-						showId: item.media_type === 'tv' ? item.id : null,
-						title: item.title || item.name,
-						poster_path: item.poster_path,
-						media_type: item.media_type,
-						kind: item.media_type === 'movie' ? 'movie' : 'show'
-					}));
+				results = data;
 
 				searching = false;
 			});
@@ -126,13 +109,9 @@
 					<button
 						onclick={() => {
 							rateMovieModal.selectedItem = {
-								movieId: item.movieId ?? undefined,
-								showId: item.showId ?? undefined,
-								kind: item.kind,
-								name: item.title,
-								posterPath: item.poster_path,
-								currentRating: undefined,
-								currentReview: undefined
+								...item,
+								currentRating: watchedItems.getRating(item)?.rating ?? undefined,
+								currentReview: watchedItems.getRating(item)?.ratingText ?? undefined,
 							};
 							rateMovieModal.showModal = true;
 						}}

@@ -4,8 +4,7 @@
 
 	import availableRegions from './available_regions.json';
 	import { onMount } from 'svelte';
-	import { settings, user } from '$lib/state.svelte';
-	import Note from '$lib/Components/Note.svelte';
+	import Note from '$lib/Components/Items/Note.svelte';
 
 	export let data;
 

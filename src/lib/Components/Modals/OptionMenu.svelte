@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { type MainRecord } from '$lib/db';
-	import { rateMovieModal, user } from '$lib/state.svelte';
+	import { rateMovieModal } from '$lib/state/modals.svelte';
+	import { user } from '$lib/state/user.svelte';
 	import { createDropdownMenu, melt } from '@melt-ui/svelte';
 	import { toast } from 'svelte-sonner';
 	import { fly } from 'svelte/transition';
@@ -32,7 +33,7 @@
 		/>
 	</svg>
 
-	<span class="sr-only">Open Popover</span>
+	<span class="sr-only">show options</span>
 </button>
 
 {#if $open}
@@ -82,13 +83,12 @@
 				on:click={() => {
 					$open = false;
 
-					console.log(data.record.rating?.value)
 					rateMovieModal.show({
-						movieId: data.record.item.ref === 'tmdb:m' ? parseInt(data.record.item.value) : undefined,
-						showId: data.record.item.ref === 'tmdb:s' ? parseInt(data.record.item.value) : undefined,
-						kind: data.record.item.ref === 'tmdb:s' ? 'show' : 'movie',
-						name: data.record.metadata?.title,
-						posterPath: data.record.metadata?.poster_path,
+						id: parseInt(data.record.item.value),
+						ref: data.record.item.ref as Ref,
+						media_type: data.record.item.ref === 'tmdb:s' ? 'tv' : 'movie',
+						title: data.record.metadata?.title ?? '',
+						poster_path: data.record.metadata?.poster_path ?? '',
 						currentRating: (data.record.rating?.value ?? 0) / 2,
 						currentReview: data.record.note?.value,
 						editUri: data.uri

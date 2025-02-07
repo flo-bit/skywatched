@@ -1,21 +1,11 @@
 import { searchMulti } from '$lib/server/movies';
-import { redirect } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load(event) {
 	const query = event.url.searchParams.get('query');
 
 	if (query) {
-		const results = (await searchMulti(query))
-			.map((result) => {
-				if (result.media_type === 'movie') {
-					return { ...result, movieId: result.id };
-				} else if (result.media_type === 'tv') {
-					return { ...result, showId: result.id };
-				}
-				return null;
-			})
-			.filter((result) => result !== null && result.poster_path !== null);
+		const results = await searchMulti(query);
 
 		return { results, query };
 	}

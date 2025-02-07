@@ -1,34 +1,36 @@
 <script lang="ts">
 	import { type PageData } from './$types';
 	import { cn, nameToId } from '$lib/utils';
-	import { rateMovieModal, videoPlayer, watchedItems } from '$lib/state.svelte';
+	import { rateMovieModal } from '$lib/state/modals.svelte';
+	import { videoPlayer } from '$lib/state/video.svelte';
+	import { watchedItems } from '$lib/state/user.svelte';
 
-	import Container from '$lib/Components/Container.svelte';
-	import ItemsList from '$lib/Components/ItemsList.svelte';
-	import ReviewList from '$lib/Components/ReviewList.svelte';
-	import Avatar from '$lib/Components/Avatar.svelte';
+	import Container from '$lib/Components/Layout/Container.svelte';
+	import ItemsList from '$lib/Components/Items/ItemsList.svelte';
+	import ReviewList from '$lib/Components/Items/ReviewList.svelte';
+	import Avatar from '$lib/Components/User/Avatar.svelte';
 	import { page } from '$app/stores';
 
 	let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
-	<title>{data.result.title ?? data.result.name ?? ''} | skywatched</title>
+	<title>{data.item.title} | skywatched</title>
 
 	<meta
 		name="description"
-		content={`Rate and review "${data.result.title ?? data.result.name ?? ''}" on skywatched`}
+		content={`Rate and review "${data.item.title}" on skywatched`}
 	/>
 
 	<meta property="og:url" content={$page.url.href} />
 	<meta property="og:type" content="website" />
 	<meta
-		property="og:title"
-		content="{data.result.title ?? data.result.name ?? ''} | skywatched.app"
+	property="og:title"
+		content="{data.item.title} | skywatched.app"
 	/>
 	<meta
 		property="og:description"
-		content={`Rate and review "${data.result.title ?? data.result.name ?? ''}" on skywatched`}
+		content={`Rate and review "${data.item.title}" on skywatched`}
 	/>
 	<meta property="og:image" content="{$page.url.href}/og.png" />
 
@@ -37,33 +39,27 @@
 	<meta property="twitter:url" content={$page.url.href} />
 	<meta
 		name="twitter:title"
-		content="{data.result.title ?? data.result.name ?? ''} | skywatched.app"
+		content="{data.item.title} | skywatched.app"
 	/>
 	<meta
 		name="twitter:description"
-		content={`Rate and review "${data.result.title ?? data.result.name ?? ''}" on skywatched`}
+		content={`Rate and review "${data.item.title}" on skywatched`}
 	/>
 	<meta name="twitter:image" content="{$page.url.href}/og.png" />
 </svelte:head>
 
 {#snippet buttons()}
-	{#if data.user && !watchedItems.hasRated(data.result)}
+	{#if data.user && !watchedItems.hasRated(data.item)}
 		<button
 			class={cn(
 				'inline-flex items-center gap-2 rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-75 hover:bg-white/20 ',
-				watchedItems.hasRated(data.result)
+				watchedItems.hasRated(data.item)
 					? 'bg-green-500/10 text-green-400 hover:bg-green-500/20'
 					: ''
 			)}
 			onclick={() => {
 				rateMovieModal.show({
-					movieId: data.result.movieId,
-					showId: data.result.showId,
-					kind: data.result.movieId ? 'movie' : 'tv',
-					name: data.result.original_title ?? data.result.original_name,
-					posterPath: data.result.poster_path,
-					currentRating: watchedItems.getRating(data.result)?.rating ?? 0,
-					currentReview: watchedItems.getRating(data.result)?.ratingText ?? ''
+					...data.item,
 				});
 			}}
 		>
@@ -93,7 +89,7 @@
 {/snippet}
 
 <img
-	src="https://image.tmdb.org/t/p/w780{data.result.backdrop_path}"
+	src="https://image.tmdb.org/t/p/w780{data.item.backdrop_path}"
 	alt=""
 	class="fixed h-full w-full object-cover object-center opacity-20"
 />
@@ -102,17 +98,17 @@
 <Container class="relative z-10 pb-8 pt-4">
 	<div class="flex gap-4 px-4 pt-8">
 		<img
-			src="https://image.tmdb.org/t/p/w500{data.result.poster_path}"
+			src="https://image.tmdb.org/t/p/w500{data.item.poster_path}"
 			alt=""
 			class="poster h-36 w-24 shrink-0 rounded-lg border border-white/10 sm:h-64 sm:w-44"
-			style:--name={`poster-${data.result.id}`}
+			style:--name={`poster-${data.item.ref}`}
 		/>
 		<div class="flex flex-col gap-4">
 			<div
 				class="title max-w-xl text-3xl font-semibold text-white sm:text-4xl"
-				style:--name={`title-${data.result.id}`}
+				style:--name={`title-${data.item.ref}`}
 			>
-				{data.result.title ?? data.result.name}
+				{data.item.title ?? data.item.name}
 			</div>
 
 			{#if data.settings?.streaming_region?.code && data.watchProviders[data.settings.streaming_region.code]?.flatrate}
@@ -156,7 +152,7 @@
 		</div>
 		<div class="mb-4 max-w-2xl text-sm text-white">
 			<div class="mb-2 text-lg font-semibold">overview</div>
-			{data.result.overview}
+			{data.item.overview}
 		</div>
 	</div>
 
