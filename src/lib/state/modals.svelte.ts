@@ -55,8 +55,17 @@ export const crosspostModal: {
 	review: string | undefined;
 	rating: number | undefined;
 	title: string | undefined;
+	backdrop: string | undefined;
+	poster: string | undefined;
 
-	show: (uri: string, review: string, rating: number, title: string) => void;
+	show: (
+		uri: string,
+		review: string,
+		rating: number,
+		title: string,
+		backdrop: string,
+		poster: string
+	) => void;
 	hide: () => void;
 } = $state({
 	showModal: false,
@@ -64,12 +73,23 @@ export const crosspostModal: {
 	review: undefined,
 	rating: undefined,
 	title: undefined,
+	backdrop: undefined,
+	poster: undefined,
 
-	show: (uri: string, review: string, rating: number, title: string) => {
+	show: (
+		uri: string,
+		review: string,
+		rating: number,
+		title: string,
+		backdrop: string,
+		poster: string
+	) => {
 		crosspostModal.uri = uri;
 		crosspostModal.review = review;
 		crosspostModal.rating = rating;
 		crosspostModal.title = title;
+		crosspostModal.backdrop = backdrop;
+		crosspostModal.poster = poster;
 		crosspostModal.showModal = true;
 	},
 

@@ -78,7 +78,7 @@
 									<p>Loading image...</p>
 								</div>
 								<img
-									src="/review/{encodeURIComponent(crosspostModal.uri ?? '')}/og.png"
+									src="/crosspost-image.png?backdrop={crosspostModal.backdrop}&poster={crosspostModal.poster}&avatar={user.avatar}&displayName={user.displayName}&title={crosspostModal.title}&rating={crosspostModal.rating}"
 									alt="crosspost"
 									class="absolute inset-0 h-full w-full object-cover"
 								/>

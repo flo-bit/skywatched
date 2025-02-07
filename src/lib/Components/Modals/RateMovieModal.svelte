@@ -46,7 +46,14 @@
 		if (settings.crosspostEnabled && review.length > 0) {
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 
-			crosspostModal.show(data.uri, review, rating, rateMovieModal?.selectedItem?.title ?? '');
+			crosspostModal.show(
+				data.uri,
+				review,
+				rating,
+				rateMovieModal?.selectedItem?.title ?? '',
+				rateMovieModal?.selectedItem?.backdrop_path ?? '',
+				rateMovieModal?.selectedItem?.poster_path ?? ''
+			);
 		}
 	}
 
