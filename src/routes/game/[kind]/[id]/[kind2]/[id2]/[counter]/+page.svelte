@@ -4,8 +4,6 @@
 	import { rateMovieModal, videoPlayer, watchedItems } from '$lib/state.svelte';
 
 	import Container from '$lib/Components/Container.svelte';
-	import ItemsList from '$lib/Components/ItemsList.svelte';
-	import ReviewList from '$lib/Components/ReviewList.svelte';
 	import Avatar from '$lib/Components/Avatar.svelte';
 	import { page } from '$app/stores';
 
@@ -72,103 +70,79 @@
 	{/if}
 {/snippet}
 
-<img
-	src="https://image.tmdb.org/t/p/w780{data.result.backdrop_path}"
-	alt=""
-	class="fixed h-full w-full object-cover object-center opacity-20"
-/>
+
 <div class="fixed inset-0 h-full w-full bg-black/50"></div>
 
 <Container class="relative z-10 pb-8 pt-4">
 	<div class="flex gap-4 px-4 pt-8">
+		
+		{#if data.kind === "cast"}
+			<Avatar
+				src={data.personDetails.profile_path
+					? 'https://image.tmdb.org/t/p/w500' + data.personDetails.profile_path
+					: undefined}
+				size="size-44"
+			/>
+		{:else}
 		<img
 			src="https://image.tmdb.org/t/p/w500{data.result.poster_path}"
 			alt=""
 			class="poster h-36 w-24 shrink-0 rounded-lg border border-white/10 sm:h-64 sm:w-44"
 			style:--name={`poster-${data.result.id}`}
 		/>
-
+		{/if}
+		{#if data.kind2 === "cast"}
+			<Avatar
+				src={data.person2Details.profile_path
+					? 'https://image.tmdb.org/t/p/w500' + data.person2Details.profile_path
+					: undefined}
+				size="size-44"
+			/>
+		{:else}
 		<img
 			src="https://image.tmdb.org/t/p/w500{data.result2.poster_path}"
 			alt=""
 			class="poster h-36 w-24 shrink-0 rounded-lg border border-white/10 sm:h-64 sm:w-44"
 			style:--name={`poster-${data.result2.id}`}
 		/>
-		<div class="flex flex-col gap-4">
-			<div
-				class="title max-w-xl text-3xl font-semibold text-white sm:text-4xl"
-				style:--name={`title-${data.result.id}`}
-			>
-				{data.result.title ?? data.result.name}
-			</div>
-
-			{#if data.settings?.streaming_region?.code && data.watchProviders[data.settings.streaming_region.code]?.flatrate}
-				<div class="mt-2 text-sm text-white sm:mt-4">
-					<div class="mb-2 flex flex-wrap gap-4 text-xs font-medium">
-						stream on
-						<span class="flex items-center gap-2 text-base-400"
-							>from <a
-								href="https://www.justwatch.com"
-								target="_blank"
-								class="text-base-300 hover:text-accent-300"
-							>
-								<img src="/justwatch_logo.svg" alt="justwatch" class="h-3" />
-							</a></span
-						>
-					</div>
-					<a
-						href={data.watchProviders[data.settings.streaming_region.code].link}
-						target="_blank"
-						class="flex flex-wrap gap-2"
-					>
-						{#each data.watchProviders[data.settings.streaming_region.code].flatrate as provider}
-							<img
-								src="https://image.tmdb.org/t/p/w500{provider.logo_path}"
-								alt={provider.provider_name}
-								class="size-8 rounded-md border border-base-800 md:size-12"
-							/>
-						{/each}
-					</a>
-				</div>
-			{/if}
-			<div class="hidden gap-2 sm:flex">
-				{@render buttons()}
-			</div>
-		</div>
+		{/if}
+		
 	</div>
 
 	<div class="px-4 pt-4 text-sm text-white">
 		<div class="mb-4 flex gap-2 sm:hidden">
 			{@render buttons()}
 		</div>
-		<div class="mb-4 max-w-2xl text-sm text-white">
-			<div class="mb-2 text-lg font-semibold">overview</div>
-			{data.result.overview}
-		</div>
 	</div>
-
-	{#if data.ratings.length > 0}
-		<div class="mt-8 px-4 text-lg font-semibold">reviews</div>
-
-		<ReviewList reviews={data.ratings} showMovieDetails={false} class="" />
-	{/if}
-
-	{#if data.recommendations.length > 0}
-		<div class="px-4 pt-4 text-sm text-white">
-			<div class="mb-2 text-lg font-semibold">recommendations</div>
-
-			<ItemsList items={data.recommendations} showMark={!!data.user} />
-		</div>
-	{/if}
-
+	
 	{#if data.cast.length > 0}
 		<div class="flex flex-col gap-x-6 px-4 pb-8 pt-4 text-sm text-white">
 			<!--<div class="mb-2 text-lg font-semibold">cast</div>*/-->
-
+			
+			<!--{#if data.kind === "cast"}-->
+			<!--{/if}-->
+			{#if data.kind==="cast" }
+			<div class={cn('flex gap-x-6 overflow-x-auto')}>
+				{#each data.combinedCredits as castMember}
+					<a
+						href={`/game/movie/${castMember.id}-${castMember.title ?? castMember.name}/${data.kind2}/${data.ids2}-/${parseInt(data.couter)+1}`}
+						class="flex flex-col items-center gap-1"	
+					>	
+						<img
+						src="https://image.tmdb.org/t/p/w342{castMember.poster_path}"
+						alt="movie poster for {castMember.title ?? castMember.name}"
+						class="poster size-32  object-center object-cover lg:size-full w-32"
+						/>
+						<div class="text-center size-32 text-sm font-medium">{castMember.title ?? castMember.name}</div>
+					</a>
+						
+				{/each}
+			</div>
+			{:else}
 			<div class={'flex gap-x-6 overflow-x-auto'}>
 				{#each data.cast as castMember}
 					<a
-						href={`/cast/${castMember.id}-${nameToId(castMember.name)}`}
+						href={`/game/cast/${castMember.id}-${nameToId(castMember.name)}/${data.kind2}/${data.ids2}-/${parseInt(data.couter)+1}`}
 						class="flex flex-col items-center gap-1"
 					>
 						<Avatar
@@ -182,10 +156,29 @@
 					</a>
 				{/each}
 			</div>
+			{/if}
+			{#if data.kind2==="cast" }
+			<div class={cn('flex gap-x-6 overflow-x-auto')}>
+				{#each data.combinedCredits2 as castMember}
+					<a
+					href={`/game/${data.kind}/${data.ids}-/movie/${castMember.id}-${castMember.title ?? castMember.name}/${parseInt(data.couter)+1}`}
+						class="flex flex-col items-center gap-1"	
+					>	
+						<img
+						src="https://image.tmdb.org/t/p/w342{castMember.poster_path}"
+						alt="movie poster for {castMember.title ?? castMember.name}"
+						class="poster size-32  object-center object-cover lg:size-full w-32"
+						/>
+						<div class="text-center size-32 text-sm font-medium">{castMember.title ?? castMember.name}</div>
+					</a>
+						
+				{/each}
+			</div>
+			{:else}
 			<div class={'flex gap-x-6 overflow-x-auto'}>
 				{#each data.cast2 as castMember}
 					<a
-						href={`/cast/${castMember.id}-${nameToId(castMember.name)}`}
+						href={`/game/${data.kind}/${data.ids}-/cast/${castMember.id}-${castMember.title ?? castMember.name}/${parseInt(data.couter)+1}`}
 						class="flex flex-col items-center gap-1"
 					>
 						<Avatar
@@ -199,6 +192,7 @@
 					</a>
 				{/each}
 			</div>
+			{/if}
 		</div>
 	{/if}
 </Container>

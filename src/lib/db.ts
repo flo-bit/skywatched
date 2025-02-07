@@ -81,3 +81,8 @@ export async function getRecordByUri({ uri }: { uri: string }): Promise<MainReco
 	const data = await response.json();
 	return data;
 }
+export async function getAuthorDids(): Promise<string[]> {
+	const response = await fetch(`${env.BACKEND_URL}/api/author-dids`);
+	const data = await response.json();
+	return data;
+}

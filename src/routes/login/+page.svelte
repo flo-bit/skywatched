@@ -50,12 +50,6 @@
 					class="flex w-full justify-center rounded-xl bg-accent-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500"
 					>login</button
 				>
-				<button
-					formaction="?/register"
-					type="submit"
-					class="mt-4 flex w-full justify-center rounded-xl bg-white/10 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500"
-					>register</button
-				>
 			</div>
 		</form>
 	</div>

@@ -8,7 +8,7 @@ import {
 	getPersonDetails,
 	getCombinedCredits
 } from '$lib/server/movies';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load(event) {
@@ -16,41 +16,125 @@ export async function load(event) {
 	const id2 = parseInt(event.params.id2.split('-')[0]);
 	const kind = event.params.kind;
 	const kind2= event.params.kind2;
-	const couter=0;
-
-	if (kind !== 'movie' && kind !== 'tv') {
+	const ids=id;
+	const ids2=id2;
+	const couter=event.params.counter;
+	if(kind==kind2&&id==id2){
+		redirect(302,"/win/"+couter);
+	}
+	
+	if (kind !== 'movie' && kind !== 'tv' && kind!=='cast') {
+		return error(404, 'Not found');
+	}
+	if (kind2 !== 'movie' && kind2 !== 'tv' && kind2!=='cast') {
 		return error(404, 'Not found');
 	}
 
 	if (!id) {
 		return error(404, 'Not found');
 	}
-	const resultPromise = getDetails(id, kind);
-	const resultPromise2 = getDetails(id2, kind2);
+	if (!id2) {
+		return error(404, 'Not found');
+	}
+	var temp;
+	var temp2;
+	var casting;
+	var casting2;
+	var person;
+	var person2;
+	var credits;
+	var credits2;
+	if(kind==="cast"){
+		temp = getDetails(68730,"movie");
+		casting=getCast(68730,"movie");
+		person=getPersonDetails(id);
+		person2=getPersonDetails(id2);
+		credits=id;
+		credits2=id2;
+	}
+	else{
+		temp = getDetails(id, kind);
+		casting=getCast(id,kind);
+		person=getPersonDetails(37625);
+		person2=getPersonDetails(37625);
+		credits=37625;
+		credits2=37625;
 
-	const trailerPromise = getTrailer(id, kind);
+	}
+	if(kind2==="cast"){
+		temp2 = getDetails(68730,"movie");
+		casting2=getCast(68730,"movie");
+		person2=getPersonDetails(id2);
+		credits2=id2;
+	}
+	else{
+		temp2 = getDetails(id2, kind2);
+		casting2=getCast(id2,kind2);
+		person2=getPersonDetails(37625);
+		credits2=37625;
 
-	const recommendationsPromise = getRecommendations(id, kind);
+	}
+	const resultPromise = temp;
+	const personPromise=person;
+	const person2Promise=person2;
+	//if(kind==="cast"){
+	//	const resultPromise = getDetails(68730,"movie")
+	//}
+	//else{
+	//	const resultPromise = getDetails(id, kind);
+	//}
+	const resultPromise2 = temp2;
 
-	const watchProvidersPromise = getWatchProviders(id, kind);
+	const castPromise = casting;
+	const castPromise2 = casting2;
+	const creditsPromise= credits;
+	const creditsPromise2= credits2;
+	const combinedCredits = await getCombinedCredits(credits);
+	const creditsSet = new Set<string>();
+	const combinedCredits2 = await getCombinedCredits(credits2);
+	const creditsSet2 = new Set<string>();
+	combinedCredits.cast = combinedCredits.cast
+		.filter((item: { id: string; poster_path: string }) => {
+			if (creditsSet.has(item.id)) {
+				return false;
+			}
+			creditsSet.add(item.id);
+			return item.poster_path;
+		})
+		.sort((a: { order: number }, b: { order: number }) => b.order - a.order)
+		.map((item: { id: string; media_type: string }) => {
+			return {
+				...item,
+				movieId: item.media_type === 'movie' ? item.id : undefined,
+				showId: item.media_type === 'tv' ? item.id : undefined
+			};
+		});
+	combinedCredits2.cast = combinedCredits2.cast
+		.filter((item: { id: string; poster_path: string }) => {
+			if (creditsSet2.has(item.id)) {
+				return false;
+			}
+			creditsSet2.add(item.id);
+			return item.poster_path;
+		})
+		.sort((a: { order: number }, b: { order: number }) => b.order - a.order)
+		.map((item: { id: string; media_type: string }) => {
+			return {
+				...item,
+				movieId: item.media_type === 'movie' ? item.id : undefined,
+				showId: item.media_type === 'tv' ? item.id : undefined
+			};
+		});
 
-	const ratingsPromise = getRecentRecordsForItem({
-		ref: 'tmdb:' + (kind === 'movie' ? 'm' : 's'),
-		value: id.toString()
-	});
-
-	const castPromise = getCast(id, kind);
-	const castPromise2 = getCast(id2, kind2);
-
-	const [result,result2, trailer, recommendations, watchProviders, ratings, cast,cast2] = await Promise.all([
+	const [result,result2, cast,cast2,personDetails,person2Details,creditDetails,creditDetails2] = await Promise.all([
 		resultPromise,
 		resultPromise2,
-		trailerPromise,
-		recommendationsPromise,
-		watchProvidersPromise,
-		ratingsPromise,
 		castPromise,
-		castPromise2
+		castPromise2,
+		personPromise,
+		person2Promise,
+		creditsPromise,
+		creditsPromise2
 	]);
 
 	if (!result || result.success === false) {
@@ -65,24 +149,21 @@ export async function load(event) {
 		},
 		result2: {
 			...result2,
-			movieId: kind === 'movie' ? id : undefined,
-			showId: kind === 'tv' ? id : undefined
+			movieId: kind2 === 'movie' ? id2 : undefined,
+			showId: kind2 === 'tv' ? id2 : undefined
 		},
-		trailer,
-		// @ts-expect-error - TODO: fix this
-		recommendations: recommendations.map((item) => {
-			if (kind === 'movie') {
-				return { ...item, movieId: item.id };
-			} else {
-				return { ...item, showId: item.id };
-			}
-		}),
 		kind,
 		kind2,
-		watchProviders,
-		ratings,
 		cast,
 		cast2,
-		couter
+		couter,
+		personDetails,
+		person2Details,
+		creditDetails,
+		creditDetails2,
+		ids,
+		ids2,
+		combinedCredits: combinedCredits.cast,
+		combinedCredits2: combinedCredits2.cast
 	};
 }
