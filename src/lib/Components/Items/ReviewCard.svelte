@@ -6,9 +6,9 @@
 	import RelativeTime from '$lib/Components/Utils/relative-time/RelativeTime.svelte';
 	import OptionButton from '$lib/Components/Modals/OptionMenu.svelte';
 
-	import { nameToId } from '$lib/utils';
+	import { cn, nameToId } from '$lib/utils';
 
-	let { data, showMovieDetails = true }: { data: MainRecord; showMovieDetails?: boolean } =
+	let { data, showMovieDetails = true, bigText = false }: { data: MainRecord; showMovieDetails?: boolean; bigText?: boolean } =
 		$props();
 
 	let isLiked = $state(false);
@@ -95,7 +95,7 @@
 	</div>
 
 	{#if data.record.note?.value}
-		<div class="mt-4 text-sm text-base-300">
+		<div class={cn("mt-4 text-sm text-base-300", bigText ? 'text-xl text-base-100' : '')}>
 			{@html data.record.note?.value?.replace('\n', '<br /><br />')}
 		</div>
 	{/if}
