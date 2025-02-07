@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { MainRecord } from '$lib/db';
 	import { cn } from '$lib/utils';
+	import type { MainRecord } from '$lib/db';
 	import ReviewCard from './ReviewCard.svelte';
 
 	let {

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
 	import Plyr from 'plyr';
-	import { videoPlayer } from '$lib/state.svelte';
+	import { videoPlayer } from '$lib/state/video.svelte';
 
 	const { class: className }: { class?: string } = $props();
 

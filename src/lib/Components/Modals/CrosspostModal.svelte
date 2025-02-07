@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { crosspostModal, user } from '$lib/state.svelte';
+	import { crosspostModal } from '$lib/state/modals.svelte';
+	import { user } from '$lib/state/user.svelte';
 	import { toast } from 'svelte-sonner';
 
 	let ratingText = $derived.by(() => {

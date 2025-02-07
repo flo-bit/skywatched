@@ -13,10 +13,6 @@ export async function load(event) {
 	const id = parseInt(event.params.id.split('-')[0]);
 	const kind = event.params.kind;
 
-	if (kind !== 'movie' && kind !== 'tv') {
-		return error(404, 'Not found');
-	}
-
 	if (!id) {
 		return error(404, 'Not found');
 	}
@@ -49,20 +45,13 @@ export async function load(event) {
 	}
 
 	return {
-		result: {
+		item: {
 			...result,
-			movieId: kind === 'movie' ? id : undefined,
-			showId: kind === 'tv' ? id : undefined
+			title: result.title ?? result.name,
+			ref: (kind === 'movie' ? 'tmdb:m-' : 'tmdb:s-') + id
 		},
 		trailer,
-		// @ts-expect-error - TODO: fix this
-		recommendations: recommendations.map((item) => {
-			if (kind === 'movie') {
-				return { ...item, movieId: item.id };
-			} else {
-				return { ...item, showId: item.id };
-			}
-		}),
+		recommendations,
 		kind,
 		watchProviders,
 		ratings,

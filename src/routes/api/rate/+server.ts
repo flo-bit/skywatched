@@ -12,8 +12,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	const body = await request.json();
 	const rating = body.rating;
 	const review = body.review;
-	const kind = body.kind;
-	const id = body.id;
+	const ref = body.ref;
+
 	const did = user.did;
 
 	const rkey = TID.nextStr();
@@ -41,8 +41,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		rkey,
 		record: {
 			item: {
-				ref: `tmdb:${kind === 'movie' ? 'm' : 's'}`,
-				value: id.toString()
+				ref: ref.split('-')[0],
+				value: ref.split('-')[1]
 			},
 			rating: { value: rating * 2, createdAt: new Date().toISOString() },
 			from: 'skywatched'

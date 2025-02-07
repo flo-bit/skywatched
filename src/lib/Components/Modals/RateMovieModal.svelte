@@ -1,15 +1,16 @@
 <script lang="ts">
-	import { crosspostModal, rateMovieModal, settings, watchedItems } from '$lib/state.svelte';
+	import { crosspostModal, rateMovieModal } from '$lib/state/modals.svelte';
+	import { settings, watchedItems } from '$lib/state/user.svelte';
 	import { toast } from 'svelte-sonner';
-	import Rating from '../Items/Rating.svelte';
-	import SearchCombobox from '../UI/SearchCombobox.svelte';
+	import Rating from '$lib/Components/Items/Rating.svelte';
+	import SearchCombobox from '$lib/Components/UI/SearchCombobox.svelte';
 
-	let rating = $state(rateMovieModal.selectedItem.currentRating ?? 0);
-	let review = $state(rateMovieModal.selectedItem.currentReview ?? '');
+	let rating = $state(rateMovieModal.selectedItem?.currentRating ?? 0);
+	let review = $state(rateMovieModal.selectedItem?.currentReview ?? '');
 
 	$effect(() => {
-		rating = rateMovieModal.selectedItem.currentRating ?? 0;
-		review = rateMovieModal.selectedItem.currentReview ?? '';
+		rating = rateMovieModal.selectedItem?.currentRating ?? 0;
+		review = rateMovieModal.selectedItem?.currentReview ?? '';
 	});
 
 	let sending = $state(false);
@@ -20,8 +21,7 @@
 			body: JSON.stringify({
 				rating,
 				review,
-				kind: rateMovieModal.selectedItem.kind,
-				id: rateMovieModal.selectedItem.movieId ?? rateMovieModal.selectedItem.showId
+				ref: rateMovieModal.selectedItem?.ref
 			})
 		});
 
@@ -34,31 +34,30 @@
 
 		const data = await response.json();
 
-		watchedItems.addRated({
-			movieId: rateMovieModal.selectedItem.movieId,
-			showId: rateMovieModal.selectedItem.showId,
-			rating
-		});
+		if (rateMovieModal.selectedItem) {
+			watchedItems.addRated({
+				...rateMovieModal.selectedItem,
+				rating
+			});
+		}
 
 		toast.success('Rating saved');
 
 		if (settings.crosspostEnabled && review.length > 0) {
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 
-			crosspostModal.show(data.uri, review, rating, rateMovieModal.selectedItem.name ?? '');
+			crosspostModal.show(data.uri, review, rating, rateMovieModal?.selectedItem?.title ?? '');
 		}
 	}
 
 	async function saveEdit() {
-		
 		const response = await fetch(`/api/review`, {
 			method: 'PUT',
 			body: JSON.stringify({
 				rating,
 				review,
-				kind: rateMovieModal.selectedItem.kind,
-				id: rateMovieModal.selectedItem.movieId ?? rateMovieModal.selectedItem.showId,
-				uri: rateMovieModal.selectedItem.editUri
+				...rateMovieModal?.selectedItem,
+				uri: rateMovieModal?.selectedItem?.editUri
 			})
 		});
 
@@ -110,22 +109,22 @@
 
 					<div>
 						<h3 class="text-md text-base-50 mb-4 font-semibold" id="modal-title">
-							{#if rateMovieModal.selectedItem.editUri}
+							{#if rateMovieModal.selectedItem?.editUri}
 								Edit review
 							{:else}
 								Rate and review
 							{/if}
 						</h3>
 
-						{#if rateMovieModal.selectedItem.name}
+						{#if rateMovieModal.selectedItem?.title}
 							<div class="relative flex items-center gap-4">
 								<div
 									class="border-base-800 bg-base-900/50 relative z-20 aspect-[2/3] h-32 w-auto shrink-0 overflow-hidden rounded-md border"
 								>
-									{#if rateMovieModal.selectedItem.posterPath}
+									{#if rateMovieModal.selectedItem?.poster_path}
 										<img
-											src="https://image.tmdb.org/t/p/w154{rateMovieModal.selectedItem.posterPath}"
-											alt="movie poster for {rateMovieModal.selectedItem.name}"
+											src="https://image.tmdb.org/t/p/w154{rateMovieModal.selectedItem.poster_path}"
+											alt="movie poster for {rateMovieModal.selectedItem.title}"
 											class="size-full object-cover object-center lg:size-full"
 										/>
 									{/if}
@@ -134,7 +133,7 @@
 									class="text-base-50 mb-4 flex flex-col gap-2 text-xl font-semibold"
 									id="modal-title"
 								>
-									{rateMovieModal.selectedItem.name}
+									{rateMovieModal.selectedItem.title}
 
 									<Rating bind:rating canChange size="size-7" />
 								</h3>
@@ -168,16 +167,20 @@
 					<div class="mt-5 sm:mt-6">
 						<button
 							onclick={async () => {
-								if (rateMovieModal.selectedItem.editUri) {
+								if (rateMovieModal.selectedItem?.editUri) {
 									saveEdit();
 								} else {
 									saveNew();
 								}
 							}}
 							type="button"
-							disabled={sending || !rateMovieModal.selectedItem.name}
+							disabled={sending || !rateMovieModal.selectedItem?.title}
 							class="border-accent-900 bg-accent-950/80 text-accent-300 hover:bg-accent-950 focus-visible:outline-accent-600 inline-flex w-full justify-center rounded-md border px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-							>{sending ? 'Sending...' : (rateMovieModal.selectedItem.editUri ? 'Update' : 'Review')}</button
+							>{sending
+								? 'Sending...'
+								: rateMovieModal.selectedItem?.editUri
+									? 'Update'
+									: 'Review'}</button
 						>
 					</div>
 				</div>

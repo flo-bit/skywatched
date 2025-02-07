@@ -52,7 +52,7 @@ export const PUT: RequestHandler = async ({ locals, request }) => {
 
 	const rating = body.rating;
 	const review = body.review;
-	const kind = body.kind;
+	const kind = body.media_type;
 	const id = body.id;
 
 	const record: {

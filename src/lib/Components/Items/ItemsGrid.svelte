@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Item } from '$lib/types';
 	import { cn } from '$lib/utils';
 	import ItemCard from './ItemCard.svelte';
 
@@ -7,7 +8,7 @@
 		class: className,
 		showMark
 	}: {
-		items: { poster_path: string; original_title: string; movieId?: number; showId?: number }[];
+		items: Item[];
 		class?: string;
 		showMark?: boolean;
 	} = $props();
