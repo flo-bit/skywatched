@@ -26,7 +26,17 @@
 		<div
 			class="md:max-w-84 order-first flex h-96 flex-col items-center justify-center px-8 text-base-100"
 		>
-			<h1 class="text-balance text-3xl font-semibold tracking-tight sm:text-5xl">skywatched</h1>
+			<h1
+				class="text-balance text-3xl font-semibold tracking-tight sm:text-5xl flex items-start gap-3"
+			>
+				skywatched
+
+				<span
+					class="inline-flex w-fit items-center tracking-normal rounded-xl border border-accent-500/20 bg-accent-700/10 px-2 py-1 text-xs font-normal text-accent-400 shadow-sm transition-all duration-100"
+				>
+					public alpha
+				</span>
+			</h1>
 			<p class="text-md mt-8 max-w-xs text-pretty text-center font-medium text-base-300 sm:text-lg">
 				review movies and shows with your friends from bluesky.
 			</p>
