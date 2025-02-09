@@ -12,6 +12,7 @@ export async function resolveHandle({
 	if (!agent) {
 		agent = new AtpBaseClient({ service: 'https://api.bsky.app' });
 	}
+	
 
 	const data = await agent.com.atproto.identity.resolveHandle({ handle });
 	return data.data.did;

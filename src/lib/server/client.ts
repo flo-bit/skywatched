@@ -14,6 +14,7 @@ const clientId = !dev ? `${publicUrl}/client-metadata.json` : devClientId;
 export const atclient = new NodeOAuthClient({
 	stateStore: new StateStore(db),
 	sessionStore: new SessionStore(db),
+	
 	clientMetadata: {
 		client_name: 'skywatched',
 		client_id: clientId,
