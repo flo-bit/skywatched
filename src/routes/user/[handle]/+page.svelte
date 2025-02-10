@@ -5,6 +5,7 @@
 	import Container from '$lib/Components/Container.svelte';
 	import Profile from '$lib/Components/Profile.svelte';
 	import ReviewList from '$lib/Components/ReviewList.svelte';
+	import { toast } from 'svelte-sonner';
 
 	let { data } = $props();
 </script>
@@ -17,13 +18,49 @@
 
 <Container class="max-w-full lg:max-w-full">
 	
+	<div class={"group flex-row"}>
 		<Profile profile={data.profile} />
-		{#if data.isUser}
-		<a href={"/logout/"} class="button flex w-full justify-center rounded-xl bg-accent-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500">logout</a>
 		
-		{/if}
-	
+	</div>
+	{#if data.isUser}
+	<div class="text-center">
+		<a href={"/logout/"} class="button flex-row-reverse position-relative w-full justify-center align-items-center text-center rounded-xl bg-accent-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500">logout</a>
+	</div>
+	{:else if data.isfollowed}
+	<div class="text-center">
+		<a href={"/logout/"} class="button flex-row-reverse w-full justify-end text-center rounded-xl bg-accent-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500">logout</a>
+	</div>
+	{:else}
+	<div class="text-center">
+	<button class="danger lg justify-center rounded-xl bg-accent-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500"
+		onclick={async () => {
+		if (data.isfollowed) return;
+
+		data.isfollowed=true;
+
+		try {
+			const response = await fetch('/api/follow', {
+				method: 'POST',
+				body: JSON.stringify({ did: data.did})
+			});
+			if (response.ok) {
+				toast.success('Liked');
+			} else {
+				toast.error('must be logged in to like');
+				data.isfollowed = false;
+			}
+		} catch (e) {
+			console.error(e);
+			toast.error('must be logged in to like');
+			data.isfollowed = false;
+		}
+		}}>
+		Follow
+	</button>
+	</div>
+	{/if}
 	{#if data.items.length > 0}
+	<p class="text-center max-w-full truncate text-lg font-bold text-base-900 dark:text-base-100 sm:text-xl">Follows</p>
 	<div class={'flex gap-x-6 overflow-x-auto mx-auto mt-8 max-w-2xl'}>
 
 		{#each data.follows.follows as castMember}
@@ -36,7 +73,7 @@
 					src={castMember.avatar
 						? castMember.avatar
 						: undefined}
-					size="size-32"
+					size="size-16"
 				/>
 				<div class="text-center text-xs font-medium">{castMember.displayName}</div>
 				<div class="text-center text-xs text-base-400">{castMember.handle}</div>
@@ -45,6 +82,7 @@
 			
 		{/each}
 		</div>
+		<p class="text-center max-w-full truncate text-lg font-bold text-base-900 dark:text-base-100 sm:text-xl">Reviews</p>
 		<div><ReviewList reviews={data.items} class="mx-auto mt-8 max-w-2xl" /></div>
 		
 

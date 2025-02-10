@@ -35,6 +35,7 @@ export async function getFollows({ did, agent = undefined }: { did: string; agen
 	const { data } = await agent.app.bsky.graph.getFollows({ actor: did });
 	return data;
 }
+
 export async function getAllRated({ did, agent = undefined }: { did: string; agent?: AgentType }) {
 	if (!agent) {
 		agent = new AtpBaseClient({ service: 'https://bsky.social' });

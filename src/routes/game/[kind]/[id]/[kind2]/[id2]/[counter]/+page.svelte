@@ -74,9 +74,10 @@
 <div class="fixed inset-0 h-full w-full bg-black/50"></div>
 
 <Container class="relative z-10 pb-8 pt-4">
-	<div class="flex gap-4 px-4 pt-8">
-		
+	<div class="flex justify-center gap-4 px-4 pt-8">
+		<div class="flex-column">
 		{#if data.kind === "cast"}
+			<div class="text-center text-sm font-medium">Cast1</div>
 			<Avatar
 				src={data.personDetails.profile_path
 					? 'https://image.tmdb.org/t/p/w500' + data.personDetails.profile_path
@@ -84,6 +85,7 @@
 				size="size-44"
 			/>
 		{:else}
+		<div class="text-center text-sm font-medium">Movie1</div>
 		<img
 			src="https://image.tmdb.org/t/p/w500{data.result.poster_path}"
 			alt=""
@@ -91,7 +93,10 @@
 			style:--name={`poster-${data.result.id}`}
 		/>
 		{/if}
+		</div>
+		<div class="flex-column">
 		{#if data.kind2 === "cast"}
+			<div class="text-center text-sm font-medium">Cast2</div>
 			<Avatar
 				src={data.person2Details.profile_path
 					? 'https://image.tmdb.org/t/p/w500' + data.person2Details.profile_path
@@ -99,6 +104,7 @@
 				size="size-44"
 			/>
 		{:else}
+		<div class="text-center text-sm font-medium">Movie2</div>
 		<img
 			src="https://image.tmdb.org/t/p/w500{data.result2.poster_path}"
 			alt=""
@@ -106,6 +112,7 @@
 			style:--name={`poster-${data.result2.id}`}
 		/>
 		{/if}
+		</div>
 		
 	</div>
 
@@ -117,12 +124,9 @@
 	
 	{#if data.cast.length > 0}
 		<div class="flex flex-col gap-x-6 px-4 pb-8 pt-4 text-sm text-white">
-			<!--<div class="mb-2 text-lg font-semibold">cast</div>*/-->
-			
-			<!--{#if data.kind === "cast"}-->
-			<!--{/if}-->
 			{#if data.kind==="cast" }
-			<div class={cn('flex gap-x-6 overflow-x-auto')}>
+			<div class="text-center text-sm font-medium">Movies of {data.personDetails.name}</div>
+			<div class={cn('flex gap-x-6 justify-start overflow-x-auto')}>
 				{#each data.combinedCredits as castMember}
 					<a
 						href={`/game/movie/${castMember.id}-${castMember.title ?? castMember.name}/${data.kind2}/${data.ids2}-/${parseInt(data.couter)+1}`}
@@ -139,7 +143,8 @@
 				{/each}
 			</div>
 			{:else}
-			<div class={'flex gap-x-6 overflow-x-auto'}>
+			<div class="text-center text-sm font-medium">cast of {data.result.title}</div>
+			<div class={'flex gap-x-6 justify-left overflow-x-auto'}>
 				{#each data.cast as castMember}
 					<a
 						href={`/game/cast/${castMember.id}-${nameToId(castMember.name)}/${data.kind2}/${data.ids2}-/${parseInt(data.couter)+1}`}
@@ -158,6 +163,7 @@
 			</div>
 			{/if}
 			{#if data.kind2==="cast" }
+			<div class="text-center text-sm font-medium">Movies of {data.person2Details.name}</div>
 			<div class={cn('flex gap-x-6 overflow-x-auto')}>
 				{#each data.combinedCredits2 as castMember}
 					<a
@@ -167,7 +173,7 @@
 						<img
 						src="https://image.tmdb.org/t/p/w342{castMember.poster_path}"
 						alt="movie poster for {castMember.title ?? castMember.name}"
-						class="poster size-32  object-center object-cover lg:size-full w-32"
+						class="poster  object-center object-cover lg:size-full w-500"
 						/>
 						<div class="text-center size-32 text-sm font-medium">{castMember.title ?? castMember.name}</div>
 					</a>
@@ -175,7 +181,8 @@
 				{/each}
 			</div>
 			{:else}
-			<div class={'flex gap-x-6 overflow-x-auto'}>
+			<div class="text-center text-sm font-medium">Cast of {data.result2.title}</div>
+			<div class={'flex gap-x-6 justify-right overflow-x-auto'}>
 				{#each data.cast2 as castMember}
 					<a
 						href={`/game/${data.kind}/${data.ids}-/cast/${castMember.id}-${castMember.title ?? castMember.name}/${parseInt(data.couter)+1}`}
