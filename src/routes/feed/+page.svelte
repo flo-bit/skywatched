@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Container from '$lib/Components/Container.svelte';
-	import { onMount } from 'svelte';
 	import { type PageData } from './$types';
-	import ReviewList from '$lib/Components/ReviewList.svelte';
-	import BaseHeadTags from '$lib/Components/BaseHeadTags.svelte';
+
+	import Container from '$lib/Components/Layout/Container.svelte';
+	import ReviewList from '$lib/Components/Items/ReviewList.svelte';
+	import BaseHeadTags from '$lib/Components/Layout/BaseHeadTags.svelte';
 
 	let { data }: { data: PageData } = $props();
 </script>

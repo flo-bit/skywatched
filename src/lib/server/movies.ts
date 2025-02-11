@@ -1,10 +1,13 @@
 import { env } from '$env/dynamic/private';
-
-import type { Agent } from '@atproto/api';
+import type { Item } from '$lib/types';
 
 export type Kind = 'movie' | 'tv';
 
-export async function searchMulti(query: string) {
+export function ref(id: number, kind: Kind) {
+	return `tmdb:${kind === 'movie' ? 'm' : 's'}-${id}`;
+}
+
+export async function searchMulti(query: string): Promise<Item[]> {
 	const apiUrl = `https://api.themoviedb.org/3/search/multi?query=${query}&include_adult=false&language=en-US&page=1`;
 	const options = {
 		method: 'GET',
@@ -17,7 +20,18 @@ export async function searchMulti(query: string) {
 	const response = await fetch(apiUrl, options);
 	const data = await response.json();
 
-	return data.results;
+	return data.results
+		.filter(
+			(result: { poster_path: string; media_type: string }) =>
+				result.poster_path !== null && result.media_type !== 'person'
+		)
+		.map((result: { id: number; media_type: string; title?: string; name?: string }) => {
+			return {
+				ref: ref(result.id, result.media_type as Kind),
+				title: result.title ?? result.name,
+				...result
+			};
+		}) as Item[];
 }
 
 export async function getDetails(id: number, kind: Kind) {
@@ -33,7 +47,10 @@ export async function getDetails(id: number, kind: Kind) {
 	const response = await fetch(url, options);
 	const data = await response.json();
 
-	return data;
+	return {
+		...data,
+		ref: ref(data.id, kind)
+	};
 }
 
 export async function getTrailer(id: number, kind: Kind): Promise<string | null> {
@@ -50,21 +67,21 @@ export async function getTrailer(id: number, kind: Kind): Promise<string | null>
 	const data = await response.json();
 
 	let trailer = data.results?.find(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(video: any) => video.site === 'YouTube' && video.type === 'Trailer' && video.official
+		(video: { site: string; type: string; official: boolean }) =>
+			video.site === 'YouTube' && video.type === 'Trailer' && video.official
 	);
 
 	if (!trailer) {
 		trailer = data.results?.find(
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(video: any) => video.site === 'YouTube' && video.type === 'Trailer'
+			(video: { site: string; type: string }) =>
+				video.site === 'YouTube' && video.type === 'Trailer'
 		);
 	}
 
 	return trailer?.key ?? null;
 }
 
-export async function getRecommendations(id: number, kind: Kind) {
+export async function getRecommendations(id: number, kind: Kind): Promise<Item[]> {
 	const url = `https://api.themoviedb.org/3/${kind}/${id}/recommendations?language=en-US`;
 	const options = {
 		method: 'GET',
@@ -77,7 +94,10 @@ export async function getRecommendations(id: number, kind: Kind) {
 	const response = await fetch(url, options);
 	const data = await response.json();
 
-	return data.results;
+	return data.results.map((item: { id: number }) => ({
+		...item,
+		ref: ref(item.id, kind)
+	})) as Item[];
 }
 
 export async function getWatchProviders(id: number, kind: Kind) {
@@ -94,46 +114,6 @@ export async function getWatchProviders(id: number, kind: Kind) {
 	const data = await response.json();
 
 	return data.results;
-}
-
-export async function getWatchedMoviesIdsFromPDS(agent: Agent, did: string) {
-	const allRecords = await agent.com.atproto.repo.listRecords({
-		repo: did,
-		collection: 'my.skylights.rel'
-	});
-
-	const movies = allRecords.data.records.filter((record) => record.value.item.ref === 'tmdb:m');
-
-	return new Map(
-		movies.map((movie) => [
-			parseInt(movie.value.item.value ?? '0'),
-			{
-				rating: movie.value.rating.value / 2,
-				ratingText: movie.value.note?.value,
-				updatedAt: movie.value.note?.updatedAt ?? movie.value.rating.createdAt
-			}
-		])
-	);
-}
-
-export async function getWatchedShowsIdsFromPDS(agent: Agent, did: string) {
-	const allRecords = await agent.com.atproto.repo.listRecords({
-		repo: did,
-		collection: 'my.skylights.rel'
-	});
-
-	const shows = allRecords.data.records.filter((record) => record.value.item.ref === 'tmdb:s');
-
-	return new Map(
-		shows.map((show) => [
-			parseInt(show.value.item.value ?? '0'),
-			{
-				rating: show.value.rating.value / 2,
-				ratingText: show.value.note?.value,
-				updatedAt: show.value.note?.updatedAt ?? show.value.rating.createdAt
-			}
-		])
-	);
 }
 
 export async function getCast(id: number, kind: Kind) {

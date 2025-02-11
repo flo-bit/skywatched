@@ -1,17 +1,22 @@
 // src/routes/og/+server.ts
-import { getRecordByUri, type MainRecord } from '$lib/db';
 import { ImageResponse } from '@ethercorps/sveltekit-og';
-import { error, type RequestHandler } from '@sveltejs/kit';
+import { type RequestHandler } from '@sveltejs/kit';
 
-const template = (data: MainRecord) => {
-	const backdrop = data.record.metadata?.backdrop_path;
-	const poster = data.record.metadata?.poster_path;
-
-	const avatar = data.author.avatar;
-	const displayName = data.author.displayName ?? data.author.handle;
-	const title = data.record.metadata?.title;
-	const rating = data.record.rating?.value;
-
+const template = ({
+	backdrop,
+	poster,
+	avatar,
+	displayName,
+	title,
+	rating
+}: {
+	backdrop: string;
+	poster: string;
+	avatar: string;
+	displayName: string;
+	title: string;
+	rating: number;
+}) => {
 	return `
 <div tw="bg-zinc-900 flex flex-col w-full h-full items-center justify-center">
 	<div tw="flex absolute bottom-0 left-0 right-0 top-0 bg-sky-400">
@@ -79,17 +84,26 @@ const fontPath = `fonts/inter-latin-ext-400-normal.woff`;
 const fontFile = await fetch(`${host}/${fontPath}`);
 const fontData: ArrayBuffer = await fontFile.arrayBuffer();
 
-export const GET: RequestHandler = async ({ params }) => {
-	const uri = params.uri;
+export const GET: RequestHandler = async ({ url }) => {
+	const backdrop = url.searchParams.get('backdrop');
+	const poster = url.searchParams.get('poster');
 
-	if (!uri) {
-		return error(404, 'Not found');
-	}
+	const avatar = url.searchParams.get('avatar');
+	const displayName = url.searchParams.get('displayName');
+	const title = url.searchParams.get('title');
+	const rating = url.searchParams.get('rating');
 
-	const record = await getRecordByUri({ uri });
+	console.log(rating);
 
 	return new ImageResponse(
-		template(record),
+		template({
+			backdrop: backdrop ?? '',
+			poster: poster ?? '',
+			avatar: avatar ?? '',
+			displayName: displayName ?? '',
+			title: title ?? '',
+			rating: rating ? parseInt(rating) * 2 : 0
+		}),
 		{
 			fonts: [
 				{

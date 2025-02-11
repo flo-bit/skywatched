@@ -1,7 +1,7 @@
 <script lang="ts">
-	import ItemsGrid from '$lib/Components/ItemsGrid.svelte';
-	import Container from '$lib/Components/Container.svelte';
-	import BaseHeadTags from '$lib/Components/BaseHeadTags.svelte';
+	import ItemsGrid from '$lib/Components/Items/ItemsGrid.svelte';
+	import Container from '$lib/Components/Layout/Container.svelte';
+	import BaseHeadTags from '$lib/Components/Layout/BaseHeadTags.svelte';
 
 	import { type PageData } from './$types';
 	let { data }: { data: PageData } = $props();

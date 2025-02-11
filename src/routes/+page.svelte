@@ -1,8 +1,8 @@
 <script>
-	import BaseHeadTags from '$lib/Components/BaseHeadTags.svelte';
-	import Container from '$lib/Components/Container.svelte';
-	import ReviewList from '$lib/Components/ReviewList.svelte';
-	import { rateMovieModal, showLoginModal } from '$lib/state.svelte';
+	import BaseHeadTags from '$lib/Components/Layout/BaseHeadTags.svelte';
+	import Container from '$lib/Components/Layout/Container.svelte';
+	import ReviewList from '$lib/Components/Items/ReviewList.svelte';
+	import { rateMovieModal, showLoginModal } from '$lib/state/modals.svelte';
 
 	const { data } = $props();
 </script>

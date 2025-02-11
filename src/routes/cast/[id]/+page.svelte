@@ -1,9 +1,8 @@
 <script lang="ts">
-	import Avatar from '$lib/Components/Avatar.svelte';
-	import BaseHeadTags from '$lib/Components/BaseHeadTags.svelte';
-	import Container from '$lib/Components/Container.svelte';
-	import ItemsGrid from '$lib/Components/ItemsGrid.svelte';
-	import { onMount } from 'svelte';
+	import Avatar from '$lib/Components/User/Avatar.svelte';
+	import BaseHeadTags from '$lib/Components/Layout/BaseHeadTags.svelte';
+	import Container from '$lib/Components/Layout/Container.svelte';
+	import ItemsGrid from '$lib/Components/Items/ItemsGrid.svelte';
 
 	let { data } = $props();
 
