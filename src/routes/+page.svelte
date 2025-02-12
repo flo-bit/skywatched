@@ -36,7 +36,7 @@
 						showLoginModal.toggle();
 					}}
 					type="button"
-					class="mt-8 inline-flex w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
+					class="mt-8 inline-flex w-fit items-center gap-x-1.5 rounded-xl border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
 				>
 					Sign in with Bluesky
 				</button>
@@ -46,7 +46,7 @@
 						rateMovieModal.showEmpty();
 					}}
 					type="button"
-					class="mt-8 inline-flex w-fit items-center gap-x-1.5 rounded-md border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
+					class="mt-8 inline-flex w-fit items-center gap-x-1.5 rounded-xl border border-accent-500/30 bg-accent-700/20 px-3 py-2 text-sm font-semibold text-accent-400 shadow-sm transition-all duration-100 hover:bg-accent-700/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
 				>
 					New review
 				</button>

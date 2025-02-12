@@ -21,7 +21,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		collection: string;
 		rkey: string;
 		record: {
-			subject:  string;
+			subject: string;
 			createdAt: string;
 		};
 	} = {
@@ -29,7 +29,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		collection: 'app.bsky.graph.follow',
 		rkey,
 		record: {
-			subject:  did ,
+			subject: did,
 			createdAt: new Date().toISOString()
 		}
 	};

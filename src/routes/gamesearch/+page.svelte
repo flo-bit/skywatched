@@ -1,7 +1,7 @@
 <script lang="ts">
-	import ItemsGrid from '$lib/Components/ItemsGrid.svelte';
-	import Container from '$lib/Components/Container.svelte';
-	import BaseHeadTags from '$lib/Components/BaseHeadTags.svelte';
+	import ItemsGrid from '$lib/Components/Items/ItemsGrid.svelte';
+	import Container from '$lib/Components/Layout/Container.svelte';
+	import BaseHeadTags from '$lib/Components/Layout/BaseHeadTags.svelte';
 
 	import { type PageData } from './$types';
 	let { data }: { data: PageData } = $props();
@@ -18,7 +18,6 @@
 		<h1 class="pb-8 text-4xl font-bold tracking-tight text-base-50">search for a movie or show</h1>
 		<div class="mt-10 w-full sm:mx-auto sm:max-w-sm">
 			<form class="space-y-6" action="?/randomize" method="POST">
-	
 				<div>
 					<button
 						type="submit"
@@ -76,21 +75,19 @@
 
 		{#if data.results.length > 0}
 			<div class="flex-row">
-					<div class="flex-col"> 
-				<h2 class="mt-8 text-2xl font-bold tracking-tight text-base-50">results</h2>
-				
+				<div class="flex-col">
+					<h2 class="mt-8 text-2xl font-bold tracking-tight text-base-50">results</h2>
 
-				<ItemsGrid items={data.results} showMark={!!data.user} />
+					<ItemsGrid items={data.results} showMark={!!data.user} />
 				</div>
-				<div class="flex-col"> 
-				<h2 class="mt-8 text-2xl font-bold tracking-tight text-base-50">results</h2>
+				<div class="flex-col">
+					<h2 class="mt-8 text-2xl font-bold tracking-tight text-base-50">results</h2>
 
-				<ItemsGrid items={data.results2} showMark={!!data.user} />
+					<ItemsGrid items={data.results2} showMark={!!data.user} />
 				</div>
 			</div>
 		{:else if data.query}
 			<p class="text-md mt-8 text-base-50">no results found</p>
 		{/if}
-
 	</div>
 </Container>

@@ -1,30 +1,41 @@
-import { getProfile, resolveHandle,getFollows } from '$lib/bluesky.js';
-import { getRecentRecordOfUser,getAuthorDids } from '$lib/db';
-import type { Actions, PageServerLoad } from './$types';
+import { getProfile, resolveHandle, getFollows } from '$lib/bluesky.js';
+import { getRecentRecordOfUser, getAuthorDids } from '$lib/db';
+
 /** @type {import('./$types').PageServerLoad} */
 export async function load(event) {
 	const handle = event.params.handle;
 
 	const did = await resolveHandle({ handle: handle });
-	const userdid=event.locals.user?.did;
 
 	const profilePromise = getProfile({ did });
-	const itemsPromise = getRecentRecordOfUser({ did });
-	const followsPromise = getFollows({ did });
-	const userfollowsPromise=getFollows({ did });
-	const authors=await getAuthorDids();
-	const [profile, items,follows,userfollows] = await Promise.all([profilePromise, itemsPromise,followsPromise,userfollowsPromise]);
-	var i=follows.follows.length-1;
-	const isfollowed=userfollows.follows.some((word)=>(word.did==did));
-	while(i>=0){
-		if(authors.includes(follows.follows[i].did)){
-		}
-		else{
-			follows.follows.splice(i,1);
-		}
-		i--;
-		
+	const reviewsPromise = getRecentRecordOfUser({ did });
+
+	const authorsPromise = getAuthorDids();
+
+	const [profile, reviews, authors] = await Promise.all([
+		profilePromise,
+		reviewsPromise,
+		authorsPromise
+	]);
+
+	if (event.locals.user) {
+		const follows = await getFollows({ did: event.locals.user.did });
+
+		return {
+			isUser: event.locals.user?.did === did,
+			username: event.params.handle,
+			profile,
+			items: reviews,
+			follows: follows.follows.filter((profile) => authors.includes(profile.did)),
+			following: follows.follows.some((profile) => profile.did == did),
+			did
+		};
 	}
 
-	return { isUser: event.locals.user?.did === did, username: event.params.handle, profile, items,follows,isfollowed,did };
+	return {
+		isUser: false,
+		profile,
+		items: reviews,
+		did
+	};
 }

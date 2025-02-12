@@ -13,7 +13,7 @@
 </script>
 
 {#snippet top(expand: boolean)}
-	<div class="text-base-600 dark:text-base-500 -ml-6 flex items-center text-sm">
+	<div class="-ml-6 flex items-center text-sm text-base-600 dark:text-base-500">
 		<div class="relative size-6">
 			<Avatar
 				src={comment.post.author.avatar}
@@ -43,13 +43,13 @@
 		<a
 			target="_blank"
 			rel="noopener noreferrer nofollow"
-			class="dark:text-base-100 hover:text-base-500 dark:hover:text-base-300 ml-2"
+			class="ml-2 hover:text-base-500 dark:text-base-100 dark:hover:text-base-300"
 			href={`https://bsky.app/profile/${comment.post.author.did}`}
 		>
 			{comment.post.author.displayName || comment.post.author.handle}
 		</a>
 
-		<div class="text-base-400 ml-2 text-xs">
+		<div class="ml-2 text-xs text-base-400">
 			<RelativeTime date={new Date(comment.post.record.createdAt)} locale="en" />
 		</div>
 	</div>
@@ -57,11 +57,11 @@
 
 <div class="relative pl-3">
 	<button
-		class="group absolute top-0 -left-1.5 flex h-full w-3 cursor-pointer items-center"
+		class="group absolute -left-1.5 top-0 flex h-full w-3 cursor-pointer items-center"
 		onclick={() => (expanded = !expanded)}
 	>
 		<div
-			class="bg-base-200 dark:bg-base-800 group-hover:bg-base-300 dark:group-hover:bg-base-700 mx-auto h-full w-0.5"
+			class="mx-auto h-full w-0.5 bg-base-200 group-hover:bg-base-300 dark:bg-base-800 dark:group-hover:bg-base-700"
 		></div>
 		<span class="sr-only">collapse comment</span>
 	</button>
@@ -77,7 +77,7 @@
 				<Embed post={comment.post} />
 			{/if}
 
-			<div class="text-base-500 dark:text-base-400 mt-2 flex gap-8">
+			<div class="mt-2 flex gap-8 text-base-500 dark:text-base-400">
 				<a
 					href={atUriToPostUri(comment.post.uri)}
 					target="_blank"
@@ -90,7 +90,7 @@
 						viewBox="0 0 24 24"
 						stroke-width="1.5"
 						stroke="currentColor"
-						class="group-hover:bg-accent-500/10 group-hover:text-accent-700 dark:group-hover:text-accent-400 -m-1.5 size-7 rounded-full p-1.5 transition-all duration-100"
+						class="-m-1.5 size-7 rounded-full p-1.5 transition-all duration-100 group-hover:bg-accent-500/10 group-hover:text-accent-700 dark:group-hover:text-accent-400"
 					>
 						<path
 							stroke-linecap="round"
@@ -114,7 +114,7 @@
 						viewBox="0 0 24 24"
 						stroke-width="1.5"
 						stroke="currentColor"
-						class="group-hover:bg-accent-500/10 group-hover:text-accent-700 dark:group-hover:text-accent-400 -m-1.5 size-7 rounded-full p-1.5 transition-all duration-100"
+						class="-m-1.5 size-7 rounded-full p-1.5 transition-all duration-100 group-hover:bg-accent-500/10 group-hover:text-accent-700 dark:group-hover:text-accent-400"
 					>
 						<path
 							stroke-linecap="round"
@@ -137,7 +137,7 @@
 						viewBox="0 0 24 24"
 						stroke-width="1.5"
 						stroke="currentColor"
-						class="group-hover:bg-accent-500/10 group-hover:text-accent-700 dark:group-hover:text-accent-400 -m-1.5 size-7 rounded-full p-1.5 transition-all duration-100"
+						class="-m-1.5 size-7 rounded-full p-1.5 transition-all duration-100 group-hover:bg-accent-500/10 group-hover:text-accent-700 dark:group-hover:text-accent-400"
 					>
 						<path
 							stroke-linecap="round"
@@ -155,7 +155,7 @@
 					href={atUriToPostUri(comment.post.uri)}
 					target="_blank"
 					rel="noopener noreferrer nofollow"
-					class="text-base-500 dark:text-base-400 dark:hover:text-base-300 hover:text-base-600 text-sm font-medium"
+					class="text-sm font-medium text-base-500 hover:text-base-600 dark:text-base-400 dark:hover:text-base-300"
 					>View more replies on bluesky</a
 				>
 			{/if}

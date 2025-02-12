@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { type PageData } from '../../../../../$types';
+	import { type PageData } from './$types';
 	import { cn, nameToId } from '$lib/utils';
-	import { rateMovieModal, videoPlayer, watchedItems } from '$lib/state.svelte';
 
-	import Container from '$lib/Components/Container.svelte';
-	import Avatar from '$lib/Components/Avatar.svelte';
+	import Container from '$lib/Components/Layout/Container.svelte';
+	import Avatar from '$lib/Components/User/Avatar.svelte';
 	import { page } from '$app/stores';
+	import { watchedItems } from '$lib/state/user.svelte';
+	import { rateMovieModal } from '$lib/state/modals.svelte';
 
 	let { data }: { data: PageData } = $props();
 </script>
@@ -70,50 +71,48 @@
 	{/if}
 {/snippet}
 
-
 <div class="fixed inset-0 h-full w-full bg-black/50"></div>
 
 <Container class="relative z-10 pb-8 pt-4">
 	<div class="flex justify-center gap-4 px-4 pt-8">
 		<div class="flex-column">
-		{#if data.kind === "cast"}
-			<div class="text-center text-sm font-medium">Cast1</div>
-			<Avatar
-				src={data.personDetails.profile_path
-					? 'https://image.tmdb.org/t/p/w500' + data.personDetails.profile_path
-					: undefined}
-				size="size-44"
-			/>
-		{:else}
-		<div class="text-center text-sm font-medium">Movie1</div>
-		<img
-			src="https://image.tmdb.org/t/p/w500{data.result.poster_path}"
-			alt=""
-			class="poster h-36 w-24 shrink-0 rounded-lg border border-white/10 sm:h-64 sm:w-44"
-			style:--name={`poster-${data.result.id}`}
-		/>
-		{/if}
+			{#if data.kind === 'cast'}
+				<div class="text-center text-sm font-medium">Cast1</div>
+				<Avatar
+					src={data.personDetails.profile_path
+						? 'https://image.tmdb.org/t/p/w500' + data.personDetails.profile_path
+						: undefined}
+					size="size-44"
+				/>
+			{:else}
+				<div class="text-center text-sm font-medium">Movie1</div>
+				<img
+					src="https://image.tmdb.org/t/p/w500{data.result.poster_path}"
+					alt=""
+					class="poster h-36 w-24 shrink-0 rounded-lg border border-white/10 sm:h-64 sm:w-44"
+					style:--name={`poster-${data.result.id}`}
+				/>
+			{/if}
 		</div>
 		<div class="flex-column">
-		{#if data.kind2 === "cast"}
-			<div class="text-center text-sm font-medium">Cast2</div>
-			<Avatar
-				src={data.person2Details.profile_path
-					? 'https://image.tmdb.org/t/p/w500' + data.person2Details.profile_path
-					: undefined}
-				size="size-44"
-			/>
-		{:else}
-		<div class="text-center text-sm font-medium">Movie2</div>
-		<img
-			src="https://image.tmdb.org/t/p/w500{data.result2.poster_path}"
-			alt=""
-			class="poster h-36 w-24 shrink-0 rounded-lg border border-white/10 sm:h-64 sm:w-44"
-			style:--name={`poster-${data.result2.id}`}
-		/>
-		{/if}
+			{#if data.kind2 === 'cast'}
+				<div class="text-center text-sm font-medium">Cast2</div>
+				<Avatar
+					src={data.person2Details.profile_path
+						? 'https://image.tmdb.org/t/p/w500' + data.person2Details.profile_path
+						: undefined}
+					size="size-44"
+				/>
+			{:else}
+				<div class="text-center text-sm font-medium">Movie2</div>
+				<img
+					src="https://image.tmdb.org/t/p/w500{data.result2.poster_path}"
+					alt=""
+					class="poster h-36 w-24 shrink-0 rounded-lg border border-white/10 sm:h-64 sm:w-44"
+					style:--name={`poster-${data.result2.id}`}
+				/>
+			{/if}
 		</div>
-		
 	</div>
 
 	<div class="px-4 pt-4 text-sm text-white">
@@ -121,84 +120,86 @@
 			{@render buttons()}
 		</div>
 	</div>
-	
+
 	{#if data.cast.length > 0}
 		<div class="flex flex-col gap-x-6 px-4 pb-8 pt-4 text-sm text-white">
-			{#if data.kind==="cast" }
-			<div class="text-center text-sm font-medium">Movies of {data.personDetails.name}</div>
-			<div class={cn('flex gap-x-6 justify-start overflow-x-auto')}>
-				{#each data.combinedCredits as castMember}
-					<a
-						href={`/game/movie/${castMember.id}-${castMember.title ?? castMember.name}/${data.kind2}/${data.ids2}-/${parseInt(data.couter)+1}`}
-						class="flex flex-col items-center gap-1"	
-					>	
-						<img
-						src="https://image.tmdb.org/t/p/w342{castMember.poster_path}"
-						alt="movie poster for {castMember.title ?? castMember.name}"
-						class="poster size-32  object-center object-cover lg:size-full w-32"
-						/>
-						<div class="text-center size-32 text-sm font-medium">{castMember.title ?? castMember.name}</div>
-					</a>
-						
-				{/each}
-			</div>
+			{#if data.kind === 'cast'}
+				<div class="text-center text-sm font-medium">Movies of {data.personDetails.name}</div>
+				<div class={cn('flex justify-start gap-x-6 overflow-x-auto')}>
+					{#each data.combinedCredits as castMember}
+						<a
+							href={`/game/movie/${castMember.id}-${castMember.title ?? castMember.name}/${data.kind2}/${data.ids2}-/${parseInt(data.couter) + 1}`}
+							class="flex flex-col items-center gap-1"
+						>
+							<img
+								src="https://image.tmdb.org/t/p/w342{castMember.poster_path}"
+								alt="movie poster for {castMember.title ?? castMember.name}"
+								class="poster size-32 w-32 object-cover object-center lg:size-full"
+							/>
+							<div class="size-32 text-center text-sm font-medium">
+								{castMember.title ?? castMember.name}
+							</div>
+						</a>
+					{/each}
+				</div>
 			{:else}
-			<div class="text-center text-sm font-medium">cast of {data.result.title}</div>
-			<div class={'flex gap-x-6 justify-left overflow-x-auto'}>
-				{#each data.cast as castMember}
-					<a
-						href={`/game/cast/${castMember.id}-${nameToId(castMember.name)}/${data.kind2}/${data.ids2}-/${parseInt(data.couter)+1}`}
-						class="flex flex-col items-center gap-1"
-					>
-						<Avatar
-							src={castMember.profile_path
-								? 'https://image.tmdb.org/t/p/w500' + castMember.profile_path
-								: undefined}
-							size="size-32"
-						/>
-						<div class="text-center text-xs font-medium">{castMember.name}</div>
-						<div class="text-center text-xs text-base-400">{castMember.character}</div>
-					</a>
-				{/each}
-			</div>
+				<div class="text-center text-sm font-medium">cast of {data.result.title}</div>
+				<div class={'justify-left flex gap-x-6 overflow-x-auto'}>
+					{#each data.cast as castMember}
+						<a
+							href={`/game/cast/${castMember.id}-${nameToId(castMember.name)}/${data.kind2}/${data.ids2}-/${parseInt(data.couter) + 1}`}
+							class="flex flex-col items-center gap-1"
+						>
+							<Avatar
+								src={castMember.profile_path
+									? 'https://image.tmdb.org/t/p/w500' + castMember.profile_path
+									: undefined}
+								size="size-32"
+							/>
+							<div class="text-center text-xs font-medium">{castMember.name}</div>
+							<div class="text-center text-xs text-base-400">{castMember.character}</div>
+						</a>
+					{/each}
+				</div>
 			{/if}
-			{#if data.kind2==="cast" }
-			<div class="text-center text-sm font-medium">Movies of {data.person2Details.name}</div>
-			<div class={cn('flex gap-x-6 overflow-x-auto')}>
-				{#each data.combinedCredits2 as castMember}
-					<a
-					href={`/game/${data.kind}/${data.ids}-/movie/${castMember.id}-${castMember.title ?? castMember.name}/${parseInt(data.couter)+1}`}
-						class="flex flex-col items-center gap-1"	
-					>	
-						<img
-						src="https://image.tmdb.org/t/p/w342{castMember.poster_path}"
-						alt="movie poster for {castMember.title ?? castMember.name}"
-						class="poster  object-center object-cover lg:size-full w-500"
-						/>
-						<div class="text-center size-32 text-sm font-medium">{castMember.title ?? castMember.name}</div>
-					</a>
-						
-				{/each}
-			</div>
+			{#if data.kind2 === 'cast'}
+				<div class="text-center text-sm font-medium">Movies of {data.person2Details.name}</div>
+				<div class={cn('flex gap-x-6 overflow-x-auto')}>
+					{#each data.combinedCredits2 as castMember}
+						<a
+							href={`/game/${data.kind}/${data.ids}-/movie/${castMember.id}-${castMember.title ?? castMember.name}/${parseInt(data.couter) + 1}`}
+							class="flex flex-col items-center gap-1"
+						>
+							<img
+								src="https://image.tmdb.org/t/p/w342{castMember.poster_path}"
+								alt="movie poster for {castMember.title ?? castMember.name}"
+								class="poster w-500 object-cover object-center lg:size-full"
+							/>
+							<div class="size-32 text-center text-sm font-medium">
+								{castMember.title ?? castMember.name}
+							</div>
+						</a>
+					{/each}
+				</div>
 			{:else}
-			<div class="text-center text-sm font-medium">Cast of {data.result2.title}</div>
-			<div class={'flex gap-x-6 justify-right overflow-x-auto'}>
-				{#each data.cast2 as castMember}
-					<a
-						href={`/game/${data.kind}/${data.ids}-/cast/${castMember.id}-${castMember.title ?? castMember.name}/${parseInt(data.couter)+1}`}
-						class="flex flex-col items-center gap-1"
-					>
-						<Avatar
-							src={castMember.profile_path
-								? 'https://image.tmdb.org/t/p/w500' + castMember.profile_path
-								: undefined}
-							size="size-32"
-						/>
-						<div class="text-center text-xs font-medium">{castMember.name}</div>
-						<div class="text-center text-xs text-base-400">{castMember.character}</div>
-					</a>
-				{/each}
-			</div>
+				<div class="text-center text-sm font-medium">Cast of {data.result2.title}</div>
+				<div class={'justify-right flex gap-x-6 overflow-x-auto'}>
+					{#each data.cast2 as castMember}
+						<a
+							href={`/game/${data.kind}/${data.ids}-/cast/${castMember.id}-${castMember.title ?? castMember.name}/${parseInt(data.couter) + 1}`}
+							class="flex flex-col items-center gap-1"
+						>
+							<Avatar
+								src={castMember.profile_path
+									? 'https://image.tmdb.org/t/p/w500' + castMember.profile_path
+									: undefined}
+								size="size-32"
+							/>
+							<div class="text-center text-xs font-medium">{castMember.name}</div>
+							<div class="text-center text-xs text-base-400">{castMember.character}</div>
+						</a>
+					{/each}
+				</div>
 			{/if}
 		</div>
 	{/if}

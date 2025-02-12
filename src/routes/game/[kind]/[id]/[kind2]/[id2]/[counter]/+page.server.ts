@@ -15,18 +15,18 @@ export async function load(event) {
 	const id = parseInt(event.params.id.split('-')[0]);
 	const id2 = parseInt(event.params.id2.split('-')[0]);
 	const kind = event.params.kind;
-	const kind2= event.params.kind2;
-	const ids=id;
-	const ids2=id2;
-	const couter=event.params.counter;
-	if(kind==kind2&&id==id2){
-		redirect(302,"/win/"+couter);
+	const kind2 = event.params.kind2;
+	const ids = id;
+	const ids2 = id2;
+	const couter = event.params.counter;
+	if (kind == kind2 && id == id2) {
+		redirect(302, '/win/' + couter);
 	}
-	
-	if (kind !== 'movie' && kind !== 'tv' && kind!=='cast') {
+
+	if (kind !== 'movie' && kind !== 'tv' && kind !== 'cast') {
 		return error(404, 'Not found');
 	}
-	if (kind2 !== 'movie' && kind2 !== 'tv' && kind2!=='cast') {
+	if (kind2 !== 'movie' && kind2 !== 'tv' && kind2 !== 'cast') {
 		return error(404, 'Not found');
 	}
 
@@ -44,39 +44,35 @@ export async function load(event) {
 	var person2;
 	var credits;
 	var credits2;
-	if(kind==="cast"){
-		temp = getDetails(68730,"movie");
-		casting=getCast(68730,"movie");
-		person=getPersonDetails(id);
-		person2=getPersonDetails(id2);
-		credits=id;
-		credits2=id2;
-	}
-	else{
+	if (kind === 'cast') {
+		temp = getDetails(68730, 'movie');
+		casting = getCast(68730, 'movie');
+		person = getPersonDetails(id);
+		person2 = getPersonDetails(id2);
+		credits = id;
+		credits2 = id2;
+	} else {
 		temp = getDetails(id, kind);
-		casting=getCast(id,kind);
-		person=getPersonDetails(37625);
-		person2=getPersonDetails(37625);
-		credits=37625;
-		credits2=37625;
-
+		casting = getCast(id, kind);
+		person = getPersonDetails(37625);
+		person2 = getPersonDetails(37625);
+		credits = 37625;
+		credits2 = 37625;
 	}
-	if(kind2==="cast"){
-		temp2 = getDetails(68730,"movie");
-		casting2=getCast(68730,"movie");
-		person2=getPersonDetails(id2);
-		credits2=id2;
-	}
-	else{
+	if (kind2 === 'cast') {
+		temp2 = getDetails(68730, 'movie');
+		casting2 = getCast(68730, 'movie');
+		person2 = getPersonDetails(id2);
+		credits2 = id2;
+	} else {
 		temp2 = getDetails(id2, kind2);
-		casting2=getCast(id2,kind2);
-		person2=getPersonDetails(37625);
-		credits2=37625;
-
+		casting2 = getCast(id2, kind2);
+		person2 = getPersonDetails(37625);
+		credits2 = 37625;
 	}
 	const resultPromise = temp;
-	const personPromise=person;
-	const person2Promise=person2;
+	const personPromise = person;
+	const person2Promise = person2;
 	//if(kind==="cast"){
 	//	const resultPromise = getDetails(68730,"movie")
 	//}
@@ -87,8 +83,8 @@ export async function load(event) {
 
 	const castPromise = casting;
 	const castPromise2 = casting2;
-	const creditsPromise= credits;
-	const creditsPromise2= credits2;
+	const creditsPromise = credits;
+	const creditsPromise2 = credits2;
 	const combinedCredits = await getCombinedCredits(credits);
 	const creditsSet = new Set<string>();
 	const combinedCredits2 = await getCombinedCredits(credits2);
@@ -126,7 +122,16 @@ export async function load(event) {
 			};
 		});
 
-	const [result,result2, cast,cast2,personDetails,person2Details,creditDetails,creditDetails2] = await Promise.all([
+	const [
+		result,
+		result2,
+		cast,
+		cast2,
+		personDetails,
+		person2Details,
+		creditDetails,
+		creditDetails2
+	] = await Promise.all([
 		resultPromise,
 		resultPromise2,
 		castPromise,

@@ -8,8 +8,11 @@
 
 	import { cn, nameToId } from '$lib/utils';
 
-	let { data, showMovieDetails = true, bigText = false }: { data: MainRecord; showMovieDetails?: boolean; bigText?: boolean } =
-		$props();
+	let {
+		data,
+		showMovieDetails = true,
+		bigText = false
+	}: { data: MainRecord; showMovieDetails?: boolean; bigText?: boolean } = $props();
 
 	let isLiked = $state(false);
 </script>
@@ -54,7 +57,7 @@
 						{data.author.displayName || data.author.handle}
 					</div>
 				</div>
-				<div class="shrink-0 pr-2 text-sm text-base-400 font-normal">
+				<div class="shrink-0 pr-2 text-sm font-normal text-base-400">
 					<RelativeTime date={new Date(data.updatedAt)} locale="en-US" />
 				</div>
 			</a>
@@ -95,7 +98,7 @@
 	</div>
 
 	{#if data.record.note?.value}
-		<div class={cn("mt-4 text-sm text-base-300", bigText ? 'text-xl text-base-100' : '')}>
+		<div class={cn('mt-4 text-sm text-base-300', bigText ? 'text-xl text-base-100' : '')}>
 			{@html data.record.note?.value?.replace('\n', '<br /><br />')}
 		</div>
 	{/if}
@@ -176,7 +179,7 @@
 			{(data.record.likes ?? 0) + (isLiked ? 1 : 0)}
 		</button>
 
-		<OptionButton data={data} />
+		<OptionButton {data} />
 	</div>
 
 	<!-- <a href={`/review/${encodeURIComponent(data.uri)}`}>

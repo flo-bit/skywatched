@@ -58,7 +58,7 @@
 	<ReviewCard data={data.record} bigText={true} />
 
 	{#if data.record.record.crosspost?.uri}
-		<div class="relative w-full max-w-2xl backdrop-blur-sm mb-8">
+		<div class="relative mb-8 w-full max-w-2xl backdrop-blur-sm">
 			<div class="flex max-w-full items-center gap-4 overflow-hidden px-4">
 				<Comments uri={data.record.record.crosspost.uri} user={''} comments={[]} url={''} />
 			</div>
@@ -66,7 +66,7 @@
 	{:else}
 		<div class="flex flex-wrap items-center justify-center gap-4">
 			<div
-				class="border-base-700 bg-base-50/5 text-base-200 hover:bg-base-50/10 z-10 rounded-lg border px-3 py-2 text-xs font-medium transition-all duration-100"
+				class="z-10 rounded-lg border border-base-700 bg-base-50/5 px-3 py-2 text-xs font-medium text-base-200 transition-all duration-100 hover:bg-base-50/10"
 			>
 				<a
 					href={`/${data.record.record.item.ref === 'tmdb:m' ? 'movie' : 'tv'}/${data.record.record.item.value}`}
@@ -75,7 +75,7 @@
 				</a>
 			</div>
 			<div
-				class="border-base-700 bg-base-50/5 text-base-200 hover:bg-base-50/10 z-10 rounded-lg border px-3 py-2 text-xs font-medium transition-all duration-100"
+				class="z-10 rounded-lg border border-base-700 bg-base-50/5 px-3 py-2 text-xs font-medium text-base-200 transition-all duration-100 hover:bg-base-50/10"
 			>
 				<a href={`/user/${data.record.author.handle}`}>
 					all reviews by {data.record.author.displayName || data.record.author.handle}
