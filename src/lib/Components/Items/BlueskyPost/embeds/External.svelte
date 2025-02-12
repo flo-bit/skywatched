@@ -7,7 +7,7 @@
 </script>
 
 <article
-	class="bg-base-900 ring-base-800 relative isolate flex aspect-16/9 h-64 flex-col justify-end rounded-2xl p-4 ring-1"
+	class="aspect-16/9 relative isolate flex h-64 flex-col justify-end rounded-2xl bg-base-900 p-4 ring-1 ring-base-800"
 >
 	{#if data.thumb}
 		<img
@@ -17,14 +17,14 @@
 		/>
 	{/if}
 	<div
-		class="from-base-950/90 via-base-950/40 absolute inset-0 -z-10 rounded-xl bg-linear-to-t"
+		class="bg-linear-to-t absolute inset-0 -z-10 rounded-xl from-base-950/90 via-base-950/40"
 	></div>
 
 	<div
-		class="inset-shadow-md inset-ring-base-950/50 inset-shadow-base-950/40 ring-base-800 absolute inset-0 -z-10 h-full w-full rounded-2xl inset-ring-1 ring-1"
+		class="inset-shadow-md inset-ring-base-950/50 inset-shadow-base-950/40 inset-ring-1 absolute inset-0 -z-10 h-full w-full rounded-2xl ring-1 ring-base-800"
 	></div>
 
-	<div class="text-base-300 flex flex-wrap items-center gap-y-1 overflow-hidden text-sm/6">
+	<div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm/6 text-base-300">
 		<div>{domain}</div>
 	</div>
 	<h3 class="mt-1 text-lg/6 font-semibold text-white">

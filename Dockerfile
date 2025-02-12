@@ -18,6 +18,9 @@ FROM base as build
 # set env variables
 ENV DATABASE_URL=file:local.db
 ENV DATABASE_AUTH_TOKEN=a
+ENV TMDB_API_KEY=a
+ENV BACKEND_URL=a
+ENV NYX_PASSWORD=a
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
@@ -46,5 +49,5 @@ COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/package.json /app
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
+EXPOSE 8080
 CMD [ "npm", "run", "start" ]

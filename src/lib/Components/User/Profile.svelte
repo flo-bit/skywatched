@@ -44,14 +44,6 @@
 						@{profile.handle}
 					</div>
 				</div>
-				<div class="mt-6 hidden flex-row justify-stretch space-x-4 space-y-0">
-					<button
-						type="button"
-						class="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-base-900 shadow-sm ring-1 ring-inset ring-base-300 hover:bg-base-50"
-					>
-						<span>Call</span>
-					</button>
-				</div>
 			</div>
 		</div>
 	</div>

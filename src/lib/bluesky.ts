@@ -26,3 +26,11 @@ export async function getProfile({ did, agent = undefined }: { did: string; agen
 	const { data } = await agent.app.bsky.actor.getProfile({ actor: did });
 	return data;
 }
+export async function getFollows({ did, agent = undefined }: { did: string; agent?: AgentType }) {
+	if (!agent) {
+		agent = new AtpBaseClient({ service: 'https://api.bsky.app' });
+	}
+
+	const { data } = await agent.app.bsky.graph.getFollows({ actor: did });
+	return data;
+}

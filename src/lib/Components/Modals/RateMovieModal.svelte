@@ -87,17 +87,17 @@
 {#if rateMovieModal.showModal}
 	<div class="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true">
 		<div
-			class="bg-base-950/90 fixed inset-0 backdrop-blur-sm transition-opacity"
+			class="fixed inset-0 bg-base-950/90 backdrop-blur-sm transition-opacity"
 			onclick={() => (rateMovieModal.showModal = false)}
 			aria-hidden="true"
 		></div>
 		<div class="pointer-events-none fixed inset-0 z-50 h-[100dvh] w-screen overflow-y-auto">
 			<div class="flex h-[100dvh] items-end justify-center p-4 text-center sm:items-center sm:p-0">
 				<div
-					class="border-base-800 bg-base-900 pointer-events-auto relative w-full transform overflow-hidden rounded-lg border px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:max-w-sm sm:p-6"
+					class="pointer-events-auto relative w-full transform overflow-hidden rounded-lg border border-base-800 bg-base-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:max-w-sm sm:p-6"
 				>
 					<button
-						class="bg-base-800/50 hover:bg-base-800/80 absolute right-2 top-2 rounded-full p-1"
+						class="absolute right-2 top-2 rounded-full bg-base-800/50 p-1 hover:bg-base-800/80"
 						onclick={() => (rateMovieModal.showModal = false)}
 					>
 						<svg
@@ -115,7 +115,7 @@
 					</button>
 
 					<div>
-						<h3 class="text-md text-base-50 mb-4 font-semibold" id="modal-title">
+						<h3 class="text-md mb-4 font-semibold text-base-50" id="modal-title">
 							{#if rateMovieModal.selectedItem?.editUri}
 								Edit review
 							{:else}
@@ -126,7 +126,7 @@
 						{#if rateMovieModal.selectedItem?.title}
 							<div class="relative flex items-center gap-4">
 								<div
-									class="border-base-800 bg-base-900/50 relative z-20 aspect-[2/3] h-32 w-auto shrink-0 overflow-hidden rounded-md border"
+									class="relative z-20 aspect-[2/3] h-32 w-auto shrink-0 overflow-hidden rounded-md border border-base-800 bg-base-900/50"
 								>
 									{#if rateMovieModal.selectedItem?.poster_path}
 										<img
@@ -137,7 +137,7 @@
 									{/if}
 								</div>
 								<h3
-									class="text-base-50 mb-4 flex flex-col gap-2 text-xl font-semibold"
+									class="mb-4 flex flex-col gap-2 text-xl font-semibold text-base-50"
 									id="modal-title"
 								>
 									{rateMovieModal.selectedItem.title}
@@ -158,7 +158,7 @@
 						{/if}
 
 						<div class="mt-4">
-							<label for="comment" class="text-base-50 block text-xs font-medium">review</label>
+							<label for="comment" class="block text-xs font-medium text-base-50">review</label>
 							<div class="mt-2">
 								<textarea
 									rows="4"
@@ -166,7 +166,7 @@
 									id="comment"
 									bind:value={review}
 									placeholder="write a review"
-									class="outline-nonse border-base-800 bg-base-950 text-base-50 placeholder:text-base-400 focus:outline-accent-400 block w-full rounded-lg border px-3 py-1.5 text-base -outline-offset-1 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+									class="outline-nonse block w-full rounded-lg border border-base-800 bg-base-950 px-3 py-1.5 text-base text-base-50 -outline-offset-1 placeholder:text-base-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-accent-400 sm:text-sm/6"
 								></textarea>
 							</div>
 						</div>
@@ -182,7 +182,7 @@
 							}}
 							type="button"
 							disabled={sending || !rateMovieModal.selectedItem?.title}
-							class="border-accent-900 bg-accent-950/80 text-accent-300 hover:bg-accent-950 focus-visible:outline-accent-600 inline-flex w-full justify-center rounded-md border px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+							class="inline-flex w-full justify-center rounded-md border border-accent-900 bg-accent-950/80 px-3 py-2 text-sm font-semibold text-accent-300 shadow-sm hover:bg-accent-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 disabled:cursor-not-allowed disabled:opacity-50"
 							>{sending
 								? 'Sending...'
 								: rateMovieModal.selectedItem?.editUri

@@ -37,7 +37,7 @@
 
 {#if postUri}
 	<div class="not-prose flex flex-col gap-4">
-		<div class="text-base-950 dark:text-base-100 text-sm font-semibold">
+		<div class="text-sm font-semibold text-base-950 dark:text-base-100">
 			{postLikesCount} like{postLikesCount === 1 ? '' : 's'}
 		</div>
 
@@ -46,7 +46,7 @@
 				<a
 					href={`https://bsky.app/profile/${user.actor.handle}`}
 					class={[
-						'ring-base-50 dark:ring-base-900 bg-base-950 relative inline-block size-12 overflow-hidden rounded-full  ring-2',
+						'relative inline-block size-12 overflow-hidden rounded-full bg-base-950 ring-2 ring-base-50  dark:ring-base-900',
 						index === 0 ? '-ml-2' : ''
 					]}
 					target="_blank"
@@ -62,7 +62,7 @@
 
 			{#if postLikesData.length < postLikesCount}
 				<div
-					class="text-accent-700 dark:text-accent-300 bg-accent-100 dark:bg-accent-950 ring-base-50 dark:ring-base-900 z-10 mb-4 flex size-12 items-center justify-center rounded-full text-sm font-semibold ring-2"
+					class="z-10 mb-4 flex size-12 items-center justify-center rounded-full bg-accent-100 text-sm font-semibold text-accent-700 ring-2 ring-base-50 dark:bg-accent-950 dark:text-accent-300 dark:ring-base-900"
 				>
 					+{postLikesCount - postLikesData.length}
 				</div>

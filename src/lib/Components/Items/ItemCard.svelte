@@ -70,11 +70,7 @@
 	</div>
 	<div class="mt-2 flex justify-between">
 		<h3 class="sm:text-md text-sm font-medium text-base-50">
-			<a
-				href="/{item.media_type}/{item.id}-{nameToId(
-					item.title ?? ''
-				)}"
-			>
+			<a href="/{item.media_type}/{item.id}-{nameToId(item.title ?? '')}">
 				<span aria-hidden="true" class="absolute inset-0"></span>
 				<div class="line-clamp-2 max-w-full">
 					{item.title}

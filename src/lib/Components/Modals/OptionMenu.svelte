@@ -38,7 +38,7 @@
 
 {#if $open}
 	<div
-		class="bg-base-900 border-base-800 shadow-xl shadow-base-950 divide-base-800 z-20 flex flex-col items-start divide-y overflow-hidden rounded-xl border"
+		class="z-20 flex flex-col items-start divide-y divide-base-800 overflow-hidden rounded-xl border border-base-800 bg-base-900 shadow-xl shadow-base-950"
 		use:melt={$menu}
 		transition:fly={{ duration: 150, y: -10 }}
 	>
@@ -192,6 +192,6 @@
 
 <style>
 	.item {
-		@apply text-base-300 hover:bg-accent-950/30 hover:text-accent-400 inline-flex w-full items-center gap-2 px-3 py-2 text-sm;
+		@apply inline-flex w-full items-center gap-2 px-3 py-2 text-sm text-base-300 hover:bg-accent-950/30 hover:text-accent-400;
 	}
 </style>

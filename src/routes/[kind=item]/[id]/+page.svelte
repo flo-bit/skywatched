@@ -17,34 +17,19 @@
 <svelte:head>
 	<title>{data.item.title} | skywatched</title>
 
-	<meta
-		name="description"
-		content={`Rate and review "${data.item.title}" on skywatched`}
-	/>
+	<meta name="description" content={`Rate and review "${data.item.title}" on skywatched`} />
 
 	<meta property="og:url" content={$page.url.href} />
 	<meta property="og:type" content="website" />
-	<meta
-	property="og:title"
-		content="{data.item.title} | skywatched.app"
-	/>
-	<meta
-		property="og:description"
-		content={`Rate and review "${data.item.title}" on skywatched`}
-	/>
+	<meta property="og:title" content="{data.item.title} | skywatched.app" />
+	<meta property="og:description" content={`Rate and review "${data.item.title}" on skywatched`} />
 	<meta property="og:image" content="{$page.url.href}/og.png" />
 
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta property="twitter:domain" content="skywatched.app" />
 	<meta property="twitter:url" content={$page.url.href} />
-	<meta
-		name="twitter:title"
-		content="{data.item.title} | skywatched.app"
-	/>
-	<meta
-		name="twitter:description"
-		content={`Rate and review "${data.item.title}" on skywatched`}
-	/>
+	<meta name="twitter:title" content="{data.item.title} | skywatched.app" />
+	<meta name="twitter:description" content={`Rate and review "${data.item.title}" on skywatched`} />
 	<meta name="twitter:image" content="{$page.url.href}/og.png" />
 </svelte:head>
 
@@ -59,7 +44,7 @@
 			)}
 			onclick={() => {
 				rateMovieModal.show({
-					...data.item,
+					...data.item
 				});
 			}}
 		>

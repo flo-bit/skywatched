@@ -163,3 +163,19 @@ export async function getCombinedCredits(personId: number) {
 
 	return data;
 }
+export async function getPopularMovies() {
+	const i = Math.floor(Math.random() * 6);
+	const url = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=` + i;
+	const options = {
+		method: 'GET',
+		headers: {
+			accept: 'application/json',
+			Authorization: `Bearer ${env.TMDB_API_KEY}`
+		}
+	};
+
+	const response = await fetch(url, options);
+	const data = await response.json();
+
+	return data;
+}

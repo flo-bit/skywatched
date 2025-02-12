@@ -111,7 +111,7 @@
 							rateMovieModal.selectedItem = {
 								...item,
 								currentRating: watchedItems.getRating(item)?.rating ?? undefined,
-								currentReview: watchedItems.getRating(item)?.ratingText ?? undefined,
+								currentReview: watchedItems.getRating(item)?.ratingText ?? undefined
 							};
 							rateMovieModal.showModal = true;
 						}}
