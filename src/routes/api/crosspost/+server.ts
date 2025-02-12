@@ -18,8 +18,10 @@ export const POST: RequestHandler = async ({ request, locals, fetch }) => {
 	const uri = body.uri;
 	const did = user.did;
 
+	const [reviewDid, reviewCollection, reviewRkey] = uri.replace('at://', '').split('/');
+
 	// check that user did is the same as the did in the uri
-	if (uri.replace('at://', '').split('/')[0] !== did) {
+	if (reviewDid !== did || reviewCollection !== REL_COLLECTION) {
 		return error(401, 'Unauthorized API call');
 	}
 
@@ -165,7 +167,7 @@ export const POST: RequestHandler = async ({ request, locals, fetch }) => {
 	} = {
 		repo: did,
 		collection: REL_COLLECTION,
-		rkey,
+		rkey: reviewRkey,
 		record: {
 			item: reviewRecord.record.item,
 			rating: reviewRecord.record.rating,
