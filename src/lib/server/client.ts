@@ -3,7 +3,7 @@ import { db } from './db';
 import { SessionStore, StateStore } from './storage';
 import { dev } from '$app/environment';
 
-const publicUrl = 'https://skywatchedgoogle2-791157493831.us-central1.run.app';
+const publicUrl = 'https://skywatched.app';
 const port = 5173;
 const url = dev ? `http://[::1]:${port}` : publicUrl;
 
