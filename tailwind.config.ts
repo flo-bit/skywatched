@@ -12,7 +12,7 @@ export default {
 		extend: {
 			colors: {
 				base: colors.zinc,
-				accent: colors.sky,
+				accent: colors.rose,
 
 				tmdb_primary: '#0d253f',
 				tmdb_secondary: '#01b4e4',
